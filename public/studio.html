@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Display of projects and works done by CabsCode. Including web apps, websites, and other programming projects."
+    />
+    <title>CabsCode | Studio</title>
+    <link rel="icon" href="images/favicon.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="nav-left">
+        <div class="logo">
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect width="32" height="32" rx="8" fill="#A9BBA2" />
+            <rect
+              x="8"
+              y="8"
+              width="16"
+              height="16"
+              rx="4"
+              fill="white"
+              opacity="0.9"
+            />
+            <circle cx="24" cy="24" r="6" fill="white" />
+          </svg>
+        </div>
+        <span class="company-name">Tema </span>
+      </div>
+
+      <button class="mobile-toggle" aria-label="Toggle navigation">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <div class="nav-right">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="services.html" class="nav-link">Services</a>
+        <a href="#" class="nav-link active">Studio</a>
+        <a href="journal.html" class="nav-link">Journal</a>
+        <a href="#contactForm" class="contact-btn">Contact</a>
+      </div>
+    </nav>
+
+    <main></main>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <a href="#">LinkedIn</a>
+          <a href="#">GitHub</a>
+          <a href="mailto:your.email@gmail.com">Gmail</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="#">Terms of Use</a>
+          <a href="#">Privacy Policy</a>
+        </div>
+
+        <div class="footer-col footer-form">
+          <h4>Project Inquiry</h4>
+          <form action="#" method="POST" id="contactForm">
+            <input type="email" placeholder="Your Email" required />
+            <textarea
+              placeholder="Tell me about your project..."
+              rows="3"
+              required
+            ></textarea>
+            <button type="submit" class="contact-btn">Send Request</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Tema Bown. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

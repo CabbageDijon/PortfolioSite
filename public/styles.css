@@ -1,0 +1,430 @@
+:root {
+  --color-primary: #a9bba2;
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #3c3a3a;
+  --color-bg: #ffffff;
+  --link-active: #077d4a;
+  --color-border: rgba(0, 0, 0, 0.06);
+  --font-family:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --navbar-height: 72px;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: #babaaf;
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--navbar-height);
+  padding: 0 48px;
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+.company-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.nav-link {
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  position: relative;
+  padding: 6px 0;
+  transition: color 0.2s ease;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: var(--color-primary);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--color-text-primary);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link.active {
+  color: var(--link-active);
+}
+
+.nav-link.active::after {
+  width: 100%;
+  background-color: var(--color-primary);
+}
+
+.contact-btn {
+  background-color: #96a88f;
+  color: #ffffff !important;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
+}
+
+.contact-btn:hover {
+  background-color: var(--color-primary);
+  box-shadow: 0 4px 12px rgba(169, 187, 162, 0.35);
+}
+
+/* Mobile Toggle Button */
+.mobile-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.mobile-toggle .bar {
+  height: 2px;
+  width: 100%;
+  background-color: var(--color-text-primary);
+  border-radius: 2px;
+}
+
+/* Main Content & Demos */
+main {
+  padding: 80px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* --- Full-Width About Banner --- */
+.about-banner {
+  width: 100%;
+  /* Shimmer Gradient moved to the banner background */
+  background: linear-gradient(135deg, #616b74, #222125, #39385a);
+  background-size: 200% 200%;
+  animation: shimmer 10s ease-in-out infinite;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Inner container keeps content aligned with the rest of the site */
+.banner-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  /* Top padding, but 0 bottom padding so your photo sits on the bottom line */
+  padding: 60px 48px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.about-content h2 {
+  font-size: 7rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  margin-bottom: 16px;
+  color: rgb(209, 207, 207);
+}
+
+.about-content p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: rgba(227, 223, 223, 0.96);
+  padding-bottom: 60px;
+}
+
+/* Cleaned up image container */
+.about-image-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end; /* Keeps the portrait grounded at the bottom */
+  justify-content: center;
+}
+
+.profile-img {
+  width: 85%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15));
+  display: block; /* Removes weird inline spacing below images */
+}
+
+/* Make sure your animation keyframes are still in the file */
+@keyframes shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
+}
+
+.hero a {
+  color: rgb(37, 37, 37);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.hero a:hover {
+  color: rgb(36, 48, 88);
+  transition: color 0.2s ease;
+}
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+}
+
+.demo-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.demo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
+}
+
+.placeholder-img {
+  height: 200px;
+  background-color: #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #adb5bd;
+  font-weight: 500;
+}
+
+.demo-content {
+  padding: 24px;
+}
+
+.demo-content h3 {
+  margin-bottom: 8px;
+  font-size: 1.25rem;
+}
+
+.demo-content p {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.demo-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Footer Styles */
+footer {
+  background-color: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  padding: 60px 48px 24px;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-col h4 {
+  font-size: 1.05rem;
+  margin-bottom: 16px;
+}
+
+.footer-col a {
+  display: block;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.footer-col a:hover {
+  color: var(--color-primary);
+}
+
+.footer-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-form input,
+.footer-form textarea {
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.footer-form input:focus,
+.footer-form textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+}
+
+/* --- Mobile Responsiveness (Media Queries) --- */
+@media (max-width: 768px) {
+  nav {
+    padding: 0 24px;
+  }
+
+  .mobile-toggle {
+    display: flex;
+  }
+
+  .nav-right {
+    display: none; /* Hidden by default on mobile */
+    flex-direction: column;
+    position: absolute;
+    top: var(--navbar-height);
+    left: 0;
+    width: 100%;
+    background-color: var(--color-bg);
+    padding: 24px;
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  /* When the 'active' class is added via JavaScript */
+  .nav-right.active {
+    display: flex;
+  }
+
+  .nav-link::after {
+    display: none; /* Remove hover lines on mobile for cleaner look */
+  }
+
+  /* Updated banner stacking for mobile */
+  .banner-inner {
+    grid-template-columns: 1fr;
+    padding: 40px 24px 0; /* Adjust padding for smaller screens */
+    gap: 32px;
+    text-align: center;
+  }
+
+  .about-content h2 {
+    font-size: 2.2rem;
+  }
+
+  .about-content p {
+    padding-bottom: 0; /* Remove the bottom padding on mobile so image sits flush */
+  }
+
+  main {
+    padding: 40px 24px;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  footer {
+    padding: 40px 24px 24px;
+  }
+}
