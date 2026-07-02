@@ -8,7 +8,6 @@
 
 ## Mobile
 
-- Enable closing nav menu on click outside of zone
 - Reformat to come from side and not fully cover screen, either have a opacity lower or blur for rest of viewport
 
 ---
