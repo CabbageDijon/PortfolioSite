@@ -37,6 +37,14 @@
 ### Features
 
 - Allow for comments on posts
+- Sidebar for navigation
+- Naviside auto shrink on scroll, return to full on hover in zone. Shrink to show category icon/colour and numbers
+- Use heiarcy system as shown below
+  |-Person Projects
+  | |-Zorin OS on Acer Laptop
+  | |-Game bug fix
+  |-Website Development Blogs
+  | |-Portfolio
 
 ### Posts
 

@@ -1,0 +1,17 @@
+.sidebar {
+  position: fixed; /* Locks the sidebar to the viewport */
+  left: 0; /* Snaps it strictly to the absolute left edge */
+  width: 250px; /* Define the width of your sidebar */
+  height: 100vh; /* Makes the sidebar full viewport height */
+
+  /* Styling (Using your Earth & Tech theme colors) */
+  background-color: #faf8f5;
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+  z-index: 100; /* Ensures it stays on top of other content */
+}
+
+.main-content {
+  /* Pushes the content to the right so it isn't hidden behind the sidebar */
+  margin-left: 250px;
+  padding: 40px; /* Internal spacing for your content */
+}
