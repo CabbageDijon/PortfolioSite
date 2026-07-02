@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
       navRight.classList.toggle("active");
     });
   }
+
+  console.log("Check 1");
   // Close the menu when clicking anywhere outside of it
   document.addEventListener("click", (e) => {
     // Only run this check if the menu is actually open
@@ -18,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  console.log("Script loaded successfully.");
+  console.log("Check 2");
 
   // Hashless Smooth Scrolling for Contact Links
   // Find all links that point exactly to #contactForm
@@ -38,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
           behavior: "smooth",
           block: "start",
         });
-
+        console.log("Check 3");
         // Optional: If on mobile, close the mobile menu after clicking "Contact"
         if (navRight.classList.contains("active")) {
           navRight.classList.remove("active");
