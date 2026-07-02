@@ -9,6 +9,7 @@
 ## Mobile
 
 - Reformat to come from side and not fully cover screen, either have a opacity lower or blur for rest of viewport
+- Thin green bar on bottom when address bar in view, fix
 
 ---
 
