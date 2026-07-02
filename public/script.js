@@ -40,12 +40,13 @@ document.addEventListener("DOMContentLoaded", () => {
           behavior: "smooth",
           block: "start",
         });
-        console.log("Check 3");
         // Optional: If on mobile, close the mobile menu after clicking "Contact"
         if (navRight.classList.contains("active")) {
           navRight.classList.remove("active");
         }
       }
+
+      console.log("Check 3");
     });
   });
 });
