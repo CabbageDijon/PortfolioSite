@@ -18,6 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  console.log("Script loaded successfully.");
+
   // Hashless Smooth Scrolling for Contact Links
   // Find all links that point exactly to #contactForm
   const contactLinks = document.querySelectorAll('a[href="#contactForm"]');
