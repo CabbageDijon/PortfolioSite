@@ -9,7 +9,7 @@
     />
     <title>CabsCode | Journal</title>
     <link rel="icon" href="images/favicon.png" />
-    <link rel="stylesheet" href="styles.css?v=1.0" />
+    <link rel="stylesheet" href="public/styles.css?v=1.0" />
     <link rel="stylesheet" href="journal.css?v=1.0" />
   </head>
   <body>
@@ -55,24 +55,19 @@
       </div>
     </nav>
 
-    <!-- MOBILE SIDEBAR TOGGLE -->
     <button id="journalSidebarToggle" class="journal-sidebar-toggle">
       <span>▶</span>
     </button>
 
-    <!-- THE ACCORDION SIDEBAR -->
     <aside class="sidebar">
       <h3>Journal</h3>
 
       <ul class="accordion-menu">
-        <!-- Topic 1: Personal Projects -->
-        <!-- NOTE: Add the 'active' class to the <li> of the topic you want open by default -->
         <li class="accordion-item active">
           <button class="accordion-toggle">
             <span>📁 Personal Projects</span>
           </button>
           <ul class="accordion-content">
-            <!-- Add the 'current-article' class to highlight the specific page the user is on -->
             <li>
               <a href="/articles/zorin-os" class="current-article"
                 >Migrating to Zorin OS</a
@@ -83,7 +78,6 @@
           </ul>
         </li>
 
-        <!-- Topic 2: Web Development -->
         <li class="accordion-item">
           <button class="accordion-toggle">
             <span>🌐 Web Development</span>
@@ -95,7 +89,6 @@
       </ul>
     </aside>
 
-    <!-- THE MAIN JOURNAL CONTENT TEMPLATE -->
     <main class="main-content">
       <header class="journal-header">
         <div class="journal-meta">Personal Projects • July 3, 2026</div>
