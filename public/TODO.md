@@ -50,3 +50,15 @@
 ### Posts
 
 - Add post about Zorin OS onto Acer laptop
+
+PORTFOLIOSITE
+└── public/
+├── images/
+├── articles/
+│ ├── zorin-os.html <-- Reached at /articles/zorin-os
+│ ├── bug-fix.html <-- Reached at /articles/bug-fix
+│ └── portfolio.html <-- Reached at /articles/portfolio
+├── index.html
+├── journal.html <-- Your main journal landing page
+├── styles.css
+└── ...
