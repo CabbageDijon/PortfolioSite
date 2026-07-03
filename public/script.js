@@ -21,6 +21,54 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // --- Accordion Sidebar Logic ---
+  const accordionToggles = document.querySelectorAll(".accordion-toggle");
+
+  accordionToggles.forEach((toggle) => {
+    toggle.addEventListener("click", function () {
+      // Find the parent <li> element
+      const parentItem = this.parentElement;
+
+      // Toggle the 'active' class on the parent
+      parentItem.classList.toggle("active");
+    });
+  });
+  // --- Mobile Journal Sidebar Drawer Logic ---
+  const journalSidebar = document.querySelector(".sidebar");
+  const journalToggle = document.getElementById("journalSidebarToggle");
+
+  if (journalToggle && journalSidebar) {
+    // 1. Open the sidebar when the white bar is clicked
+    journalToggle.addEventListener("click", (e) => {
+      e.stopPropagation(); // Stops the document click listener from immediately firing
+      journalSidebar.classList.toggle("mobile-open");
+    });
+
+    // 2. Close the sidebar if the user scrolls the page
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (journalSidebar.classList.contains("mobile-open")) {
+          journalSidebar.classList.remove("mobile-open");
+        }
+      },
+      { passive: true },
+    );
+
+    // 3. Close the sidebar if the user clicks anywhere outside of it
+    document.addEventListener("click", (e) => {
+      if (journalSidebar.classList.contains("mobile-open")) {
+        // Check if the click happened outside both the sidebar and the toggle button
+        if (
+          !journalSidebar.contains(e.target) &&
+          !journalToggle.contains(e.target)
+        ) {
+          journalSidebar.classList.remove("mobile-open");
+        }
+      }
+    });
+  }
+
   // 2. Hashless Smooth Scrolling for Contact Links
   const contactLinks = document.querySelectorAll('a[href="#contactForm"]');
 

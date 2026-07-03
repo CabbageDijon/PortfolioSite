@@ -18,47 +18,26 @@
         <a href="/" class="logo" aria-label="Home">
           <div class="logo">
             <svg
-              width="48"
-              height="48"
+              width="32"
+              height="32"
               viewBox="0 0 32 32"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
+              <rect width="32" height="32" rx="8" fill="#A9BBA2" />
               <rect
-                width="32"
-                height="32"
-                rx="8"
-                fill="#FFFFFF"
-                stroke="#E3E8E1"
-                stroke-width="1"
-              ></rect>
-              <!-- Outer Leaf/Bracket -->
-              <path
-                d="M14 8L6 16L14 24"
-                stroke="#A9BBA2"
-                stroke-width="3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                opacity="0.5"
-              ></path>
-              <!-- Inner Leaf/Bracket -->
-              <path
-                d="M18 10L12 16L18 22"
-                stroke="#A9BBA2"
-                stroke-width="3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
-              <!-- Closing Bracket -->
-              <path
-                d="M22 12L26 16L22 20"
-                stroke="#1E2522"
-                stroke-width="3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
+                x="8"
+                y="8"
+                width="16"
+                height="16"
+                rx="4"
+                fill="white"
+                opacity="0.9"
+              />
+              <circle cx="24" cy="24" r="6" fill="white" />
             </svg></div
         ></a>
+        <span class="company-name">Tema </span>
       </div>
 
       <button class="mobile-toggle" aria-label="Toggle navigation">
@@ -86,19 +65,25 @@
       <h3>Journal</h3>
 
       <ul class="accordion-menu">
-        <li class="accordion-item">
+        <!-- Topic 1: Personal Projects -->
+        <!-- NOTE: Add the 'active' class to the <li> of the topic you want open by default -->
+        <li class="accordion-item active">
           <button class="accordion-toggle">
             <span>📁 Personal Projects</span>
           </button>
           <ul class="accordion-content">
+            <!-- Add the 'current-article' class to highlight the specific page the user is on -->
             <li>
-              <a href="/articles/zorin-os">Migrating to Zorin OS</a>
+              <a href="/articles/zorin-os" class="current-article"
+                >Migrating to Zorin OS</a
+              >
             </li>
 
             <li><a href="/articles/bug-fix">Game Bug Fix</a></li>
           </ul>
         </li>
 
+        <!-- Topic 2: Web Development -->
         <li class="accordion-item">
           <button class="accordion-toggle">
             <span>🌐 Web Development</span>
@@ -113,33 +98,34 @@
     <!-- THE MAIN JOURNAL CONTENT TEMPLATE -->
     <main class="main-content">
       <header class="journal-header">
-        <div class="journal-meta">About Me • July 3, 2026</div>
-        <h1>My Digital Newsletter</h1>
+        <div class="journal-meta">Personal Projects • July 3, 2026</div>
+        <h1>Migrating to Zorin OS on an Acer Laptop</h1>
         <p class="journal-lead">
-          I designed my site with a section for me to share my thoughts,
-          experiences, and insights. This is where I can connect with people on
-          a more personal level, providing updates on my projects, industry
-          trends, and other topics that interest me.
+          A deep dive into revitalizing old hardware, configuring hardware
+          acceleration, and setting up a clean Linux development environment.
         </p>
       </header>
 
       <article class="journal-body">
         <p>
-          Here you find detailed technical logs, personal reflections, and
-          insights into my projects. I aim to provide a transparent view of my
-          work and the challenges I face along the way. To hopefully inspire
-          others who come across similar issues or just want to see my
-          approaches to fix bugs.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. This core
+          text is highly legible, styled with a generous line-height for a
+          comfortable reading experience.
         </p>
 
-        <h3>Why do I do this all?</h3>
+        <h3>The Hardware Challenge</h3>
         <p>
-          This all started as a hobby, which grew into a passion for programming
-          and web development. Pushing to learn to be a bette and more efficient
-          programmer. To build products for any clients as well as build tools
-          that interest me deeply.
+          Detailed technical logs go here. You can effortlessly sprinkle in code
+          snippets or hardware specs using standard styled containers.
         </p>
+
+        <pre><code>sudo apt update && sudo apt upgrade -y</code></pre>
       </article>
+    </main>
+
+    <main class="main-content">
+      <h1>Hello World</h1>
+      <p>This content respects the sidebar width.</p>
     </main>
 
     <footer>
