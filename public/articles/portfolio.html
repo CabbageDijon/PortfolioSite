@@ -8,9 +8,9 @@
       content="Journal page for CabsCode, a Botswana based programmer who also offers web hosting services for Botswana businesses"
     />
     <title>CabsCode | Journal</title>
-    <link rel="icon" href="images/favicon.png" />
-    <link rel="stylesheet" href="styles.css?v=1.0" />
-    <link rel="stylesheet" href="journal.css?v=1.0" />
+    <link rel="icon" href="/images/favicon.png" />
+    <link rel="stylesheet" href="/styles.css?v=1.0" />
+    <link rel="stylesheet" href="/journal.css?v=1.1" />
   </head>
   <body>
     <nav>
@@ -71,7 +71,7 @@
         <a href="/" class="nav-link">Home</a>
         <a href="/services" class="nav-link">Services</a>
         <a href="/studio" class="nav-link">Studio</a>
-        <a href="#" class="nav-link active">Journal</a>
+        <a href="/journal" class="nav-link active">Journal</a>
         <a href="#contactForm" class="contact-btn">Contact</a>
       </div>
     </nav>
@@ -86,23 +86,28 @@
       <h3>Journal</h3>
 
       <ul class="accordion-menu">
+        <!-- Topic 1: Personal Projects -->
+        <!-- NOTE: Add the 'active' class to the <li> of the topic you want open by default -->
         <li class="accordion-item">
           <button class="accordion-toggle">
             <span>📁 Personal Projects</span>
           </button>
           <ul class="accordion-content">
+            <!-- Add the 'current-article' class to highlight the specific page the user is on -->
             <li>
               <a href="/articles/zorin-os">Migrating to Zorin OS</a>
             </li>
           </ul>
         </li>
 
-        <li class="accordion-item">
+        <!-- Topic 2: Web Development -->
+        <li class="accordion-item active">
           <button class="accordion-toggle">
             <span>🌐 Web Development</span>
           </button>
-          <ul class="accordion-content">
+          <ul class="accordion-content" class="current-article">
             <li><a href="/articles/portfolio">Portfolio Architecture</a></li>
+            <li><a href="/articles/projects"></a>Projects by Tema</li>
           </ul>
         </li>
       </ul>
@@ -111,32 +116,23 @@
     <!-- THE MAIN JOURNAL CONTENT TEMPLATE -->
     <main class="main-content">
       <header class="journal-header">
-        <div class="journal-meta">About Me • July 3, 2026</div>
-        <h1>My Digital Newsletter</h1>
+        <div class="journal-meta">Web Development • July 4, 2026</div>
+        <h1>My Portfolio</h1>
         <p class="journal-lead">
-          I designed my site with a section for me to share my thoughts,
-          experiences, and insights. This is where I can connect with people on
-          a more personal level, providing updates on my projects, industry
-          trends, and other topics that interest me.
+          Developed to not only show off my skills but also offer my services to
+          any parties/individuals who may be interested in them.
         </p>
       </header>
 
       <article class="journal-body">
-        <p>
-          Here you find detailed technical logs, personal reflections, and
-          insights into my projects. I aim to provide a transparent view of my
-          work and the challenges I face along the way. To hopefully inspire
-          others who come across similar issues or just want to see my
-          approaches to fix bugs.
-        </p>
-
-        <h3>Why do I do this all?</h3>
-        <p>
-          This all started as a hobby, which grew into a passion for programming
-          and web development. Pushing to learn to be a bette and more efficient
-          programmer. To build products for any clients as well as build tools
-          that interest me deeply.
-        </p>
+        Designed around a natural feeling green and pale stone like colours
+        palette, the CabsCode portfolio for I, Tema Bown, is a platform to
+        showcase my abilities. Featuring a multitude of pages, ranging from a
+        visually appealing home page, a services tab to showcase my offerings in
+        development and hosting infrustructure, a studio page to show off my
+        works in a live interactive environment, a journal page to document my
+        journey as not only a programmer but a person with interests in other
+        computing topics.
       </article>
     </main>
 
@@ -173,6 +169,6 @@
       </div>
     </footer>
 
-    <script src="script.js?v=1.0"></script>
+    <script src="/script.js?v=1.0"></script>
   </body>
 </html>
