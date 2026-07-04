@@ -118,23 +118,96 @@
           Possibly one of the hardest projects I have undertaken. The Acer
           Aspire 3, specifically the A315-56-366R model, has been one many have
           had issues getting Linux to run on easily. After many attempts,
-          different distros, and hours of different fixes. I had finally found a
+          different distros, and hours of different fixes from others who have
+          either tried to install Linux in general on these laptops (The A315-56
+          range) or those who have magically succeeded. I had finally found a
           solution that worked for me.
         </p>
       </header>
 
       <article class="journal-body">
+        <h3>Picking a Distro</h3>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. This core
-          text is highly legible, styled with a generous line-height for a
-          comfortable reading experience.
+          In all brutal honesty, I went with Zorin OS because of my pasy usage
+          of it on a family member's laptop. It looked on perfectly on the Dell
+          Inspiron laptop and was such a beautiful, smooth experience. Previous
+          attempts used Mint and Ubuntu, getting to different stages which I do
+          not feel were OS dependent but simply what I used when I tried a
+          different fix. Also being Ubuntu based helped a lot due to my Pop!OS
+          main system and the Zorin OS Dell.
         </p>
 
-        <h3>The Hardware Challenge</h3>
+        <h3>The System in Question</h3>
         <p>
-          Detailed technical logs go here. You can effortlessly sprinkle in code
-          snippets or hardware specs using standard styled containers.
+          Whilst not a high-end laptop, the Acer Aspire 3 A315-56-366R is a
+          decent laptop for the price. It has an Intel i3-1005G1 CPU, 8GB of RAM
+          in a 4GB soldered + 4GB SODIMM layout, and a 1TB 5400RPM HDD. Powered
+          by an InsydeH20 BIOS, a key feature in our issues and install
+          dificulties as you will soon read. The rest of the specs are not of
+          much important but still include a 15.6" 768P TN display, Intel UHD G1
+          Graphics and the crunchiest looking webcam.
         </p>
+
+        <h4>Before you carry on!</h4>
+        <p>
+          This is by no means an installation guide, but can very much be used
+          to do the install process just note that I have only recently done
+          this and long term stability (over normal usage and/or after updates)
+          is fully unknown. Standard modern Linux kernels fail to boot or
+          discover storage media on this motherboard configuration
+          out-of-the-box. This failure stems from architectural flaws within the
+          InsydeH2O UEFI ACPI tables combined with proprietary power management
+          routing.
+        </p>
+
+        <h3>Preinstall Preparations</h3>
+        <p>
+          Before I could even get my laptop out I had to make sure I had the
+          needed ISO from the official <a href="">Zorin OS</a> website. Once I
+          had downloaded the latest version, I used a tool called balenaEtcher
+          to flash the ISO onto a USB drive (I used a 64GB USB 3.0 drive, but
+          any good drive over 8GB will surfice). Once the ISO was selected and
+          set to flash to the USB, I left the process run then ejected the USB
+          once complete. Now a lot of systems will allow you to just plug this
+          USB into them when turned off then notice the drive and ask if you
+          want to boot from it, this Acer is not as convenient due to a few key
+          features mentions earlier. Without the USB in turn on the laptop and
+          press F2/Delete immediately to enter the BIOS. It might ask you a
+          password, if you know it enter it, if not then do 3 wrong attempts and
+          a screen with Enter Unlock Password with show, select it using the
+          arrow keys and enter. Once there a 10-digit code will show, simply use
+          an online tool to decrypt this. Once you get in the BIOS, go to Main
+          and press Ctrl+S to reveal the SATA Mode option in your menus. Select
+          this and change it to AHCI if not already set to this. Now go to the
+          Boot tab, select Secure Boot and set it to disabled. You can either
+          navigate to the Save or similar tab, or press F10 to save and exit.
+          Now you can go onto the next stage of booting from the USB.
+        </p>
+
+        <h3>Installing Zorin OS</h3>
+        <p>
+          Ensuring the device is off first, plug your Zorin OS prepared USB into
+          the device, then turn it back on again. Once one, spam F12 till a
+          screen appears asking which drive to boot from. Select your USB and
+          press Enter, it will now boot into the USB. A GRUB menu with appear
+          with a bunch of options, select Try or Install Zorin OS. Allow to load
+          fully until a welcoming UI appears, click Try Zorin OS then leave it
+          as it is. Using Ctrl+Alt+T ,or pressing your Windows key and searching
+          Terminal, open the terminal as we need to run the following command to
+          check storage devices deteched
+        </p>
+        <pre><code>bash lsblk</code></pre>
+        <p>
+          It should show your USB and hopefully your main drive, usually as
+          /dev/nvme or /dev/sda, depending on your storage device installed. If
+          your internal storage doesn't show, no need for panic as this is the
+          first and most frustrating issue many people come across which is
+          luckily very easy to fix. Either close the lid, wait a bit and open it
+          back up (can sometimes not fully work) or run the following command to
+          make the system suspend to RAM and power down then wake back up 3
+          seconds later
+        </p>
+        <pre><code>sudo rtcwake -m mem -s 3</code></pre>
 
         <pre><code>sudo apt update && sudo apt upgrade -y</code></pre>
       </article>
