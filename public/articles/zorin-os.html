@@ -149,14 +149,14 @@
 
         <h4>Before you carry on!</h4>
         <p>
-          This is by no means an installation guide, but can very much be used
-          to do the install process just note that I have only recently done
-          this and long term stability (over normal usage and/or after updates)
-          is fully unknown. Standard modern Linux kernels fail to boot or
-          discover storage media on this motherboard configuration
-          out-of-the-box. This failure stems from architectural flaws within the
-          InsydeH2O UEFI ACPI tables combined with proprietary power management
-          routing.
+          This is by no means an installation guide and not guranteed to work,
+          but can very much be used to do the install process just note that I
+          have only recently done this and long term stability (over normal
+          usage and/or after updates) is fully unknown. Standard modern Linux
+          kernels fail to boot or discover storage media on this motherboard
+          configuration out-of-the-box. This failure stems from architectural
+          flaws within the InsydeH2O UEFI ACPI tables combined with proprietary
+          power management routing.
         </p>
 
         <h3>Preinstall Preparations</h3>
@@ -207,14 +207,207 @@
           seconds later
         </p>
         <pre><code>sudo rtcwake -m mem -s 3</code></pre>
+        <p>
+          Once the device is back on, you can rerun the bash lsblk command and
+          your internal drive should now be visible. Go back to the home screen
+          and launcher the Install Zorin app on screen, then follow the
+          on-screen instructions to meet your requirements.
+        </p>
+        <br />
+        <p>Recommendations</p>
+        <ul>
+          <li>
+            Select
+            <i>Install Third-party software for Graphics and WiFi hardware</i>,
+            this fetches all needed drivers to have you ready to go out the box
+          </li>
+          <li>
+            If using a low speed hard drive like the 5400RPM units commonly
+            found on laptops, unchecking the
+            <i>download updates while installing</i>
+          </li>
+        </ul>
+        <p>
+          After following the on screen prompts throughout the install the
+          system will require a reboot. Because a full restart cuts hardward
+          power rails completely, you will trigger the cold-boot bug (Hard drive
+          not visible issue) again on the first normal startup. There is no
+          worry here since you will then be booted into the fallback terminal
+          which look like a full black screen with some text in the top left. If
+          you do not have any issues and boot right in, I envy you and your
+          loving laptop. Terminal for those who get it, will show the below text
+          or similar
+        </p>
 
-        <pre><code>sudo apt update && sudo apt upgrade -y</code></pre>
+        <pre><code>(initramfs) _ .</code></pre>
+
+        <h3>The Big Fix: Making it bootable</h3>
+        <p>
+          For some, this is the biggest roadblock they have encountered in their
+          attempts, with the previous fix or the simple close and reopen laptop
+          trick being commonly tried. Whilst for some this works for the boot
+          issues, no one wants to have to do all of this each time they want to
+          turn on their laptop. We will do a more permenant fix that applies
+          itself on each boot for a seemless experience
+        </p>
+        <h4>Jumpstart the laptop</h4>
+        <p>
+          Very similar to what we did earlier, we will deliver a command to put
+          the laptop to sleep but this time we need to manually wake it back up.
+          Enter the below command.
+        </p>
+        <pre><code>echo mem > /sys/power/state</code></pre>
+        <p>
+          If you have a power state LED on your laptop (LED that shows if your
+          laptop is on, charging or asleep) wait for it to enter the sleep state
+          then press the <b>Spacebar</b>. If your laptop has no power state LED,
+          you can just wait 5 seconds then press the <b>Spacebar</b>.
+        </p>
+        <p>
+          It will power back up, for some the <i>initramfs</i> command line will
+          appear but if you are like me you will get a fully blank screen. No
+          need to panic, either way you get the next step is the same. Simply
+          type in the following then hit the <b>Enter</b> key to execute it.
+        </p>
+        <pre><code>exit</code></pre>
+
+        <p>
+          The system will immediately mount the needed filesystem and you will
+          be launched into the graphical desktop environment.
+        </p>
+        <br />
+        <h4>Automating the process</h4>
+        <p>
+          To abstract this entire issue away from the end user, we deploy a
+          low-level executable hook inside the local top-level assembly
+          directories of the initramfs compilation suite. This enforces the S3
+          sleep cycle automatically before the kernel attempts to discover or
+          mount root targets. All the following is to be run in the Terminal
+          inside of Zorin OS. Open with either Ctrl+Alt+T or searching for it
+          the launching. Since you are in the OS, I would recommend opening this
+          page in a browser on the system so you can copy paste commands into
+          the Terminal.
+        </p>
+        <p>1. Generating the hook script target</p>
+        <pre><code>sudo nano /etc/initramfs-tools/scripts/local-top/acer_sata_fix</code></pre>
+        <p>
+          2. Inject the following production shell script exactly as written
+        </p>
+        <pre><code>#!/bin/sh
+# /etc/initramfs-tools/scripts/local-top/acer_sata_fix
+
+PREREQ=""
+
+prereqs() {
+    echo "$PREREQ"
+}
+
+case "$1" in
+    prereqs)
+        prereqs
+        exit 0
+        ;;
+esac
+
+
+. /scripts/functions
+
+log_begin_msg "Executing Acer SATA controller ACPI wake workaround"
+
+
+if [ -e /sys/class/rtc/rtc0/wakealarm ] && [ -e /sys/power/state ]; then
+    
+
+    echo 0 > /sys/class/rtc/rtc0/wakealarm
+    
+   
+    if [ -e /sys/class/rtc/rtc0/since_epoch ]; then
+        NOW=$(cat /sys/class/rtc/rtc0/since_epoch)
+        ALARM=$((NOW + 3))
+        
+        
+        echo "$ALARM" > /sys/class/rtc/rtc0/wakealarm
+        
+        
+        
+        echo mem > /sys/power/state
+        
+        
+        sleep 2
+        
+        
+        for host in /sys/class/scsi_host/host*/scan; do
+            echo "- - -" > "$host"
+        done
+        
+        log_success_msg "Acer SATA interface re-probed. HDD maps updated successfully."
+    else
+        log_failure_msg "System Error: Unable to read hardware RTC epoch."
+    fi
+else
+    log_failure_msg "System Error: Critical sysfs power/RTC components unavailable."
+fi
+
+exit 0</code></pre>
+        <p>
+          Save and close the editor via <i>Ctrl + O</i>, <i>Enter</i>, and
+          <i>Ctrl + X</i>.
+        </p>
+        <p>
+          For those who want to know the full happenings of the code they
+          pasted, it goes as follows:
+        </p>
+
+        <ul>
+          Import canonical initramfs functional logging arrays
+        </ul>
+        #
+        <ul>
+          # Verify systemic existence of target sysfs nodes for core PM and RTC
+        </ul>
+        <ul>
+          # Clean out any pre-existing or orphaned hardware real-time alarms
+        </ul>
+        <ul>
+          # Extrapolate current hardware clock timestamp and register a +3s wake
+          window
+        </ul>
+        <ul>
+          # Flash the alarm state into the hardware control register
+        </ul>
+        <ul>
+          # Command the host hardware into an S3 Suspend state
+        </ul>
+        <ul>
+          # The motherboard shuts down power lines, waking 3 seconds later via
+          RTC interrupt
+        </ul>
+        <ul>
+          # Post-wake optimization delay: give the spinning mechanical platter
+          time to initialize
+        </ul>
+        <ul>
+          # Execute a hard hardware rescan across every functional SCSI/SATA
+          host channel
+        </ul>
+        <p>
+          Authorize global system root ownership and elevate permissions to mark
+          the hook file as an executable binary element:
+        </p>
+        <pre><code>sudo chown root:root /etc/initramfs-tools/scripts/local-top/acer_sata_fix
+        sudo chmod +x /etc/initramfs-tools/scripts/local-top/acer_sata_fix
+       </code></pre>
+        <pre><code>sudo chmod +x /etc/initramfs-tools/scripts/local-top/acer_sata_fix</code></pre>
+        <p>
+          Force a system-wide rebuild of the primary initial ramdisk array
+          across all compiled kernel versions currently indexed by the system:
+        </p>
+        <pre><code>sudo update-initramfs -u -k all</code></pre>
+        <p>
+          Your system is should now be fully sorted, you can restart it to test
+          the fixes implemented.
+        </p>
       </article>
-    </main>
-
-    <main class="main-content">
-      <h1>Hello World</h1>
-      <p>This content respects the sidebar width.</p>
     </main>
 
     <footer>
