@@ -31,6 +31,7 @@
 
 - IT Ticket system site
 - F1 Race Weekend Weather (Gives weather for current F1 Race using API)
+- Online customer booking
 
 ---
 
