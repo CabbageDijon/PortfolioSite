@@ -1,0 +1,185 @@
+.studio-hero {
+  text-align: left; /* Aligns left to match the topics */
+  margin-bottom: 80px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 48px;
+}
+
+/* --- Topic Separators (The Editorial Look) --- */
+.studio-topic {
+  margin-bottom: 80px; /* Generous breathing room between sections */
+}
+
+.topic-header {
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.topic-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+
+.topic-header p {
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
+}
+
+/* --- Card Enhancements (Tech Stack Pills) --- */
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.tech-tag {
+  background-color: #e3e8e1; /* A very soft sage background */
+  color: var(--color-text-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* --- Card Action Links --- */
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.source-link {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.source-link:hover {
+  color: var(--color-text-primary);
+  text-decoration: underline;
+}
+
+/* --- Enforce 2 Columns --- */
+.demo-grid.two-columns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Strictly 2 equal columns */
+  gap: 32px;
+  align-items: start; /* Prevents cards from stretching to match row height un-evenly */
+}
+
+/* --- Card Image Fixes --- */
+.demo-image {
+  margin: 12px 12px 0 12px;
+  width: calc(100% - 24px);
+  height: 220px;
+  border-radius: 2px;
+  object-fit: cover;
+  border: 1px solid var(--color-border);
+}
+
+/* Update your placeholder styling so it matches the new framed look while you build */
+.placeholder-img {
+  background-color: #e3e8e1; /* Changed to your Sage color to fit the theme better */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4a6b53;
+  font-weight: 500;
+}
+
+/* --- Solid Action Buttons --- */
+.solid-btn {
+  background-color: var(--color-primary);
+  color: #ffffff !important;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  display: inline-block;
+}
+
+.solid-btn:hover {
+  background-color: #8c9e85; /* Slightly darker sage */
+}
+
+/* =========================================
+   IN-PAGE EXPANDABLE WEB TOOLS
+   ========================================= */
+
+/* The hidden workspace */
+.card-expanded-workspace {
+  display: none;
+}
+
+/* The active expanded state */
+.demo-card.is-expanded {
+  grid-column: 1 / -1; /* Tells the card to span entirely across both columns */
+  border-color: var(
+    --color-primary
+  ); /* Highlights the border so it stands out */
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08); /* Deeper shadow */
+}
+
+.demo-card.is-expanded .card-default-view {
+  display: none; /* Hide the small preview card */
+}
+
+.demo-card.is-expanded .card-expanded-workspace {
+  display: block; /* Reveal the tool interface */
+}
+
+.workspace-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background-color: #faf8f5;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.workspace-header h3 {
+  font-size: 1.1rem;
+  color: var(--color-text-primary);
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px;
+  transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+  color: #d9534f; /* Red on hover to signify closing */
+}
+
+.workspace-content {
+  background-color: #ffffff;
+  min-height: 300px; /* Minimum height for your tools */
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+  .demo-grid.two-columns {
+    grid-template-columns: 1fr; /* Reverts to 1 column on phones */
+  }
+}

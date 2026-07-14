@@ -1,15 +1,50 @@
 :root {
+  /* ----- Brand & primary ----- */
   --color-primary: #a9bba2;
+  --color-primary-dark: #96a88f;
+
+  /* ----- Text ----- */
   --color-text-primary: #1a1a1a;
   --color-text-secondary: #3c3a3a;
+  --color-text-inverse: #ffffff;
+  --color-text-on-dark: rgb(209, 207, 207);
+  --color-text-on-dark-muted: rgba(227, 223, 223, 0.96);
+
+  /* ----- Links ----- */
+  --color-link-active: #077d4a;
+  --color-link-hero: rgb(37, 37, 37);
+  --color-link-hero-hover: rgb(36, 48, 88);
+
+  /* ----- Backgrounds ----- */
   --color-bg: #ffffff;
-  --link-active: #077d4a;
+  --color-bg-body: #babaaf;
+  --color-bg-placeholder: #e9ecef;
+  --color-placeholder-text: #adb5bd;
+
+  /* ----- Banner gradient (shimmer animation) ----- */
+  --color-banner-gradient-1: #616b74;
+  --color-banner-gradient-2: #222125;
+  --color-banner-gradient-3: #39385a;
+
+  /* ----- Borders ----- */
   --color-border: rgba(0, 0, 0, 0.06);
+
+  /* ----- Shadows ----- */
+  --shadow-card-hover: rgba(0, 0, 0, 0.05);
+  --shadow-profile: rgba(0, 0, 0, 0.15);
+  --shadow-btn-hover: rgba(169, 187, 162, 0.35);
+
+  /* ----- Typography ----- */
   --font-family:
     "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* ----- Layout ----- */
   --navbar-height: 72px;
 }
 
+/* ==========================================================================
+   Reset
+   ========================================================================== */
 *,
 *::before,
 *::after {
@@ -18,9 +53,12 @@
   box-sizing: border-box;
 }
 
+/* ==========================================================================
+   Body
+   ========================================================================== */
 body {
   font-family: var(--font-family);
-  background-color: #babaaf;
+  background-color: var(--color-bg-body);
   color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -29,6 +67,9 @@ body {
   min-height: 100vh;
 }
 
+/* ==========================================================================
+   Navigation
+   ========================================================================== */
 nav {
   display: flex;
   justify-content: space-between;
@@ -103,7 +144,7 @@ nav {
 }
 
 .nav-link.active {
-  color: var(--link-active);
+  color: var(--color-link-active);
 }
 
 .nav-link.active::after {
@@ -111,9 +152,10 @@ nav {
   background-color: var(--color-primary);
 }
 
+/* Contact button (nav) */
 .contact-btn {
-  background-color: #96a88f;
-  color: #ffffff !important;
+  background-color: var(--color-primary-dark);
+  color: var(--color-text-inverse) !important;
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 500;
@@ -129,10 +171,10 @@ nav {
 
 .contact-btn:hover {
   background-color: var(--color-primary);
-  box-shadow: 0 4px 12px rgba(169, 187, 162, 0.35);
+  box-shadow: 0 4px 12px var(--shadow-btn-hover);
 }
 
-/* Mobile Toggle Button */
+/* Mobile toggle */
 .mobile-toggle {
   display: none;
   flex-direction: column;
@@ -151,29 +193,35 @@ nav {
   border-radius: 2px;
 }
 
-/* Main Content & Demos */
+/* ==========================================================================
+   Main content & demos
+   ========================================================================== */
 main {
   padding: 80px 48px;
   max-width: 1200px;
   margin: 0 auto;
-  flex-grow: 1; /* Ensures main content takes up available space */
+  flex-grow: 1;
 }
 
-/* --- Full-Width About Banner --- */
+/* ==========================================================================
+   Full-width about banner
+   ========================================================================== */
 .about-banner {
   width: 100%;
-  /* Shimmer Gradient moved to the banner background */
-  background: linear-gradient(135deg, #616b74, #222125, #39385a);
+  background: linear-gradient(
+    135deg,
+    var(--color-banner-gradient-1),
+    var(--color-banner-gradient-2),
+    var(--color-banner-gradient-3)
+  );
   background-size: 200% 200%;
   animation: shimmer 10s ease-in-out infinite;
   border-bottom: 1px solid var(--color-border);
 }
 
-/* Inner container keeps content aligned with the rest of the site */
 .banner-inner {
   max-width: 1200px;
   margin: 0 auto;
-  /* Top padding, but 0 bottom padding so your photo sits on the bottom line */
   padding: 60px 48px 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -186,22 +234,21 @@ main {
   font-weight: 700;
   letter-spacing: -0.04em;
   margin-bottom: 16px;
-  color: rgb(209, 207, 207);
+  color: var(--color-text-on-dark);
 }
 
 .about-content p {
   font-size: 1.1rem;
   line-height: 1.6;
-  color: rgba(227, 223, 223, 0.96);
+  color: var(--color-text-on-dark-muted);
   padding-bottom: 60px;
 }
 
-/* Cleaned up image container */
 .about-image-container {
   width: 100%;
   height: 100%;
   display: flex;
-  align-items: flex-end; /* Keeps the portrait grounded at the bottom */
+  align-items: flex-end;
   justify-content: center;
 }
 
@@ -209,11 +256,11 @@ main {
   width: 85%;
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.15));
-  display: block; /* Removes weird inline spacing below images */
+  filter: drop-shadow(0 10px 20px var(--shadow-profile));
+  display: block;
 }
 
-/* Make sure your animation keyframes are still in the file */
+/* Shimmer animation */
 @keyframes shimmer {
   0% {
     background-position: 0% 50%;
@@ -226,6 +273,9 @@ main {
   }
 }
 
+/* ==========================================================================
+   Hero section
+   ========================================================================== */
 .hero {
   text-align: center;
   margin-bottom: 60px;
@@ -244,16 +294,19 @@ main {
 }
 
 .hero a {
-  color: rgb(37, 37, 37);
+  color: var(--color-link-hero);
   text-decoration: none;
   font-weight: 600;
 }
 
 .hero a:hover {
-  color: rgb(36, 48, 88);
+  color: var(--color-link-hero-hover);
   transition: color 0.2s ease;
 }
 
+/* ==========================================================================
+   Demo card grid
+   ========================================================================== */
 .demo-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -271,17 +324,16 @@ main {
 }
 
 .demo-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 12px 24px var(--shadow-card-hover);
 }
 
 .placeholder-img {
   height: 200px;
-  background-color: #e9ecef;
+  background-color: var(--color-bg-placeholder);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #adb5bd;
+  color: var(--color-placeholder-text);
   font-weight: 500;
 }
 
@@ -308,7 +360,9 @@ main {
   font-size: 0.9rem;
 }
 
-/* Footer Styles */
+/* ==========================================================================
+   Footer
+   ========================================================================== */
 footer {
   background-color: var(--color-bg);
   border-top: 1px solid var(--color-border);
@@ -373,7 +427,9 @@ footer {
   font-size: 0.85rem;
 }
 
-/* --- Mobile Responsiveness (Media Queries) --- */
+/* ==========================================================================
+   Mobile responsiveness
+   ========================================================================== */
 @media (max-width: 768px) {
   nav {
     padding: 0 24px;
@@ -384,7 +440,7 @@ footer {
   }
 
   .nav-right {
-    display: none; /* Hidden by default on mobile */
+    display: none;
     flex-direction: column;
     position: absolute;
     top: var(--navbar-height);
@@ -393,22 +449,20 @@ footer {
     background-color: var(--color-bg);
     padding: 24px;
     border-bottom: 1px solid var(--color-border);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 12px var(--shadow-card-hover);
   }
 
-  /* When the 'active' class is added via JavaScript */
   .nav-right.active {
     display: flex;
   }
 
   .nav-link::after {
-    display: none; /* Remove hover lines on mobile for cleaner look */
+    display: none;
   }
 
-  /* Updated banner stacking for mobile */
   .banner-inner {
     grid-template-columns: 1fr;
-    padding: 40px 24px 0; /* Adjust padding for smaller screens */
+    padding: 40px 24px 0;
     gap: 32px;
     text-align: center;
   }
@@ -418,7 +472,7 @@ footer {
   }
 
   .about-content p {
-    padding-bottom: 0; /* Remove the bottom padding on mobile so image sits flush */
+    padding-bottom: 0;
   }
 
   main {

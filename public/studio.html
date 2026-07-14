@@ -10,6 +10,7 @@
     <title>CabsCode | Studio</title>
     <link rel="icon" href="images/favicon.png" />
     <link rel="stylesheet" href="styles.css?v=1.1" />
+    <link rel="stylesheet" href="studio.css?v=1.0" />
   </head>
   <body>
     <nav>
@@ -75,7 +76,159 @@
       </div>
     </nav>
 
-    <main></main>
+    <main>
+      <header class="hero studio-hero">
+        <h1>The Studio</h1>
+        <p>
+          A curated collection of digital builds, ranging from automated
+          dashboards to client landing pages.
+        </p>
+      </header>
+
+      <!-- TOPIC 1: Web Apps (External Links) -->
+      <section class="studio-topic">
+        <div class="topic-header">
+          <h2>Web Apps</h2>
+          <p>
+            Complex, data-driven applications built to run seamlessly in the
+            browser.
+          </p>
+        </div>
+
+        <div class="demo-grid two-columns">
+          <article class="demo-card">
+            <!-- Image strictly within borders -->
+            <div class="demo-image placeholder-img">F1 Image Placeholder</div>
+            <div class="demo-content">
+              <div class="tech-tags">
+                <span class="tech-tag">JavaScript</span>
+                <span class="tech-tag">API Integration</span>
+              </div>
+              <h3>RaceWeather</h3>
+              <p>
+                An automated dashboard that pulls real-time weather forecasts
+                and track conditions tailored specifically for Formula 1 race
+                weekends.
+              </p>
+
+              <div class="card-actions">
+                <a
+                  href="https://raceweather.cabscode.pro/"
+                  target="_blank"
+                  class="solid-btn"
+                  >Launch Live App ↗</a
+                >
+                <a href="#" class="source-link">Source Code</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Second placeholder card to show the 2-in-a-row layout -->
+          <article class="demo-card">
+            <div class="demo-image placeholder-img">App 2 Image</div>
+            <div class="demo-content">
+              <div class="tech-tags"><span class="tech-tag">React</span></div>
+              <h3>Project Management SaaS</h3>
+              <p>
+                A lightweight Kanban board concept built for small remote teams.
+              </p>
+              <div class="card-actions">
+                <a href="#" target="_blank" class="solid-btn"
+                  >Launch Live App ↗</a
+                >
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- TOPIC 2: Web Tools (In-Page Expandable) -->
+      <section class="studio-topic">
+        <div class="topic-header">
+          <h2>Web Tools</h2>
+          <p>
+            Lightweight, single-purpose utilities designed to improve workflow
+            and productivity.
+          </p>
+        </div>
+
+        <div class="demo-grid two-columns">
+          <!-- Added 'expandable-card' class -->
+          <article class="demo-card expandable-card" id="css-tool">
+            <!-- Default View (Visible when small) -->
+            <div class="card-default-view">
+              <div class="demo-image placeholder-img">CSS Tool Preview</div>
+              <div class="demo-content">
+                <div class="tech-tags">
+                  <span class="tech-tag">HTML/CSS</span>
+                  <span class="tech-tag">DOM Manipulation</span>
+                </div>
+                <h3>CSS Box-Shadow Generator</h3>
+                <p>
+                  A quick interactive tool to help developers generate complex
+                  box-shadows on the fly.
+                </p>
+                <div class="card-actions">
+                  <button class="solid-btn expand-btn">Run Tool Here ↓</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Expanded Workspace (Hidden by default) -->
+            <div class="card-expanded-workspace">
+              <div class="workspace-header">
+                <h3>CSS Box-Shadow Generator</h3>
+                <button class="close-btn">Close Tool ✕</button>
+              </div>
+              <div class="workspace-content">
+                <!-- Your tool's HTML goes inside here -->
+                <p
+                  style="
+                    padding: 40px;
+                    text-align: center;
+                    color: var(--color-text-secondary);
+                  "
+                >
+                  Interactive tool interface renders here...
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- TOPIC 3: Websites & Concepts -->
+      <section class="studio-topic">
+        <div class="topic-header">
+          <h2>Websites & Concepts</h2>
+          <p>
+            Client landing pages, business portfolios, and frontend design
+            concepts.
+          </p>
+        </div>
+
+        <div class="demo-grid two-columns">
+          <article class="demo-card">
+            <div class="demo-image placeholder-img">
+              Website Image Placeholder
+            </div>
+            <div class="demo-content">
+              <div class="tech-tags">
+                <span class="tech-tag">Responsive Design</span>
+              </div>
+              <h3>Creative Agency Landing</h3>
+              <p>
+                An interactive portfolio site focusing on smooth animations and
+                converting visitors into clients.
+              </p>
+              <div class="card-actions">
+                <a href="#" target="_blank" class="solid-btn">Visit Site ↗</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
 
     <footer>
       <div class="footer-container">

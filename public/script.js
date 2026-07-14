@@ -92,3 +92,32 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+// --- Expandable Web Tools Logic ---
+const expandableCards = document.querySelectorAll(".expandable-card");
+
+expandableCards.forEach((card) => {
+  const expandBtn = card.querySelector(".expand-btn");
+  const closeBtn = card.querySelector(".close-btn");
+
+  if (expandBtn && closeBtn) {
+    // When the "Run Tool" button is clicked
+    expandBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      // Add the expanded class
+      card.classList.add("is-expanded");
+
+      // Smoothly scroll the page so the newly expanded tool is perfectly in view
+      setTimeout(() => {
+        card.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
+    });
+
+    // When the "Close Tool" button is clicked
+    closeBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      // Remove the expanded class to shrink it back down
+      card.classList.remove("is-expanded");
+    });
+  }
+});
