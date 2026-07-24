@@ -1,0 +1,8 @@
+.gitignore
+.env
+.env.example
+changesPlan.md
+
+public/TODO.md
+/docs
+node_modules/

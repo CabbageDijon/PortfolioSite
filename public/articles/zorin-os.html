@@ -5,12 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Journal page for CabsCode, a Botswana based programmer who also offers web hosting services for Botswana businesses"
+      content="A step-by-step technical fix for installing and resolving the cold-boot drive detection bug in Zorin OS on the Acer Aspire 3 laptop."
     />
-    <title>CabsCode | Journal</title>
+    <title>CabsCode | Migrating to Zorin OS on Acer Aspire 3</title>
     <link rel="icon" href="/images/favicon.png" />
     <link rel="stylesheet" href="/styles.css?v=1.2" />
     <link rel="stylesheet" href="/journal.css?v=1.2" />
+    <link rel="canonical" href="https://cabscode.pro/articles/zorin-os" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://cabscode.pro/articles/zorin-os" />
+    <meta property="og:title" content="Migrating to Zorin OS on an Acer Laptop | CabsCode" />
+    <meta property="og:description" content="Resolving the InsydeH2O UEFI SATA controller ACPI wake workaround on Acer Aspire 3 laptops." />
+    <meta property="og:image" content="https://cabscode.pro/images/me.png" />
+    <meta property="og:locale" content="en_BW" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Migrating to Zorin OS on an Acer Laptop",
+      "description": "Fixing the cold-boot hard drive detection bug on Acer Aspire 3 laptops running Linux.",
+      "author": { "@type": "Person", "name": "Tema Bown" },
+      "publisher": { "@type": "Organization", "name": "CabsCode", "url": "https://cabscode.pro" },
+      "datePublished": "2026-07-07",
+      "inLanguage": "en"
+    }
+    </script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   </head>
   <body>
     <nav>
@@ -94,6 +115,9 @@
                 >Migrating to Zorin OS</a
               >
             </li>
+            <li>
+              <a href="/articles/bug-fix">Game Bug Fix</a>
+            </li>
           </ul>
         </li>
 
@@ -161,8 +185,8 @@
 
         <h3>Preinstall Preparations</h3>
         <p>
-          Before I could even get my laptop out I had to make sure I had the
-          needed ISO from the official <a href="">Zorin OS</a> website. Once I
+           Before I could even get my laptop out I had to make sure I had the
+           needed ISO from the official <a href="https://zorin.com/os/" target="_blank" rel="noopener noreferrer">Zorin OS</a> website. Once I
           had downloaded the latest version, I used a tool called balenaEtcher
           to flash the ISO onto a USB drive (I used a 64GB USB 3.0 drive, but
           any good drive over 8GB will surfice). Once the ISO was selected and
@@ -414,7 +438,7 @@ exit 0</code></pre>
       <div class="footer-container">
         <div class="footer-col">
           <h4>Connect</h4>
-          <a href="#">LinkedIn</a>
+          <a href="https://www.linkedin.com/in/tema-bown-2441b73a3/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">LinkedIn</a>
           <a href="https://github.com/CabbageDijon" target="_blank">GitHub</a>
           <a href="mailto:bowntema@gmail.com">Gmail</a>
         </div>
@@ -427,15 +451,7 @@ exit 0</code></pre>
 
         <div class="footer-col footer-form">
           <h4>Project Inquiry</h4>
-          <form action="#" method="POST" id="contactForm">
-            <input type="email" placeholder="Your Email" required />
-            <textarea
-              placeholder="Tell me about your project..."
-              rows="3"
-              required
-            ></textarea>
-            <button type="submit" class="contact-btn">Send Request</button>
-          </form>
+          <div id="contactFormMount"></div>
         </div>
       </div>
       <div class="footer-bottom">

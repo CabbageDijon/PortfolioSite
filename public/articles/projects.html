@@ -5,12 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Journal page for CabsCode, a Botswana based programmer who also offers web hosting services for Botswana businesses"
+      content="An overview of projects built by Tema Bown — web apps, tools, and experiments in browser-based development."
     />
-    <title>CabsCode | Journal</title>
+    <title>CabsCode | Projects by Tema</title>
     <link rel="icon" href="/images/favicon.png" />
     <link rel="stylesheet" href="/styles.css?v=1.2" />
     <link rel="stylesheet" href="/journal.css?v=1.2" />
+    <link rel="canonical" href="https://cabscode.pro/articles/projects" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://cabscode.pro/articles/projects" />
+    <meta property="og:title" content="CabsCode | Projects by Tema" />
+    <meta property="og:description" content="A running log of projects built by Tema Bown — web apps, tools, and experiments in browser-based development." />
+    <meta property="og:image" content="https://cabscode.pro/images/me.png" />
+    <meta property="og:locale" content="en_BW" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Projects by Tema",
+      "description": "A running log of the projects built by Tema Bown, covering web apps, tools, and technical experiments.",
+      "author": { "@type": "Person", "name": "Tema Bown" },
+      "publisher": { "@type": "Organization", "name": "CabsCode", "url": "https://cabscode.pro" },
+      "datePublished": "2026-07-20",
+      "inLanguage": "en"
+    }
+    </script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   </head>
   <body>
     <nav>
@@ -32,7 +53,6 @@
                 stroke="#E3E8E1"
                 stroke-width="1"
               ></rect>
-              <!-- Outer Leaf/Bracket -->
               <path
                 d="M14 8L6 16L14 24"
                 stroke="#A9BBA2"
@@ -41,7 +61,6 @@
                 stroke-linejoin="round"
                 opacity="0.5"
               ></path>
-              <!-- Inner Leaf/Bracket -->
               <path
                 d="M18 10L12 16L18 22"
                 stroke="#A9BBA2"
@@ -49,7 +68,6 @@
                 stroke-linecap="round"
                 stroke-linejoin="round"
               ></path>
-              <!-- Closing Bracket -->
               <path
                 d="M22 12L26 16L22 20"
                 stroke="#1E2522"
@@ -78,7 +96,7 @@
 
     <!-- MOBILE SIDEBAR TOGGLE -->
     <button id="journalSidebarToggle" class="journal-sidebar-toggle">
-      <span>▶</span>
+      <span>&#9654;</span>
     </button>
 
     <!-- THE ACCORDION SIDEBAR -->
@@ -86,24 +104,23 @@
       <h3>Journal</h3>
 
       <ul class="accordion-menu">
-        <!-- Topic 1: Personal Projects -->
-        <!-- NOTE: Add the 'active' class to the <li> of the topic you want open by default -->
         <li class="accordion-item">
           <button class="accordion-toggle">
-            <span>📁 Personal Projects</span>
+            <span>Personal Projects</span>
           </button>
           <ul class="accordion-content">
-            <!-- Add the 'current-article' class to highlight the specific page the user is on -->
             <li>
               <a href="/articles/zorin-os">Migrating to Zorin OS</a>
+            </li>
+            <li>
+              <a href="/articles/bug-fix">Game Bug Fix</a>
             </li>
           </ul>
         </li>
 
-        <!-- Topic 2: Web Development -->
         <li class="accordion-item active">
           <button class="accordion-toggle">
-            <span>🌐 Web Development</span>
+            <span>Web Development</span>
           </button>
           <ul class="accordion-content">
             <li><a href="/articles/portfolio">Portfolio Architecture</a></li>
@@ -120,19 +137,82 @@
     <!-- THE MAIN JOURNAL CONTENT TEMPLATE -->
     <main class="main-content">
       <header class="journal-header">
-        <div class="journal-meta">Category • Month 31, 20xx</div>
-        <h1>Title - WIP</h1>
-        <p class="journal-lead">Article in progress</p>
+        <div class="journal-meta">Web Development &bull; July 20, 2026</div>
+        <h1>Projects by Tema</h1>
+        <p class="journal-lead">
+          A running log of the projects I have built, what inspired each one,
+          and the technical decisions behind them. This is where I share the
+          story behind the code.
+        </p>
       </header>
 
-      <article class="journal-body"></article>
+      <article class="journal-body">
+        <p>
+          Every project starts with a problem. Sometimes it is a real-world
+          issue — like needing weather data for F1 race weekends. Other times
+          it is a personal itch — like wanting a better way to track IT support
+          tickets. Either way, each project teaches me something new about web
+          development, and I wanted a place to document that journey.
+        </p>
+
+        <h3>RaceWeather</h3>
+        <p>
+          This was the first project that went live and actually got used by
+          other people. It pulls real-time weather data from an API and displays
+          it on a dashboard tailored for F1 race weekends — track temperature,
+          wind speed, rain probability, all updated automatically.
+        </p>
+        <p>
+          The technical stack is vanilla JavaScript with API integration. No
+          frameworks, no build tools — just a clean, fast page that loads
+          instantly. It taught me a lot about API rate limits, caching
+          strategies, and designing a layout that works on both desktop and
+          mobile while showing dense data.
+        </p>
+
+        <h3>RepoTicket</h3>
+        <p>
+          An IT ticket report system built with React, TypeScript, and
+          PocketBase. This is currently in development, but the core idea is a
+          self-hosted tool for tracking and resolving support requests — a
+          lightweight alternative to heavy enterprise ticketing platforms.
+        </p>
+        <p>
+          The frontend uses React with Vite, Tailwind CSS, and React Query for
+          server state. PocketBase handles the backend, auth, and database in a
+          single binary. It is a great combo for solo projects that need
+          real-time data without maintaining a full Node backend.
+        </p>
+
+        <h3>This Portfolio</h3>
+        <p>
+          The site you are reading this on is itself a project. Built with
+          vanilla HTML, CSS, and JavaScript — no frameworks, no build step. It
+          is deployed with Docker and Nginx, which keeps it fast and cheap to
+          host.
+        </p>
+        <p>
+          I designed it to be a clean, editorial-style layout that feels more
+          like a personal magazine than a typical portfolio site. The journal
+          section, the expandable tools in Studio, and the contact form backend
+          — each part is a small project in its own right.
+        </p>
+
+        <h3>What is Next</h3>
+        <p>
+          I have a few more tools planned for the Studio section — a QR code
+          generator, an APR calculator, and a Sudoku solver. Each one is a
+          focused, single-purpose utility that should be quick to build and
+          actually useful. I will document the development process here as I go.
+        </p>
+      </article>
     </main>
 
     <footer>
       <div class="footer-container">
         <div class="footer-col">
           <h4>Connect</h4>
-          <a href="#">LinkedIn</a>
+          <a href="https://www.linkedin.com/in/tema-bown-2441b73a3/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">LinkedIn</a>
           <a href="https://github.com/CabbageDijon" target="_blank">GitHub</a>
           <a href="mailto:bowntema@gmail.com">Gmail</a>
         </div>
@@ -145,15 +225,7 @@
 
         <div class="footer-col footer-form">
           <h4>Project Inquiry</h4>
-          <form action="#" method="POST" id="contactForm">
-            <input type="email" placeholder="Your Email" required />
-            <textarea
-              placeholder="Tell me about your project..."
-              rows="3"
-              required
-            ></textarea>
-            <button type="submit" class="contact-btn">Send Request</button>
-          </form>
+          <div id="contactFormMount"></div>
         </div>
       </div>
       <div class="footer-bottom">

@@ -10,6 +10,8 @@
     <title>CabsCode | Services</title>
     <link rel="icon" href="images/favicon.png" />
     <link rel="stylesheet" href="styles.css?v=1.2" />
+    <link rel="stylesheet" href="services.css?v=1.0" />
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   </head>
   <body>
     <nav>
@@ -75,7 +77,112 @@
       </div>
     </nav>
 
-    <main></main>
+    <main>
+      <header class="hero">
+        <h1>What I Offer</h1>
+        <p>
+          Web development, hosting, and custom tools — built for businesses and
+          individuals in Botswana and beyond.
+        </p>
+      </header>
+
+      <section class="services-grid">
+        <article class="service-card">
+          <div class="service-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+          </div>
+          <h3>Web Development</h3>
+          <p>
+            Custom websites and web applications built with modern technologies.
+            From landing pages to full-stack dashboards, I build responsive,
+            fast, and accessible experiences.
+          </p>
+          <ul class="service-details">
+            <li>Responsive landing pages</li>
+            <li>Admin dashboards &amp; panels</li>
+            <li>Single-page applications</li>
+            <li>E-commerce solutions</li>
+          </ul>
+        </article>
+
+        <article class="service-card">
+          <div class="service-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+              <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+              <line x1="6" y1="6" x2="6.01" y2="6"></line>
+              <line x1="6" y1="18" x2="6.01" y2="18"></line>
+            </svg>
+          </div>
+          <h3>Web Hosting</h3>
+          <p>
+            Reliable hosting for Botswana businesses. I handle deployment,
+            SSL certificates, domain setup, and ongoing maintenance so you can
+            focus on running your business.
+          </p>
+          <ul class="service-details">
+            <li>Domain registration &amp; DNS</li>
+            <li>SSL certificate setup</li>
+            <li>Automated deployments</li>
+            <li>Ongoing maintenance &amp; updates</li>
+          </ul>
+        </article>
+
+        <article class="service-card">
+          <div class="service-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+            </svg>
+          </div>
+          <h3>Custom Tools</h3>
+          <p>
+            Bespoke web tools and automations tailored to your workflow. From
+            QR code generators to data dashboards, I build utilities that save
+            you time and effort.
+          </p>
+          <ul class="service-details">
+            <li>Workflow automation</li>
+            <li>Data visualisation tools</li>
+            <li>Internal business utilities</li>
+            <li>API integrations</li>
+          </ul>
+        </article>
+
+        <article class="service-card">
+          <div class="service-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <h3>Consultancy</h3>
+          <p>
+            Not sure what your business needs? I offer consultations to help
+            you plan your digital presence, choose the right tech stack, and
+            make informed decisions about your online strategy.
+          </p>
+          <ul class="service-details">
+            <li>Digital strategy planning</li>
+            <li>Tech stack recommendations</li>
+            <li>Code reviews &amp; audits</li>
+            <li>Project scoping &amp; estimates</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="services-cta">
+        <h2>Ready to start?</h2>
+        <p>
+          Get in touch through the form below to discuss your project. Whether
+          you need a full website or just a quick tool, I can help.
+        </p>
+      </section>
+    </main>
 
     <footer>
       <div class="footer-container">
@@ -94,15 +201,7 @@
 
         <div class="footer-col footer-form">
           <h4>Project Inquiry</h4>
-          <form action="#" method="POST" id="contactForm">
-            <input type="email" placeholder="Your Email" required />
-            <textarea
-              placeholder="Tell me about your project..."
-              rows="3"
-              required
-            ></textarea>
-            <button type="submit" class="contact-btn">Send Request</button>
-          </form>
+          <div id="contactFormMount"></div>
         </div>
       </div>
       <div class="footer-bottom">

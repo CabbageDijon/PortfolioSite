@@ -5,11 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="CabsCode, a Botswana based programmer who also offers web hosting services for Botswana businesses"
+      content="Custom web app development and modern web hosting services in Botswana. Crafting fast, scalable digital experiences for local businesses and global clients."
     />
     <title>CabsCode | Portfolio</title>
     <link rel="icon" href="images/favicon.png" />
     <link rel="stylesheet" href="styles.css?v=1.2" />
+    <link rel="canonical" href="https://cabscode.pro/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://cabscode.pro/" />
+    <meta property="og:title" content="CabsCode | Web Development & Hosting in Botswana" />
+    <meta property="og:description" content="Custom web application development, front-end engineering, and high-performance web hosting based in Botswana." />
+    <meta property="og:image" content="https://cabscode.pro/images/me.png" />
+    <meta property="og:locale" content="en_BW" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="CabsCode | Web Development & Hosting in Botswana" />
+    <meta name="twitter:description" content="Custom web application development and hosting services by Tema Bown." />
+    <meta name="twitter:image" content="https://cabscode.pro/images/me.png" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "CabsCode",
+      "url": "https://cabscode.pro",
+      "logo": "https://cabscode.pro/images/favicon.png",
+      "image": "https://cabscode.pro/images/me.png",
+      "description": "CabsCode is a Botswana-based web development studio run by Tema Bown, offering front-end engineering, web hosting, and custom browser applications.",
+      "founder": {
+        "@type": "Person",
+        "name": "Tema Bown",
+        "jobTitle": "Web Developer & Programmer",
+        "sameAs": ["https://github.com/CabbageDijon"]
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "BW",
+        "addressLocality": "Gaborone"
+      },
+      "areaServed": [
+        { "@type": "Country", "name": "Botswana" },
+        { "@type": "AdministrativeArea", "name": "Worldwide" }
+      ],
+      "knowsAbout": ["Web Development", "Front-End Development", "React", "JavaScript", "Web Hosting", "UI/UX Design"],
+      "priceRange": "$$"
+    }
+    </script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   </head>
   <body>
     <nav>
@@ -80,10 +122,7 @@
         <div class="about-content">
           <h2>WHO AM I?</h2>
           <p>
-            I, Tema Bown, am a web developer with a passion for creating clean,
-            user-friendly experiences. With a specialty in front-end
-            development, whether it be for company landing pages or online tools
-            to improve productivity and workflow.
+            CabsCode is a web development studio founded by Tema Bown in Gaborone, Botswana. We specialize in custom web applications, front-end software engineering, and high-performance web hosting for Botswana businesses and international clients.
           </p>
         </div>
 
@@ -97,7 +136,7 @@
       <header class="hero">
         <h1>Building Digital Experiences</h1>
         <p>
-          Selected works and web projects from <a href="studio.html">Studio</a>.
+           Selected works and web projects from <a href="/studio">Studio</a>.
         </p>
       </header>
 
@@ -132,7 +171,7 @@
       <div class="footer-container">
         <div class="footer-col">
           <h4>Connect</h4>
-          <a href="#">LinkedIn</a>
+          <a href="https://www.linkedin.com/in/tema-bown-2441b73a3/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">LinkedIn</a>
           <a href="https://github.com/CabbageDijon" target="_blank">GitHub</a>
           <a href="mailto:bowntema@gmail.com">Gmail</a>
         </div>
@@ -145,15 +184,7 @@
 
         <div class="footer-col footer-form">
           <h4>Project Inquiry</h4>
-          <form action="#" method="POST" id="contactForm">
-            <input type="email" placeholder="Your Email" required />
-            <textarea
-              placeholder="Tell me about your project..."
-              rows="3"
-              required
-            ></textarea>
-            <button type="submit" class="contact-btn">Send Request</button>
-          </form>
+          <div id="contactFormMount"></div>
         </div>
       </div>
       <div class="footer-bottom">

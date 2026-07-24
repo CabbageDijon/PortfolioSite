@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Journal page for CabsCode, a Botswana based programmer who also offers web hosting services for Botswana businesses"
+      content="Journal article about fixing a game bug, by CabsCode — a Botswana based web developer."
     />
-    <title>CabsCode | Journal</title>
+    <title>CabsCode | Game Bug Fix</title>
     <link rel="icon" href="/images/favicon.png" />
     <link rel="stylesheet" href="/styles.css?v=1.2" />
     <link rel="stylesheet" href="/journal.css?v=1.2" />
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   </head>
   <body>
     <nav>
@@ -32,7 +33,6 @@
                 stroke="#E3E8E1"
                 stroke-width="1"
               ></rect>
-              <!-- Outer Leaf/Bracket -->
               <path
                 d="M14 8L6 16L14 24"
                 stroke="#A9BBA2"
@@ -41,7 +41,6 @@
                 stroke-linejoin="round"
                 opacity="0.5"
               ></path>
-              <!-- Inner Leaf/Bracket -->
               <path
                 d="M18 10L12 16L18 22"
                 stroke="#A9BBA2"
@@ -49,7 +48,6 @@
                 stroke-linecap="round"
                 stroke-linejoin="round"
               ></path>
-              <!-- Closing Bracket -->
               <path
                 d="M22 12L26 16L22 20"
                 stroke="#1E2522"
@@ -78,7 +76,7 @@
 
     <!-- MOBILE SIDEBAR TOGGLE -->
     <button id="journalSidebarToggle" class="journal-sidebar-toggle">
-      <span>▶</span>
+      <span>&#9654;</span>
     </button>
 
     <!-- THE ACCORDION SIDEBAR -->
@@ -86,18 +84,14 @@
       <h3>Journal</h3>
 
       <ul class="accordion-menu">
-        <!-- Topic 1: Personal Projects -->
-        <!-- NOTE: Add the 'active' class to the <li> of the topic you want open by default -->
         <li class="accordion-item active">
           <button class="accordion-toggle">
-            <span>📁 Personal Projects</span>
+            <span>Personal Projects</span>
           </button>
           <ul class="accordion-content">
-            <!-- Add the 'current-article' class to highlight the specific page the user is on -->
             <li>
               <a href="/articles/zorin-os">Migrating to Zorin OS</a>
             </li>
-
             <li>
               <a href="/articles/bug-fix" class="current-article"
                 >Game Bug Fix</a
@@ -106,13 +100,13 @@
           </ul>
         </li>
 
-        <!-- Topic 2: Web Development -->
         <li class="accordion-item">
           <button class="accordion-toggle">
-            <span>🌐 Web Development</span>
+            <span>Web Development</span>
           </button>
           <ul class="accordion-content">
             <li><a href="/articles/portfolio">Portfolio Architecture</a></li>
+            <li><a href="/articles/projects">Projects by Tema</a></li>
           </ul>
         </li>
       </ul>
@@ -121,34 +115,105 @@
     <!-- THE MAIN JOURNAL CONTENT TEMPLATE -->
     <main class="main-content">
       <header class="journal-header">
-        <div class="journal-meta">Personal Projects • July 3, 2026</div>
-        <h1>Migrating to Zorin OS on an Acer Laptop</h1>
+        <div class="journal-meta">Personal Projects &bull; July 19, 2026</div>
+        <h1>Fixing a Race Condition in My Browser Game</h1>
         <p class="journal-lead">
-          A deep dive into revitalizing old hardware, configuring hardware
-          acceleration, and setting up a clean Linux development environment.
+          How a subtle timing bug in a canvas-based game led me down a rabbit
+          hole of debugging asynchronous JavaScript — and the clean fix that
+          came out of it.
         </p>
       </header>
 
       <article class="journal-body">
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. This core
-          text is highly legible, styled with a generous line-height for a
-          comfortable reading experience.
+          I have been building a small browser-based racing game as a side
+          project — a top-down 2D track where you steer a car and try to beat
+          your lap time. It started as a fun way to practice canvas rendering
+          and keyboard input handling, but it quickly turned into a lesson in
+          asynchronous timing.
         </p>
 
-        <h3>The Hardware Challenge</h3>
+        <h3>The Bug</h3>
         <p>
-          Detailed technical logs go here. You can effortlessly sprinkle in code
-          snippets or hardware specs using standard styled containers.
+          The issue was subtle. Most of the time, the game ran perfectly. But
+          occasionally — especially when the tab was backgrounded and then
+          brought back into focus — the car would teleport to an unexpected
+          position or clip through a wall. It only happened once in a while,
+          which made it incredibly frustrating to track down.
         </p>
 
-        <pre><code>sudo apt update && sudo apt upgrade -y</code></pre>
-      </article>
-    </main>
+        <p>
+          The root cause turned out to be how I was calculating the delta time
+          between frames. I was using a simple timestamp difference:
+        </p>
 
-    <main class="main-content">
-      <h1>Hello World</h1>
-      <p>This content respects the sidebar width.</p>
+        <pre><code>const now = Date.now();
+const delta = now - lastFrameTime;
+lastFrameTime = now;</code></pre>
+
+        <p>
+          When the tab is backgrounded, <code>requestAnimationFrame</code> stops
+          firing. But <code>Date.now()</code> keeps ticking. So when the tab
+          comes back, the next delta could be thousands of milliseconds — far
+          larger than any normal frame — and the car position would jump by a
+          huge amount in a single frame.
+        </p>
+
+        <h3>The Investigation</h3>
+        <p>
+          I started by adding debug logging to track the delta values. Sure
+          enough, after switching tabs for a few seconds and coming back, I
+          would see deltas like <code>4523ms</code> instead of the usual
+          <code>16ms</code>. The physics engine was moving the car based on that
+          inflated delta, launching it through walls.
+        </p>
+
+        <p>
+          My first instinct was to clamp the delta to a maximum value:
+        </p>
+
+        <pre><code>const delta = Math.min(now - lastFrameTime, 100);</code></pre>
+
+        <p>
+          This worked — the car no longer teleported. But it felt like a
+          band-aid. The real problem was that the game loop should not be
+          updating at all when the tab is not visible.
+        </p>
+
+        <h3>The Clean Fix</h3>
+        <p>
+          The proper solution was to detect when the tab regains focus and
+          reset the last frame time. I used the
+          <code>visibilitychange</code> event:
+        </p>
+
+        <pre><code>document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") {
+    lastFrameTime = Date.now();
+  }
+});</code></pre>
+
+        <p>
+          This ensures that when the player returns to the tab, the next frame
+          starts with a fresh, accurate delta. No more teleporting, no more
+          wall clipping.
+        </p>
+
+        <h3>What I Learned</h3>
+        <p>
+          This was a good reminder that <code>requestAnimationFrame</code> and
+          time-based physics need careful handling. The browser will pause
+          animation frames when a tab is hidden, but your time source does not
+          pause with it. Always account for the possibility of large time gaps
+          — either by clamping or by resetting when focus returns.
+        </p>
+
+        <p>
+          It is a small fix, but it is the kind of thing that separates a
+          polished game from a buggy one. I am glad I took the time to
+          understand the root cause instead of just patching the symptom.
+        </p>
+      </article>
     </main>
 
     <footer>
@@ -168,15 +233,7 @@
 
         <div class="footer-col footer-form">
           <h4>Project Inquiry</h4>
-          <form action="#" method="POST" id="contactForm">
-            <input type="email" placeholder="Your Email" required />
-            <textarea
-              placeholder="Tell me about your project..."
-              rows="3"
-              required
-            ></textarea>
-            <button type="submit" class="contact-btn">Send Request</button>
-          </form>
+          <div id="contactFormMount"></div>
         </div>
       </div>
       <div class="footer-bottom">

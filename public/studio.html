@@ -5,12 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Display of projects and works done by CabsCode. Including web apps, websites, and other programming projects."
+      content="Explore web applications, interactive web tools, and software builds by CabsCode, including RaceWeather, RepoTicket, and custom web utilities."
     />
     <title>CabsCode | Studio</title>
     <link rel="icon" href="images/favicon.png" />
     <link rel="stylesheet" href="styles.css?v=1.2" />
     <link rel="stylesheet" href="studio.css?v=1.3" />
+    <link rel="canonical" href="https://cabscode.pro/studio" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://cabscode.pro/studio" />
+    <meta property="og:title" content="CabsCode | Studio & Projects Portfolio" />
+    <meta property="og:description" content="A curated gallery of live web apps, developer tools, and client design concepts." />
+    <meta property="og:image" content="https://cabscode.pro/images/demos/webapps/raceweather.png" />
+    <meta property="og:locale" content="en_BW" />
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   </head>
   <body>
     <nav>
@@ -128,12 +136,11 @@
                   class="solid-btn"
                   >Launch Live App ↗</a
                 >
-                <a href="" class="source-link">Source Code</a>
+                <a href="https://github.com/CabbageDijon" target="_blank" class="source-link">Source Code</a>
               </div>
             </div>
           </article>
 
-          <!-- Second placeholder card to show the 2-in-a-row layout -->
           <article class="demo-card">
             <div class="demo-image placeholder-img">App 2 Image</div>
             <div class="demo-content">
@@ -150,6 +157,45 @@
                 <a href="#" target="_blank" class="solid-btn"
                   >Launch Live App ↗</a
                 >
+              </div>
+            </div>
+          </article>
+
+          <article class="demo-card">
+            <div class="demo-image placeholder-img">RepoTicket Image</div>
+            <div class="demo-content">
+              <div class="tech-tags">
+                <span class="tech-tag" style="background-color: #61dbfb"
+                  >React</span
+                >
+                <span class="tech-tag" style="background-color: #e8e8e8"
+                  >PocketBase</span
+                >
+              </div>
+              <h3>RepoTicket</h3>
+              <p>
+                An IT ticket report system for tracking, managing, and resolving
+                support requests. Built with React, TypeScript, and PocketBase.
+              </p>
+              <div class="card-actions">
+                <span class="solid-btn wip-btn">In Development</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="demo-card">
+            <div class="demo-image placeholder-img">PassPro Image</div>
+            <div class="demo-content">
+              <div class="tech-tags">
+                <span class="tech-tag">WIP</span>
+              </div>
+              <h3>PassPro</h3>
+              <p>
+                A password and credential management tool. Currently in early
+                planning and design phase.
+              </p>
+              <div class="card-actions">
+                <span class="solid-btn wip-btn">Coming Soon</span>
               </div>
             </div>
           </article>
@@ -247,7 +293,7 @@
       <div class="footer-container">
         <div class="footer-col">
           <h4>Connect</h4>
-          <a href="#">LinkedIn</a>
+          <a href="https://www.linkedin.com/in/tema-bown-2441b73a3/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">LinkedIn</a>
           <a href="https://github.com/CabbageDijon" target="_blank">GitHub</a>
           <a href="mailto:bowntema@gmail.com">Gmail</a>
         </div>
@@ -260,15 +306,7 @@
 
         <div class="footer-col footer-form">
           <h4>Project Inquiry</h4>
-          <form action="#" method="POST" id="contactForm">
-            <input type="email" placeholder="Your Email" required />
-            <textarea
-              placeholder="Tell me about your project..."
-              rows="3"
-              required
-            ></textarea>
-            <button type="submit" class="contact-btn">Send Request</button>
-          </form>
+          <div id="contactFormMount"></div>
         </div>
       </div>
       <div class="footer-bottom">

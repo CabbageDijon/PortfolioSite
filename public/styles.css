@@ -418,6 +418,26 @@ footer {
   border-color: var(--color-primary);
 }
 
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.form-status {
+  font-size: 0.85rem;
+  margin-top: 8px;
+  min-height: 1.2em;
+}
+.form-status.success {
+  color: #4a7c59;
+}
+.form-status.error {
+  color: #c0392b;
+}
+
 .footer-bottom {
   text-align: center;
   margin-top: 48px;

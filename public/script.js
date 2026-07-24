@@ -4,16 +4,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const navRight = document.querySelector(".nav-right");
 
   if (mobileToggle && navRight) {
-    // Toggle the menu when clicking the hamburger icon
     mobileToggle.addEventListener("click", () => {
       navRight.classList.toggle("active");
     });
 
-    // Close the menu when clicking anywhere outside of it
     document.addEventListener("click", (e) => {
-      // Only run this check if the menu is actually open
       if (navRight.classList.contains("active")) {
-        // Check if the click target is NOT the menu itself AND NOT the toggle button
         if (!navRight.contains(e.target) && !mobileToggle.contains(e.target)) {
           navRight.classList.remove("active");
         }
@@ -26,25 +22,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   accordionToggles.forEach((toggle) => {
     toggle.addEventListener("click", function () {
-      // Find the parent <li> element
       const parentItem = this.parentElement;
-
-      // Toggle the 'active' class on the parent
       parentItem.classList.toggle("active");
     });
   });
+
   // --- Mobile Journal Sidebar Drawer Logic ---
   const journalSidebar = document.querySelector(".sidebar");
   const journalToggle = document.getElementById("journalSidebarToggle");
 
   if (journalToggle && journalSidebar) {
-    // 1. Open the sidebar when the white bar is clicked
     journalToggle.addEventListener("click", (e) => {
-      e.stopPropagation(); // Stops the document click listener from immediately firing
+      e.stopPropagation();
       journalSidebar.classList.toggle("mobile-open");
     });
 
-    // 2. Close the sidebar if the user scrolls the page
     window.addEventListener(
       "scroll",
       () => {
@@ -55,10 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
       { passive: true },
     );
 
-    // 3. Close the sidebar if the user clicks anywhere outside of it
     document.addEventListener("click", (e) => {
       if (journalSidebar.classList.contains("mobile-open")) {
-        // Check if the click happened outside both the sidebar and the toggle button
         if (
           !journalSidebar.contains(e.target) &&
           !journalToggle.contains(e.target)
@@ -69,7 +59,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 2. Hashless Smooth Scrolling for Contact Links
+  // 2. Contact Form — JS Component Injection
+  initContactForm();
+
+  // 3. Hashless Smooth Scrolling for Contact Links
   const contactLinks = document.querySelectorAll('a[href="#contactForm"]');
 
   contactLinks.forEach((link) => {
@@ -84,7 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
           block: "start",
         });
 
-        // Close the mobile menu after clicking "Contact"
         if (navRight && navRight.classList.contains("active")) {
           navRight.classList.remove("active");
         }
@@ -93,30 +85,141 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// --- Expandable Web Tools Logic ---
-const expandableCards = document.querySelectorAll(".expandable-card");
+// --- Contact Form Component ---
+function initContactForm() {
+  const mount = document.getElementById("contactFormMount");
+  if (!mount) return;
 
-expandableCards.forEach((card) => {
-  const expandBtn = card.querySelector(".expand-btn");
-  const closeBtn = card.querySelector(".close-btn");
+  const siteKey = "0x4AAAAAAD8uiSyRouhkF0Zo";
+
+  mount.innerHTML = [
+    '<form action="/api/contact" method="POST" id="contactForm">',
+    '  <div class="honeypot" aria-hidden="true">',
+    '    <input type="text" name="website" tabindex="-1" autocomplete="off" />',
+    "  </div>",
+    '  <input type="hidden" name="_timestamp" value="' + Date.now() + '" />',
+    '  <input type="email" name="email" placeholder="Your Email" required />',
+    '  <textarea name="message" placeholder="Tell me about your project..." rows="3" required></textarea>',
+    '  <div id="turnstile-widget"></div>',
+    '  <button type="submit" class="contact-btn">Send Request</button>',
+    '  <div id="formStatus" class="form-status" role="alert" aria-live="polite"></div>',
+    "</form>",
+  ].join("");
+
+  renderTurnstileWidget();
+  attachFormHandler();
+}
+
+function renderTurnstileWidget() {
+  var container = document.getElementById("turnstile-widget");
+  if (!container) return;
+
+  if (typeof turnstile !== "undefined") {
+    turnstile.render("#turnstile-widget", {
+      sitekey: "0x4AAAAAAD8uiSyRouhkF0Zo",
+      theme: "light",
+    });
+  } else {
+    setTimeout(renderTurnstileWidget, 200);
+  }
+}
+
+function attachFormHandler() {
+  var form = document.getElementById("contactForm");
+  if (!form) return;
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    var email = form.email.value.trim();
+    var message = form.message.value.trim();
+    var status = document.getElementById("formStatus");
+    var submitBtn = form.querySelector('button[type="submit"]');
+
+    if (!email || !message) {
+      status.textContent = "Please fill in all fields.";
+      status.className = "form-status error";
+      return;
+    }
+
+    var timestamp = parseInt(form._timestamp.value, 10);
+    var elapsed = Date.now() - timestamp;
+    if (elapsed < 3000 || elapsed > 1800000) {
+      status.textContent = "Submission rejected. Please try again.";
+      status.className = "form-status error";
+      return;
+    }
+
+    var token = typeof turnstile !== "undefined" ? turnstile.getResponse() : "";
+    if (!token) {
+      status.textContent = "Please complete the security check.";
+      status.className = "form-status error";
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending...";
+    status.textContent = "";
+    status.className = "form-status";
+
+    try {
+      var res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: email,
+          message: message,
+          "cf-turnstile-response": token,
+          _timestamp: timestamp,
+        }),
+      });
+
+      var data = await res.json();
+
+      if (res.ok) {
+        status.textContent = "Message sent successfully!";
+        status.className = "form-status success";
+        form.email.value = "";
+        form.message.value = "";
+        if (typeof turnstile !== "undefined") {
+          turnstile.reset();
+        }
+      } else {
+        status.textContent = data.error || "Failed to send message.";
+        status.className = "form-status error";
+        if (typeof turnstile !== "undefined") {
+          turnstile.reset();
+        }
+      }
+    } catch (_err) {
+      status.textContent = "Network error. Please try again.";
+      status.className = "form-status error";
+    }
+
+    submitBtn.textContent = "Send Request";
+    submitBtn.disabled = false;
+  });
+}
+
+// --- Expandable Web Tools Logic ---
+var expandableCards = document.querySelectorAll(".expandable-card");
+
+expandableCards.forEach(function (card) {
+  var expandBtn = card.querySelector(".expand-btn");
+  var closeBtn = card.querySelector(".close-btn");
 
   if (expandBtn && closeBtn) {
-    // When the "Run Tool" button is clicked
-    expandBtn.addEventListener("click", (e) => {
+    expandBtn.addEventListener("click", function (e) {
       e.preventDefault();
-      // Add the expanded class
       card.classList.add("is-expanded");
 
-      // Smoothly scroll the page so the newly expanded tool is perfectly in view
-      setTimeout(() => {
+      setTimeout(function () {
         card.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 50);
     });
 
-    // When the "Close Tool" button is clicked
-    closeBtn.addEventListener("click", (e) => {
+    closeBtn.addEventListener("click", function (e) {
       e.preventDefault();
-      // Remove the expanded class to shrink it back down
       card.classList.remove("is-expanded");
     });
   }

@@ -5,12 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Journal page for CabsCode, a Botswana based programmer who also offers web hosting services for Botswana businesses"
+      content="Technical logs, project updates, and insights on web development and programming by Tema Bown at CabsCode."
     />
     <title>CabsCode | Journal</title>
     <link rel="icon" href="images/favicon.png" />
     <link rel="stylesheet" href="styles.css?v=1.2" />
     <link rel="stylesheet" href="journal.css?v=1.2" />
+    <link rel="canonical" href="https://cabscode.pro/journal" />
+    <meta property="og:type" content="blog" />
+    <meta property="og:url" content="https://cabscode.pro/journal" />
+    <meta property="og:title" content="CabsCode | Journal & Technical Logs" />
+    <meta property="og:description" content="Technical logs, software experiments, and personal insights on web development." />
+    <meta property="og:image" content="https://cabscode.pro/images/me.png" />
+    <meta property="og:locale" content="en_BW" />
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   </head>
   <body>
     <nav>
@@ -94,6 +102,9 @@
             <li>
               <a href="/articles/zorin-os">Migrating to Zorin OS</a>
             </li>
+            <li>
+              <a href="/articles/bug-fix">Game Bug Fix</a>
+            </li>
           </ul>
         </li>
 
@@ -145,7 +156,7 @@
       <div class="footer-container">
         <div class="footer-col">
           <h4>Connect</h4>
-          <a href="#">LinkedIn</a>
+          <a href="https://www.linkedin.com/in/tema-bown-2441b73a3/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">LinkedIn</a>
           <a href="https://github.com/CabbageDijon" target="_blank">GitHub</a>
           <a href="mailto:bowntema@gmail.com">Gmail</a>
         </div>
@@ -158,15 +169,7 @@
 
         <div class="footer-col footer-form">
           <h4>Project Inquiry</h4>
-          <form action="#" method="POST" id="contactForm">
-            <input type="email" placeholder="Your Email" required />
-            <textarea
-              placeholder="Tell me about your project..."
-              rows="3"
-              required
-            ></textarea>
-            <button type="submit" class="contact-btn">Send Request</button>
-          </form>
+          <div id="contactFormMount"></div>
         </div>
       </div>
       <div class="footer-bottom">

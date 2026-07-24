@@ -26,6 +26,8 @@
 
 - Clean tech company landing page, device specs page
 - Local BW Safari Site
+- Smart home devices company site (Use centric logo on page load, icons for different types of products surround logo)
+- Code Terminal looking text box site for digital security and audit site
 
 ### Web Apps
 

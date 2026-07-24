@@ -3,64 +3,34 @@
 # ==========================================
 
 # ------------------------------------------
-# ALLOW REGULAR SEARCH ENGINES 
+# ALLOW ALL REGULAR SEARCH ENGINES
 # (Google, Bing, DuckDuckGo)
 # ------------------------------------------
 User-agent: *
 Allow: /
 
 # ------------------------------------------
-# BLOCK AI SCRAPERS & LLM CRAWLERS
+# ALLOW AI SEARCH CRAWLERS
 # ------------------------------------------
 
-# OpenAI (GPTBot for training, OAI-SearchBot for SearchGPT)
+# OpenAI (GPTBot for training, ChatGPT-User for search)
 User-agent: GPTBot
-Disallow: /
-User-agent: OAI-SearchBot
-Disallow: /
+Allow: /
+
 User-agent: ChatGPT-User
-Disallow: /
+Allow: /
 
 # Google (Google-Extended is specifically for Gemini/AI training)
 User-agent: Google-Extended
-Disallow: /
+Allow: /
 
 # Anthropic (Claude)
-User-agent: Anthropic-ai
-Disallow: /
 User-agent: ClaudeBot
-Disallow: /
-
-# Common Crawl (Massive dataset provider for mostly all AI models)
-User-agent: CCBot
-Disallow: /
-
-# Meta / Facebook AI
-User-agent: FacebookBot
-Disallow: /
+Allow: /
 
 # Perplexity AI
 User-agent: PerplexityBot
-Disallow: /
+Allow: /
 
-# Cohere AI
-User-agent: Cohere-ai
-Disallow: /
-
-# ByteDance (Aggressive scraping bot)
-User-agent: Bytespider
-Disallow: /
-
-# Other known AI and Data Scrapers
-User-agent: Diffbot
-Disallow: /
-User-agent: Omigili
-Disallow: /
-User-agent: OmigiliBot
-Disallow: /
-User-agent: Amazonbot
-Disallow: /
-User-agent: YouBot
-Disallow: /
-User-agent: ImagesiftBot
-Disallow: /
+# Sitemap
+Sitemap: https://cabscode.pro/sitemap.xml
