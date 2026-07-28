@@ -172,7 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // --- Contact Form Component ---
-var TURNSTILE_SITE_KEY = "0x4AAAAAAD8uiSyRouhkF0Zo";
+var TURNSTILE_SITE_KEY = "0x4AAAAAAEAQzFYeL64ycnIb";
 var turnstileWidgetId = null;
 var turnstileFailed = false;
 
