@@ -38,7 +38,7 @@
 }
 
 .tech-tag {
-  background-color: #e3e8e1; /* A very soft sage background */
+  background-color: #e3e8e1;
   color: var(--color-text-primary);
   font-size: 0.75rem;
   font-weight: 600;
@@ -46,6 +46,29 @@
   border-radius: 12px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+.tech-tag.js {
+  background: #f7df1e;
+}
+
+.tech-tag.api {
+  background: rgb(199, 43, 199);
+  color: #ffffff;
+}
+
+.tech-tag.react {
+  background: #61dbfb;
+}
+
+.tech-tag.pocketbase {
+  background: #e8e8e8;
+}
+
+[data-theme="dark"] .tech-tag.js,
+[data-theme="dark"] .tech-tag.react,
+[data-theme="dark"] .tech-tag.pocketbase {
+  color: #1a1a1a;
 }
 
 /* --- Card Action Links --- */
@@ -74,22 +97,21 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* Strictly 2 equal columns */
   gap: 32px;
-  align-items: start; /* Prevents cards from stretching to match row height un-evenly */
+  align-items: stretch;
 }
 
 /* --- Card Image Fixes --- */
 .demo-image {
   margin: 12px 12px 0 12px;
   width: calc(100% - 24px);
-  height: 220px;
+  aspect-ratio: 16 / 9;
   border-radius: 10px;
   object-fit: cover;
   border: 1px solid var(--color-border);
 }
 
-/* Update your placeholder styling so it matches the new framed look while you build */
 .placeholder-img {
-  background-color: #e3e8e1; /* Changed to your Sage color to fit the theme better */
+  background: linear-gradient(135deg, #e3e8e1, #c8d0c5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -97,35 +119,62 @@
   font-weight: 500;
 }
 
-/* --- Solid Action Buttons --- */
-.solid-btn {
-  background-color: #077d4a;
-  color: #ffffff !important;
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 600;
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  transition:
-    background-color 0.3s ease,
-    transform 0.2s ease;
-  display: inline-block;
+.placeholder-img.wip-app {
+  background: linear-gradient(135deg, #d4d9d2, #b8c2b4);
 }
 
-.solid-btn:hover {
-  background-color: #59744f; /* Slightly darker sage */
+.placeholder-img.wip-tool {
+  background: linear-gradient(135deg, #dfe3dc, #c5ccc0);
 }
 
-.wip-btn {
-  background-color: #9e9e9e;
-  cursor: default;
-  opacity: 0.7;
+.placeholder-img.wip-concept {
+  background: linear-gradient(135deg, #e8ebe4, #d3d9cb);
 }
 
-.wip-btn:hover {
-  background-color: #9e9e9e;
+/* =========================================
+   Status Badges
+   ========================================= */
+.demo-card {
+  position: relative;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.demo-card:hover {
+  transform: scale(1.03);
+}
+
+.card-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 5;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 10px;
+  border-radius: 6px;
+  color: #fff;
+}
+
+.card-badge.badge-live {
+  background: #077d4a;
+}
+
+.card-badge.badge-beta {
+  background: #d4a017;
+}
+
+.card-badge.badge-dev {
+  background: #5a6a7a;
+}
+
+.card-badge.badge-coming {
+  background: #8a7a8a;
+}
+
+.card-badge.badge-concept {
+  background: #7a8a7a;
 }
 
 /* =========================================
@@ -134,24 +183,36 @@
 
 /* The hidden workspace */
 .card-expanded-workspace {
-  display: none;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.4s ease;
+}
+
+.card-default-view {
+  max-height: 2000px;
+  opacity: 1;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.4s ease, margin 0.4s ease;
 }
 
 /* The active expanded state */
 .demo-card.is-expanded {
-  grid-column: 1 / -1; /* Tells the card to span entirely across both columns */
-  border-color: var(
-    --color-primary
-  ); /* Highlights the border so it stands out */
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08); /* Deeper shadow */
+  grid-column: 1 / -1;
+  border-color: var(--color-primary);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
 }
 
 .demo-card.is-expanded .card-default-view {
-  display: none; /* Hide the small preview card */
+  max-height: 0;
+  opacity: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .demo-card.is-expanded .card-expanded-workspace {
-  display: block; /* Reveal the tool interface */
+  max-height: 2000px;
+  opacity: 1;
 }
 
 .workspace-header {
@@ -169,14 +230,18 @@
 }
 
 .close-btn {
-  background: red;
+  background: var(--color-text-secondary);
   border-radius: 5px;
   border: none;
   color: white;
   font-weight: 600;
   cursor: pointer;
   padding: 8px;
-  transition: color 0.2s ease;
+  transition: background-color 0.2s ease;
+}
+
+.close-btn:hover {
+  background: var(--color-text-primary);
 }
 
 .workspace-content {
@@ -185,8 +250,27 @@
 }
 
 /* --- Mobile Responsiveness --- */
+/* =========================================
+   QR Code Generator Tool Layout
+   ========================================= */
+.qr-tool-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+
+.qr-tool-controls {
+  display: flex;
+  flex-direction: column;
+}
+
 @media (max-width: 768px) {
   .demo-grid.two-columns {
-    grid-template-columns: 1fr; /* Reverts to 1 column on phones */
+    grid-template-columns: 1fr;
+  }
+
+  .demo-image {
+    aspect-ratio: 9 / 16;
   }
 }

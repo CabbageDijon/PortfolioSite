@@ -9,7 +9,10 @@
     />
     <title>CabsCode | Portfolio</title>
     <link rel="icon" href="images/favicon.png" />
-    <link rel="stylesheet" href="styles.css?v=1.2" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css?v=2.0" />
     <link rel="canonical" href="https://cabscode.pro/" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://cabscode.pro/" />
@@ -58,48 +61,8 @@
       <div class="nav-left">
         <a href="/" class="logo" aria-label="Home">
           <div class="logo">
-            <svg
-              width="48"
-              height="48"
-              viewBox="0 0 32 32"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect
-                width="32"
-                height="32"
-                rx="8"
-                fill="#FFFFFF"
-                stroke="#E3E8E1"
-                stroke-width="1"
-              ></rect>
-              <!-- Outer Leaf/Bracket -->
-              <path
-                d="M14 8L6 16L14 24"
-                stroke="#A9BBA2"
-                stroke-width="3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                opacity="0.5"
-              ></path>
-              <!-- Inner Leaf/Bracket -->
-              <path
-                d="M18 10L12 16L18 22"
-                stroke="#A9BBA2"
-                stroke-width="3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
-              <!-- Closing Bracket -->
-              <path
-                d="M22 12L26 16L22 20"
-                stroke="#1E2522"
-                stroke-width="3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
-            </svg></div
-        ></a>
+            <img src="images/logo.svg" alt="CabsCode" width="48" height="48" />
+          </div></a>
       </div>
 
       <button class="mobile-toggle" aria-label="Toggle navigation">
@@ -113,9 +76,12 @@
         <a href="/services" class="nav-link">Services</a>
         <a href="/studio" class="nav-link">Studio</a>
         <a href="/journal" class="nav-link">Journal</a>
+        <button class="dark-toggle" id="darkToggle" aria-label="Toggle dark mode"></button>
         <a href="#contactForm" class="contact-btn">Contact</a>
       </div>
     </nav>
+
+    <div class="nav-overlay" id="navOverlay"></div>
 
     <section class="about-banner">
       <div class="banner-inner">
@@ -143,26 +109,44 @@
       <section class="demos">
         <div class="demo-grid">
           <article class="demo-card">
-            <div class="demo-image placeholder-img">Image Placeholder</div>
+            <img
+              src="/images/demos/webapps/raceweather.png"
+              alt="F1 Weekend Weather Dashboard Interface"
+              class="demo-image"
+            />
             <div class="demo-content">
-              <h3>E-Commerce Dashboard</h3>
+              <div class="tech-tags">
+                <span class="tech-tag">JavaScript</span>
+                <span class="tech-tag">API Integration</span>
+              </div>
+              <h3>RaceWeather</h3>
               <p>
-                A responsive admin panel built with modern web technologies.
+                An automated dashboard that pulls real-time weather forecasts
+                and track conditions tailored for Formula 1 race weekends.
               </p>
-              <a href="#" class="demo-link">View Project &rarr;</a>
+              <a href="https://raceweather.cabscode.pro/" target="_blank" class="demo-link">Launch Live App &rarr;</a>
             </div>
           </article>
 
           <article class="demo-card">
-            <div class="demo-image placeholder-img">Image Placeholder</div>
+            <div class="demo-image placeholder-img">Tool Preview</div>
             <div class="demo-content">
-              <h3>Creative Agency</h3>
+              <div class="tech-tags">
+                <span class="tech-tag">HTML/CSS</span>
+              </div>
+              <h3>CSS Box-Shadow Generator</h3>
               <p>
-                An interactive portfolio site focusing on smooth animations.
+                An interactive tool to generate complex box-shadows on the fly
+                with live preview and exportable CSS output.
               </p>
-              <a href="#" class="demo-link">View Project &rarr;</a>
+              <a href="/studio#web-tools" class="demo-link">View in Studio &rarr;</a>
             </div>
           </article>
+        </div>
+
+        <div class="studio-cta">
+          <p>These are just a couple of highlights. Browse the full collection of apps, tools, and concepts.</p>
+          <a href="/studio" class="solid-btn">Visit the Studio &rarr;</a>
         </div>
       </section>
     </main>
@@ -192,6 +176,6 @@
       </div>
     </footer>
 
-    <script src="script.js?v=1.1"></script>
+    <script src="script.js?v=2.0"></script>
   </body>
 </html>

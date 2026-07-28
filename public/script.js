@@ -1,19 +1,58 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // 0. Dark Mode
+  var html = document.documentElement;
+  var darkToggle = document.getElementById("darkToggle");
+
+  function setTheme(theme) {
+    html.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+    if (darkToggle) {
+      darkToggle.textContent = theme === "dark" ? "☀" : "☾";
+    }
+  }
+
+  var saved = localStorage.getItem("theme");
+  if (saved) {
+    setTheme(saved);
+  } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    setTheme("dark");
+  } else {
+    setTheme("light");
+  }
+
+  if (darkToggle) {
+    darkToggle.addEventListener("click", function () {
+      var current = html.getAttribute("data-theme");
+      setTheme(current === "dark" ? "light" : "dark");
+    });
+  }
+
   // 1. Mobile Menu Toggle Logic
   const mobileToggle = document.querySelector(".mobile-toggle");
   const navRight = document.querySelector(".nav-right");
 
+  var navOverlay = document.getElementById("navOverlay");
+
   if (mobileToggle && navRight) {
     mobileToggle.addEventListener("click", () => {
       navRight.classList.toggle("active");
+      if (navOverlay) navOverlay.classList.toggle("visible");
     });
 
     document.addEventListener("click", (e) => {
       if (navRight.classList.contains("active")) {
         if (!navRight.contains(e.target) && !mobileToggle.contains(e.target)) {
           navRight.classList.remove("active");
+          if (navOverlay) navOverlay.classList.remove("visible");
         }
       }
+    });
+  }
+
+  if (navOverlay) {
+    navOverlay.addEventListener("click", function () {
+      navRight.classList.remove("active");
+      navOverlay.classList.remove("visible");
     });
   }
 
@@ -26,6 +65,18 @@ document.addEventListener("DOMContentLoaded", () => {
       parentItem.classList.toggle("active");
     });
   });
+
+  // --- Journal Sidebar Collapse Toggle ---
+  var sidebar = document.querySelector(".sidebar");
+
+  if (sidebar && !window.matchMedia("(max-width: 768px)").matches) {
+    var sidebarToggle = sidebar.querySelector("h3");
+    if (sidebarToggle) {
+      sidebarToggle.addEventListener("click", function () {
+        sidebar.classList.toggle("collapsed");
+      });
+    }
+  }
 
   // --- Mobile Journal Sidebar Drawer Logic ---
   const journalSidebar = document.querySelector(".sidebar");
@@ -62,6 +113,40 @@ document.addEventListener("DOMContentLoaded", () => {
   // 2. Contact Form — JS Component Injection
   initContactForm();
 
+  // 2b. View Transitions API
+  if (document.startViewTransition) {
+    var internalLinks = document.querySelectorAll('a[href^="/"]:not([href*="#"]), a[href^="."]');
+    internalLinks.forEach(function (link) {
+      link.addEventListener("click", function (e) {
+        if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+        e.preventDefault();
+        document.startViewTransition(function () {
+          window.location = link.href;
+        });
+      });
+    });
+  }
+
+  // 2c. Banner mouse-tracking parallax
+  var banner = document.querySelector(".about-banner");
+  if (banner) {
+    banner.addEventListener("mouseenter", function () {
+      banner.style.animationPlayState = "paused";
+    });
+
+    banner.addEventListener("mousemove", function (e) {
+      var rect = banner.getBoundingClientRect();
+      var x = ((e.clientX - rect.left) / rect.width - 0.5) * 16;
+      var y = ((e.clientY - rect.top) / rect.height - 0.5) * 16;
+      banner.style.backgroundPosition = (50 + x) + "% " + (50 + y) + "%";
+    });
+
+    banner.addEventListener("mouseleave", function () {
+      banner.style.backgroundPosition = "";
+      banner.style.animationPlayState = "running";
+    });
+  }
+
   // 3. Hashless Smooth Scrolling for Contact Links
   const contactLinks = document.querySelectorAll('a[href="#contactForm"]');
 
@@ -79,6 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (navRight && navRight.classList.contains("active")) {
           navRight.classList.remove("active");
+          if (navOverlay) navOverlay.classList.remove("visible");
         }
       }
     });
@@ -98,8 +184,10 @@ function initContactForm() {
     '    <input type="text" name="website" tabindex="-1" autocomplete="off" />',
     "  </div>",
     '  <input type="hidden" name="_timestamp" value="' + Date.now() + '" />',
-    '  <input type="email" name="email" placeholder="Your Email" required />',
-    '  <textarea name="message" placeholder="Tell me about your project..." rows="3" required></textarea>',
+    '  <label for="contact-email" class="sr-only">Email</label>',
+    '  <input type="email" name="email" id="contact-email" placeholder="Your Email" required />',
+    '  <label for="contact-message" class="sr-only">Message</label>',
+    '  <textarea name="message" id="contact-message" placeholder="Tell me about your project..." rows="3" required></textarea>',
     '  <div id="turnstile-widget"></div>',
     '  <button type="submit" class="contact-btn">Send Request</button>',
     '  <div id="formStatus" class="form-status" role="alert" aria-live="polite"></div>',
@@ -192,7 +280,7 @@ function attachFormHandler() {
         }
       }
     } catch (_err) {
-      status.textContent = "Network error. Please try again.";
+      status.textContent = "Could not reach the server. If testing locally, the API endpoint is only available in production.";
       status.className = "form-status error";
     }
 
@@ -213,6 +301,11 @@ expandableCards.forEach(function (card) {
       e.preventDefault();
       card.classList.add("is-expanded");
 
+      // Init QR tool if not yet done
+      if (card.id === "qr-tool") {
+        initQRTool(card);
+      }
+
       setTimeout(function () {
         card.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 50);
@@ -224,3 +317,72 @@ expandableCards.forEach(function (card) {
     });
   }
 });
+
+// --- Code Snippet Copy Buttons ---
+var codeBlocks = document.querySelectorAll("pre code");
+codeBlocks.forEach(function (code) {
+  var pre = code.parentElement;
+  var btn = document.createElement("button");
+  btn.className = "copy-btn";
+  btn.textContent = "Copy";
+  pre.appendChild(btn);
+
+  btn.addEventListener("click", function () {
+    var text = code.textContent;
+    navigator.clipboard.writeText(text).then(function () {
+      btn.textContent = "Copied!";
+      btn.classList.add("copied");
+      setTimeout(function () {
+        btn.textContent = "Copy";
+        btn.classList.remove("copied");
+      }, 2000);
+    }).catch(function () {
+      btn.textContent = "Failed";
+      setTimeout(function () {
+        btn.textContent = "Copy";
+      }, 2000);
+    });
+  });
+});
+
+// --- QR Code Generator ---
+function initQRTool(card) {
+  if (card.qrInitialized) return;
+  card.qrInitialized = true;
+
+  var input = card.querySelector("#qr-input");
+  var sizeSelect = card.querySelector("#qr-size");
+  var downloadBtn = card.querySelector("#qr-download");
+  var container = card.querySelector("#qr-code");
+
+  var qr = null;
+
+  function generateQR() {
+    var text = input.value.trim() || "https://cabscode.pro";
+    var size = parseInt(sizeSelect.value, 10);
+    container.innerHTML = "";
+    qr = new QRCode(container, {
+      text: text,
+      width: size,
+      height: size,
+      colorDark: "#1a1a1a",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H,
+    });
+  }
+
+  input.addEventListener("input", generateQR);
+  sizeSelect.addEventListener("change", generateQR);
+
+  downloadBtn.addEventListener("click", function () {
+    var canvas = container.querySelector("canvas");
+    if (canvas) {
+      var link = document.createElement("a");
+      link.download = "qrcode.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    }
+  });
+
+  generateQR();
+}

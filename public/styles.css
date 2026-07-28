@@ -17,7 +17,7 @@
 
   /* ----- Backgrounds ----- */
   --color-bg: #ffffff;
-  --color-bg-body: #babaaf;
+  --color-bg-body: #f4f7f5;
   --color-bg-placeholder: #e9ecef;
   --color-placeholder-text: #adb5bd;
 
@@ -34,12 +34,68 @@
   --shadow-profile: rgba(0, 0, 0, 0.15);
   --shadow-btn-hover: rgba(169, 187, 162, 0.35);
 
-  /* ----- Typography ----- */
+    /* ----- Typography ----- */
   --font-family:
     "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* ----- Layout ----- */
   --navbar-height: 72px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Dark mode
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg: #1a1a1a;
+    --color-bg-body: #121212;
+    --color-text-primary: #e4e4e4;
+    --color-text-secondary: #a0a0a0;
+    --color-text-inverse: #1a1a1a;
+    --color-text-on-dark: #e4e4e4;
+    --color-text-on-dark-muted: rgba(200, 200, 200, 0.9);
+    --color-border: rgba(255, 255, 255, 0.08);
+    --color-bg-placeholder: #2a2a2a;
+    --color-placeholder-text: #666;
+    --shadow-card-hover: rgba(0, 0, 0, 0.3);
+    --color-banner-gradient-1: #2a2a2a;
+    --color-banner-gradient-2: #1a1a1a;
+    --color-banner-gradient-3: #252535;
+  }
+}
+
+[data-theme="dark"] {
+  --color-bg: #1a1a1a;
+  --color-bg-body: #121212;
+  --color-text-primary: #e4e4e4;
+  --color-text-secondary: #a0a0a0;
+  --color-text-inverse: #1a1a1a;
+  --color-text-on-dark: #e4e4e4;
+  --color-text-on-dark-muted: rgba(200, 200, 200, 0.9);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-bg-placeholder: #2a2a2a;
+  --color-placeholder-text: #666;
+  --shadow-card-hover: rgba(0, 0, 0, 0.3);
+  --color-banner-gradient-1: #2a2a2a;
+  --color-banner-gradient-2: #1a1a1a;
+  --color-banner-gradient-3: #252535;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* ==========================================================================
@@ -111,6 +167,26 @@ nav {
   display: flex;
   align-items: center;
   gap: 36px;
+}
+
+.dark-toggle {
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dark-toggle:hover {
+  background-color: var(--color-primary);
+  color: var(--color-text-inverse);
 }
 
 .nav-link {
@@ -318,17 +394,23 @@ main {
   border: 1px solid var(--color-border);
   border-radius: 12px;
   overflow: hidden;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: border-color 0.2s ease;
 }
 
 .demo-card:hover {
-  box-shadow: 0 12px 24px var(--shadow-card-hover);
+  border-color: var(--color-primary);
+}
+
+.demo-image {
+  margin: 12px 12px 0 12px;
+  width: calc(100% - 24px);
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 1px solid var(--color-border);
 }
 
 .placeholder-img {
-  height: 200px;
   background-color: var(--color-bg-placeholder);
   display: flex;
   align-items: center;
@@ -410,6 +492,8 @@ footer {
   border-radius: 8px;
   font-family: inherit;
   font-size: 0.95rem;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
 }
 
 .footer-form input:focus,
@@ -445,6 +529,71 @@ footer {
   border-top: 1px solid var(--color-border);
   color: var(--color-text-secondary);
   font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   Solid Action Buttons
+   ========================================================================== */
+.solid-btn {
+  background-color: #077d4a;
+  color: #ffffff !important;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  display: inline-block;
+}
+
+.solid-btn:hover {
+  background-color: #59744f;
+}
+
+.wip-btn {
+  background-color: #9e9e9e;
+  cursor: default;
+  opacity: 0.7;
+}
+
+.wip-btn:hover {
+  background-color: #9e9e9e;
+}
+
+/* ==========================================================================
+   Mobile nav backdrop
+   ========================================================================== */
+.nav-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.nav-overlay.visible {
+  display: block;
+}
+
+/* ==========================================================================
+   Studio CTA — Homepage
+   ========================================================================== */
+.studio-cta {
+  text-align: center;
+  margin-top: 48px;
+  padding: 40px 24px;
+  border-top: 1px solid var(--color-border);
+}
+
+.studio-cta p {
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  margin-bottom: 20px;
+  line-height: 1.5;
 }
 
 /* ==========================================================================

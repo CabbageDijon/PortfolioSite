@@ -9,8 +9,11 @@
     />
     <title>CabsCode | Journal</title>
     <link rel="icon" href="images/favicon.png" />
-    <link rel="stylesheet" href="styles.css?v=1.2" />
-    <link rel="stylesheet" href="journal.css?v=1.2" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css?v=2.0" />
+    <link rel="stylesheet" href="journal.css?v=2.0" />
     <link rel="canonical" href="https://cabscode.pro/journal" />
     <meta property="og:type" content="blog" />
     <meta property="og:url" content="https://cabscode.pro/journal" />
@@ -19,54 +22,15 @@
     <meta property="og:image" content="https://cabscode.pro/images/me.png" />
     <meta property="og:locale" content="en_BW" />
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
   </head>
   <body>
     <nav>
       <div class="nav-left">
         <a href="/" class="logo" aria-label="Home">
           <div class="logo">
-            <svg
-              width="48"
-              height="48"
-              viewBox="0 0 32 32"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect
-                width="32"
-                height="32"
-                rx="8"
-                fill="#FFFFFF"
-                stroke="#E3E8E1"
-                stroke-width="1"
-              ></rect>
-              <!-- Outer Leaf/Bracket -->
-              <path
-                d="M14 8L6 16L14 24"
-                stroke="#A9BBA2"
-                stroke-width="3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                opacity="0.5"
-              ></path>
-              <!-- Inner Leaf/Bracket -->
-              <path
-                d="M18 10L12 16L18 22"
-                stroke="#A9BBA2"
-                stroke-width="3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
-              <!-- Closing Bracket -->
-              <path
-                d="M22 12L26 16L22 20"
-                stroke="#1E2522"
-                stroke-width="3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
-            </svg></div
-        ></a>
+            <img src="images/logo.svg" alt="CabsCode" width="48" height="48" />
+          </div></a>
       </div>
 
       <button class="mobile-toggle" aria-label="Toggle navigation">
@@ -80,9 +44,12 @@
         <a href="/services" class="nav-link">Services</a>
         <a href="/studio" class="nav-link">Studio</a>
         <a href="#" class="nav-link active">Journal</a>
+        <button class="dark-toggle" id="darkToggle" aria-label="Toggle dark mode"></button>
         <a href="#contactForm" class="contact-btn">Contact</a>
       </div>
     </nav>
+
+    <div class="nav-overlay" id="navOverlay"></div>
 
     <!-- MOBILE SIDEBAR TOGGLE -->
     <button id="journalSidebarToggle" class="journal-sidebar-toggle">
@@ -102,9 +69,7 @@
             <li>
               <a href="/articles/zorin-os">Migrating to Zorin OS</a>
             </li>
-            <li>
-              <a href="/articles/bug-fix">Game Bug Fix</a>
-            </li>
+
           </ul>
         </li>
 
@@ -177,6 +142,7 @@
       </div>
     </footer>
 
-    <script src="script.js?v=1.1"></script>
+    <script src="script.js?v=2.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   </body>
 </html>

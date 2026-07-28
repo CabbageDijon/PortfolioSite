@@ -1,5 +1,5 @@
 body {
-  background-color: aliceblue;
+  background-color: #f4f7f5;
 }
 .sidebar {
   position: fixed;
@@ -23,7 +23,7 @@ body {
   padding: 40px;
   margin-top: 40px;
   color: var(--color-text-primary);
-  background-color: rgb(211, 220, 227);
+  background-color: #ffffff;
 }
 
 .accordion-menu {
@@ -145,17 +145,71 @@ body {
 pre {
   background-color: #222125;
   color: #f8f6f2;
-  padding: 16px;
+  padding: 20px 16px 16px;
   border-radius: 8px;
   overflow-x: auto;
   font-family: "Courier New", Courier, monospace;
   margin: 32px 0;
   font-size: 0.95rem;
+  position: relative;
+}
+
+pre .copy-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: inherit;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+pre .copy-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+pre .copy-btn.copied {
+  background: #077d4a;
+  color: #fff;
 }
 
 /* --- Mobile Sidebar Toggle Button (Hidden on Desktop) --- */
 .journal-sidebar-toggle {
   display: none;
+}
+
+/* ==========================================================================
+   Sidebar collapse toggle
+   ========================================================================== */
+.sidebar.collapsed {
+  width: 60px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.sidebar.collapsed h3 {
+  font-size: 0;
+  height: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.sidebar.collapsed .accordion-content {
+  display: none;
+}
+
+.sidebar.collapsed .accordion-toggle span {
+  font-size: 1.2rem;
+}
+
+.sidebar.collapsed .accordion-menu {
+  margin-top: 0;
 }
 
 /* --- Mobile Responsiveness --- */

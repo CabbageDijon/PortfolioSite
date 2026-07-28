@@ -9,8 +9,11 @@
     />
     <title>CabsCode | Services</title>
     <link rel="icon" href="images/favicon.png" />
-    <link rel="stylesheet" href="styles.css?v=1.2" />
-    <link rel="stylesheet" href="services.css?v=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css?v=2.0" />
+    <link rel="stylesheet" href="services.css?v=2.0" />
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   </head>
   <body>
@@ -18,48 +21,8 @@
       <div class="nav-left">
         <a href="/" class="logo" aria-label="Home">
           <div class="logo">
-            <svg
-              width="48"
-              height="48"
-              viewBox="0 0 32 32"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect
-                width="32"
-                height="32"
-                rx="8"
-                fill="#FFFFFF"
-                stroke="#E3E8E1"
-                stroke-width="1"
-              ></rect>
-              <!-- Outer Leaf/Bracket -->
-              <path
-                d="M14 8L6 16L14 24"
-                stroke="#A9BBA2"
-                stroke-width="3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                opacity="0.5"
-              ></path>
-              <!-- Inner Leaf/Bracket -->
-              <path
-                d="M18 10L12 16L18 22"
-                stroke="#A9BBA2"
-                stroke-width="3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
-              <!-- Closing Bracket -->
-              <path
-                d="M22 12L26 16L22 20"
-                stroke="#1E2522"
-                stroke-width="3"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
-            </svg></div
-        ></a>
+            <img src="images/logo.svg" alt="CabsCode" width="48" height="48" />
+          </div></a>
       </div>
 
       <button class="mobile-toggle" aria-label="Toggle navigation">
@@ -73,9 +36,12 @@
         <a href="#" class="nav-link active">Services</a>
         <a href="/studio" class="nav-link">Studio</a>
         <a href="/journal" class="nav-link">Journal</a>
+        <button class="dark-toggle" id="darkToggle" aria-label="Toggle dark mode"></button>
         <a href="#contactForm" class="contact-btn">Contact</a>
       </div>
     </nav>
+
+    <div class="nav-overlay" id="navOverlay"></div>
 
     <main>
       <header class="hero">
@@ -105,29 +71,6 @@
             <li>Admin dashboards &amp; panels</li>
             <li>Single-page applications</li>
             <li>E-commerce solutions</li>
-          </ul>
-        </article>
-
-        <article class="service-card">
-          <div class="service-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
-              <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
-              <line x1="6" y1="6" x2="6.01" y2="6"></line>
-              <line x1="6" y1="18" x2="6.01" y2="18"></line>
-            </svg>
-          </div>
-          <h3>Web Hosting</h3>
-          <p>
-            Reliable hosting for Botswana businesses. I handle deployment,
-            SSL certificates, domain setup, and ongoing maintenance so you can
-            focus on running your business.
-          </p>
-          <ul class="service-details">
-            <li>Domain registration &amp; DNS</li>
-            <li>SSL certificate setup</li>
-            <li>Automated deployments</li>
-            <li>Ongoing maintenance &amp; updates</li>
           </ul>
         </article>
 
@@ -181,6 +124,7 @@
           Get in touch through the form below to discuss your project. Whether
           you need a full website or just a quick tool, I can help.
         </p>
+        <a href="#contactForm" class="solid-btn">Get in Touch ↓</a>
       </section>
     </main>
 
@@ -209,6 +153,6 @@
       </div>
     </footer>
 
-    <script src="script.js?v=1.1"></script>
+    <script src="script.js?v=2.0"></script>
   </body>
 </html>
