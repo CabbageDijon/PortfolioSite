@@ -11,17 +11,33 @@
     <link rel="icon" href="images/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=2.0" />
-    <link rel="stylesheet" href="studio.css?v=2.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css?v=2.1" />
+    <link rel="stylesheet" href="studio.css?v=2.1" />
     <link rel="canonical" href="https://cabscode.pro/studio" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://cabscode.pro/studio" />
-    <meta property="og:title" content="CabsCode | Studio & Projects Portfolio" />
-    <meta property="og:description" content="A curated gallery of live web apps, developer tools, and client design concepts." />
-    <meta property="og:image" content="https://cabscode.pro/images/demos/webapps/raceweather.png" />
+    <meta
+      property="og:title"
+      content="CabsCode | Studio & Projects Portfolio"
+    />
+    <meta
+      property="og:description"
+      content="A curated gallery of live web apps, developer tools, and client design concepts."
+    />
+    <meta
+      property="og:image"
+      content="https://cabscode.pro/images/demos/webapps/raceweather.png"
+    />
     <meta property="og:locale" content="en_BW" />
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+      async
+      defer
+    ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   </head>
   <body>
@@ -29,8 +45,13 @@
       <div class="nav-left">
         <a href="/" class="logo" aria-label="Home">
           <div class="logo">
-            <img src="images/logo.svg" alt="CabsCode" width="48" height="48" />
-          </div></a>
+            <img
+              src="images/logo.svg"
+              alt="CabsCode"
+              width="48"
+              height="48"
+            /></div
+        ></a>
       </div>
 
       <button class="mobile-toggle" aria-label="Toggle navigation">
@@ -44,7 +65,11 @@
         <a href="/services" class="nav-link">Services</a>
         <a href="#" class="nav-link active">Studio</a>
         <a href="/journal" class="nav-link">Journal</a>
-        <button class="dark-toggle" id="darkToggle" aria-label="Toggle dark mode"></button>
+        <button
+          class="dark-toggle"
+          id="darkToggle"
+          aria-label="Toggle dark mode"
+        ></button>
         <a href="#contactForm" class="contact-btn">Contact</a>
       </div>
     </nav>
@@ -97,7 +122,12 @@
                   class="solid-btn"
                   >Launch Live App ↗</a
                 >
-                <a href="https://github.com/CabbageDijon" target="_blank" class="source-link">Source Code</a>
+                <a
+                  href="https://github.com/CabbageDijon"
+                  target="_blank"
+                  class="source-link"
+                  >Source Code</a
+                >
               </div>
             </div>
           </article>
@@ -225,8 +255,8 @@
                 </div>
                 <h3>QR Code Generator</h3>
                 <p>
-                  Generate custom QR codes from any URL or text. Adjust size
-                  and download as PNG.
+                  Generate custom QR codes from any URL or text. Adjust size and
+                  download as PNG.
                 </p>
                 <div class="card-actions">
                   <button class="solid-btn expand-btn">Run Tool Here ↓</button>
@@ -239,23 +269,77 @@
                 <h3>QR Code Generator</h3>
                 <button class="close-btn">Close Tool ✕</button>
               </div>
-              <div class="workspace-content" style="padding: 32px;">
+              <div class="workspace-content" style="padding: 32px">
                 <div class="qr-tool-layout">
                   <div class="qr-tool-controls">
-                    <label for="qr-input" style="display: block; font-weight: 600; margin-bottom: 8px;">URL or Text</label>
-                    <input type="text" id="qr-input" value="https://cabscode.pro" style="width: 100%; padding: 12px; border: 1px solid var(--color-border); border-radius: 8px; font-family: inherit; font-size: 1rem; margin-bottom: 16px;" />
+                    <label
+                      for="qr-input"
+                      style="
+                        display: block;
+                        font-weight: 600;
+                        margin-bottom: 8px;
+                      "
+                      >URL or Text</label
+                    >
+                    <input
+                      type="text"
+                      id="qr-input"
+                      value="https://cabscode.pro"
+                      style="
+                        width: 100%;
+                        padding: 12px;
+                        border: 1px solid var(--color-border);
+                        border-radius: 8px;
+                        font-family: inherit;
+                        font-size: 1rem;
+                        margin-bottom: 16px;
+                      "
+                    />
 
-                    <label for="qr-size" style="display: block; font-weight: 600; margin-bottom: 8px;">Size</label>
-                    <select id="qr-size" style="width: 100%; padding: 12px; border: 1px solid var(--color-border); border-radius: 8px; font-family: inherit; font-size: 1rem; margin-bottom: 24px;">
+                    <label
+                      for="qr-size"
+                      style="
+                        display: block;
+                        font-weight: 600;
+                        margin-bottom: 8px;
+                      "
+                      >Size</label
+                    >
+                    <select
+                      id="qr-size"
+                      style="
+                        width: 100%;
+                        padding: 12px;
+                        border: 1px solid var(--color-border);
+                        border-radius: 8px;
+                        font-family: inherit;
+                        font-size: 1rem;
+                        margin-bottom: 24px;
+                      "
+                    >
                       <option value="128">Small (128×128)</option>
                       <option value="256" selected>Medium (256×256)</option>
                       <option value="512">Large (512×512)</option>
                       <option value="1024">X-Large (1024×1024)</option>
                     </select>
 
-                    <button id="qr-download" class="solid-btn" style="width: 100%;">Download PNG</button>
+                    <button
+                      id="qr-download"
+                      class="solid-btn"
+                      style="width: 100%"
+                    >
+                      Download PNG
+                    </button>
                   </div>
-                  <div class="qr-tool-preview" style="display: flex; align-items: center; justify-content: center; min-height: 280px;">
+                  <div
+                    class="qr-tool-preview"
+                    style="
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      min-height: 280px;
+                    "
+                  >
                     <div id="qr-code"></div>
                   </div>
                 </div>
@@ -303,7 +387,13 @@
       <div class="footer-container">
         <div class="footer-col">
           <h4>Connect</h4>
-          <a href="https://www.linkedin.com/in/tema-bown-2441b73a3/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">LinkedIn</a>
+          <a
+            href="https://www.linkedin.com/in/tema-bown-2441b73a3/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn Profile"
+            >LinkedIn</a
+          >
           <a href="https://github.com/CabbageDijon" target="_blank">GitHub</a>
           <a href="mailto:bowntema@gmail.com">Gmail</a>
         </div>
@@ -324,6 +414,6 @@
       </div>
     </footer>
 
-    <script src="script.js?v=2.0"></script>
+    <script src="script.js?v=2.1"></script>
   </body>
 </html>

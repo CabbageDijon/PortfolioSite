@@ -9,7 +9,7 @@
     />
     <title>CabsCode | Design Showcase</title>
     <link rel="icon" href="images/favicon.png" />
-    <link rel="stylesheet" href="styles.css?v=2.0" />
+    <link rel="stylesheet" href="styles.css?v=2.1" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -21,7 +21,11 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+      async
+      defer
+    ></script>
     <style>
       /* ==========================================================================
          Showcase Page — Demo-specific styles
@@ -170,7 +174,10 @@
         font-weight: 600;
         cursor: pointer;
         text-decoration: none;
-        transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        transition:
+          background-color 0.3s ease,
+          transform 0.2s ease,
+          box-shadow 0.3s ease;
       }
 
       .close-btn-old {
@@ -203,7 +210,7 @@
       }
 
       .close-btn-old.strikethrough::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 50%;
         left: -4px;
@@ -223,7 +230,9 @@
         border-radius: 8px;
         border: none;
         cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
+        transition:
+          background-color 0.3s ease,
+          transform 0.2s ease;
         display: inline-block;
       }
 
@@ -270,7 +279,9 @@
         border: 1px solid var(--color-border);
         border-radius: 12px;
         overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
         cursor: default;
       }
 
@@ -356,8 +367,13 @@
       }
 
       @keyframes badge-pulse {
-        0%, 100% { box-shadow: 0 0 0 0 rgba(7, 125, 74, 0.4); }
-        50% { box-shadow: 0 0 0 8px rgba(7, 125, 74, 0); }
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(7, 125, 74, 0.4);
+        }
+        50% {
+          box-shadow: 0 0 0 8px rgba(7, 125, 74, 0);
+        }
       }
 
       .showcase-card .card-body {
@@ -582,7 +598,7 @@
         padding: 16px;
         border-radius: 8px;
         overflow-x: auto;
-        font-family: 'Courier New', Courier, monospace;
+        font-family: "Courier New", Courier, monospace;
         font-size: 0.9rem;
         line-height: 1.5;
       }
@@ -591,8 +607,8 @@
         position: absolute;
         top: 8px;
         right: 8px;
-        background: rgba(255,255,255,0.1);
-        border: 1px solid rgba(255,255,255,0.15);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.15);
         color: #ccc;
         font-family: Inter, sans-serif;
         font-size: 0.75rem;
@@ -601,7 +617,9 @@
         border-radius: 6px;
         cursor: pointer;
         opacity: 0;
-        transition: opacity 0.2s ease, background 0.2s ease;
+        transition:
+          opacity 0.2s ease,
+          background 0.2s ease;
         z-index: 2;
       }
 
@@ -610,7 +628,7 @@
       }
 
       .copy-btn:hover {
-        background: rgba(255,255,255,0.2);
+        background: rgba(255, 255, 255, 0.2);
         color: #fff;
       }
 
@@ -649,7 +667,9 @@
         max-height: 0;
         opacity: 0;
         overflow: hidden;
-        transition: max-height 0.4s ease, opacity 0.3s ease;
+        transition:
+          max-height 0.4s ease,
+          opacity 0.3s ease;
         background: #faf8f5;
       }
 
@@ -739,7 +759,9 @@
       .dark-preview {
         border-radius: 12px;
         padding: 24px;
-        transition: background-color 0.3s ease, color 0.3s ease;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
         border: 1px solid var(--color-border);
       }
 
@@ -749,9 +771,15 @@
         border-color: #333;
       }
 
-      .dark-preview.is-dark h4 { color: #e4e4e4; }
-      .dark-preview.is-dark p { color: #aaa; }
-      .dark-preview.is-dark .meta { color: #888; }
+      .dark-preview.is-dark h4 {
+        color: #e4e4e4;
+      }
+      .dark-preview.is-dark p {
+        color: #aaa;
+      }
+      .dark-preview.is-dark .meta {
+        color: #888;
+      }
 
       .dark-preview .meta {
         font-size: 0.8rem;
@@ -876,7 +904,7 @@
       }
 
       .mono {
-        font-family: 'Courier New', Courier, monospace;
+        font-family: "Courier New", Courier, monospace;
         font-size: 0.85rem;
       }
 
@@ -974,12 +1002,12 @@
 
     <main>
       <!-- Intro -->
-      <header class="hero" style="margin-bottom: 60px;">
+      <header class="hero" style="margin-bottom: 60px">
         <h1>Design Showcase</h1>
         <p>
           Live demos of all 27 recommended UI/design changes for the CabsCode
-          Portfolio Site. Each section shows <strong>before</strong> (current code)
-          and <strong>after</strong> (proposed fix) side by side.
+          Portfolio Site. Each section shows <strong>before</strong> (current
+          code) and <strong>after</strong> (proposed fix) side by side.
         </p>
       </header>
 
@@ -995,22 +1023,55 @@
         <div class="comparison-grid">
           <!-- Before panel -->
           <div class="comparison-panel">
-            <div class="panel-label before">BEFORE &mdash; Current site code</div>
-            <div class="panel-body dark-panel" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-              <p style="margin-bottom: 8px; color: #ccc;">
-                <strong>Current:</strong> <span class="mono" style="background:#333; color:#f8f6f2;">font-family</span> falls
-                through to system fonts because Inter is referenced but never imported.
+            <div class="panel-label before">
+              BEFORE &mdash; Current site code
+            </div>
+            <div
+              class="panel-body dark-panel"
+              style="
+                font-family:
+                  -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;,
+                  Roboto, sans-serif;
+              "
+            >
+              <p style="margin-bottom: 8px; color: #ccc">
+                <strong>Current:</strong>
+                <span class="mono" style="background: #333; color: #f8f6f2"
+                  >font-family</span
+                >
+                falls through to system fonts because Inter is referenced but
+                never imported.
               </p>
-              <p style="font-size: 1.6rem; font-weight: 700; margin-bottom: 4px; color: #f8f6f2;">
+              <p
+                style="
+                  font-size: 1.6rem;
+                  font-weight: 700;
+                  margin-bottom: 4px;
+                  color: #f8f6f2;
+                "
+              >
                 Heading sample
               </p>
-              <p style="font-size: 1.05rem; color: #aaa; margin-bottom: 12px;">
-                Body text rendered in the system fallback stack. No Inter in sight.
+              <p style="font-size: 1.05rem; color: #aaa; margin-bottom: 12px">
+                Body text rendered in the system fallback stack. No Inter in
+                sight.
               </p>
-              <p style="font-size: 0.85rem; color: #888;">
-                <code style="background:#333; padding:2px 6px; border-radius:4px;">styles.css:38-39</code>
-                references Inter but no <code style="background:#333; padding:2px 6px; border-radius:4px;">@import</code>
-                or <code style="background:#333; padding:2px 6px; border-radius:4px;">&lt;link&gt;</code> loads it.
+              <p style="font-size: 0.85rem; color: #888">
+                <code
+                  style="background: #333; padding: 2px 6px; border-radius: 4px"
+                  >styles.css:38-39</code
+                >
+                references Inter but no
+                <code
+                  style="background: #333; padding: 2px 6px; border-radius: 4px"
+                  >@import</code
+                >
+                or
+                <code
+                  style="background: #333; padding: 2px 6px; border-radius: 4px"
+                  >&lt;link&gt;</code
+                >
+                loads it.
               </p>
             </div>
           </div>
@@ -1018,19 +1079,42 @@
           <!-- After panel -->
           <div class="comparison-panel">
             <div class="panel-label after">AFTER &mdash; Proposed fix</div>
-            <div class="panel-body dark-panel" style="font-family: 'Inter', sans-serif;">
-              <p style="margin-bottom: 8px; color: #ccc;">
-                <strong>Fix:</strong> Google Fonts <span class="mono" style="background:#333; color:#f8f6f2;">&lt;link&gt;</span>
-                added to <span class="mono" style="background:#333; color:#f8f6f2;">&lt;head&gt;</span> loads Inter at 400/500/600/700.
+            <div
+              class="panel-body dark-panel"
+              style="font-family: &quot;Inter&quot;, sans-serif"
+            >
+              <p style="margin-bottom: 8px; color: #ccc">
+                <strong>Fix:</strong> Google Fonts
+                <span class="mono" style="background: #333; color: #f8f6f2"
+                  >&lt;link&gt;</span
+                >
+                added to
+                <span class="mono" style="background: #333; color: #f8f6f2"
+                  >&lt;head&gt;</span
+                >
+                loads Inter at 400/500/600/700.
               </p>
-              <p style="font-size: 1.6rem; font-weight: 700; margin-bottom: 4px; color: #f8f6f2;">
+              <p
+                style="
+                  font-size: 1.6rem;
+                  font-weight: 700;
+                  margin-bottom: 4px;
+                  color: #f8f6f2;
+                "
+              >
                 Heading sample
               </p>
-              <p style="font-size: 1.05rem; color: #aaa; margin-bottom: 12px;">
-                Body text now rendered in Inter. Notice the cleaner letterforms and better vertical rhythm.
+              <p style="font-size: 1.05rem; color: #aaa; margin-bottom: 12px">
+                Body text now rendered in Inter. Notice the cleaner letterforms
+                and better vertical rhythm.
               </p>
-              <p style="font-size: 0.85rem; color: #888;">
-                <code style="background:#333; padding:2px 6px; border-radius:4px;">&lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"&gt;</code>
+              <p style="font-size: 0.85rem; color: #888">
+                <code
+                  style="background: #333; padding: 2px 6px; border-radius: 4px"
+                  >&lt;link
+                  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+                  rel="stylesheet"&gt;</code
+                >
               </p>
             </div>
           </div>
@@ -1039,48 +1123,125 @@
         <!-- Body background toggle + Journal colour -->
         <div class="compare-row">
           <div class="compare-item">
-            <span class="mini-label mini-before">CURRENT &mdash; Body background</span>
-            <div style="padding: 16px; border-radius: 8px; border: 1px solid var(--color-border); background: #babaaf;">
-              <code style="background:rgba(0,0,0,0.1); padding:2px 6px; border-radius:4px;">--color-bg-body: #babaaf</code>
-              <p style="margin-top: 8px; font-size: 0.9rem; color: #3c3a3a;">
+            <span class="mini-label mini-before"
+              >CURRENT &mdash; Body background</span
+            >
+            <div
+              style="
+                padding: 16px;
+                border-radius: 8px;
+                border: 1px solid var(--color-border);
+                background: #babaaf;
+              "
+            >
+              <code
+                style="
+                  background: rgba(0, 0, 0, 0.1);
+                  padding: 2px 6px;
+                  border-radius: 4px;
+                "
+                >--color-bg-body: #babaaf</code
+              >
+              <p style="margin-top: 8px; font-size: 0.9rem; color: #3c3a3a">
                 Muted warm gray-beige. Feels slightly dull and heavy.
               </p>
             </div>
           </div>
 
           <div class="compare-item">
-            <span class="mini-label mini-after">RECOMMENDED &mdash; Body background</span>
-            <div style="padding: 16px; border-radius: 8px; border: 1px solid var(--color-border); background: #f0f2ef;">
-              <code style="background:rgba(0,0,0,0.08); padding:2px 6px; border-radius:4px;">--color-bg-body: #f0f2ef</code>
-              <p style="margin-top: 8px; font-size: 0.9rem; color: #3c3a3a;">
-                Lighter warm neutral. White cards pop more; feels airier and more modern.
+            <span class="mini-label mini-after"
+              >RECOMMENDED &mdash; Body background</span
+            >
+            <div
+              style="
+                padding: 16px;
+                border-radius: 8px;
+                border: 1px solid var(--color-border);
+                background: #f0f2ef;
+              "
+            >
+              <code
+                style="
+                  background: rgba(0, 0, 0, 0.08);
+                  padding: 2px 6px;
+                  border-radius: 4px;
+                "
+                >--color-bg-body: #f0f2ef</code
+              >
+              <p style="margin-top: 8px; font-size: 0.9rem; color: #3c3a3a">
+                Lighter warm neutral. White cards pop more; feels airier and
+                more modern.
               </p>
             </div>
           </div>
         </div>
 
-        <div style="margin-bottom: var(--space-sm);">
-          <button class="toggle-btn" onclick="toggleBodyBg()">Toggle body background</button>
-          <span id="bg-status" style="font-size: 0.85rem; color: var(--color-text-secondary); margin-left: 12px;">Current: #f0f2ef</span>
+        <div style="margin-bottom: var(--space-sm)">
+          <button class="toggle-btn" onclick="toggleBodyBg()">
+            Toggle body background
+          </button>
+          <span
+            id="bg-status"
+            style="
+              font-size: 0.85rem;
+              color: var(--color-text-secondary);
+              margin-left: 12px;
+            "
+            >Current: #f0f2ef</span
+          >
         </div>
 
         <div class="compare-row">
           <div class="compare-item">
-            <span class="mini-label mini-before">CURRENT &mdash; Journal page</span>
-            <div style="padding: 16px; border-radius: 8px; border: 1px solid var(--color-border); background: aliceblue;">
-              <code style="background:rgba(0,0,0,0.08); padding:2px 6px; border-radius:4px;">journal.css:2 &rarr; aliceblue</code>
-              <p style="margin-top: 8px; font-size: 0.9rem; color: #3c3a3a;">
-                Cool blue tone clashes with the warm sage/stone palette used on every other page.
+            <span class="mini-label mini-before"
+              >CURRENT &mdash; Journal page</span
+            >
+            <div
+              style="
+                padding: 16px;
+                border-radius: 8px;
+                border: 1px solid var(--color-border);
+                background: aliceblue;
+              "
+            >
+              <code
+                style="
+                  background: rgba(0, 0, 0, 0.08);
+                  padding: 2px 6px;
+                  border-radius: 4px;
+                "
+                >journal.css:2 &rarr; aliceblue</code
+              >
+              <p style="margin-top: 8px; font-size: 0.9rem; color: #3c3a3a">
+                Cool blue tone clashes with the warm sage/stone palette used on
+                every other page.
               </p>
             </div>
           </div>
 
           <div class="compare-item">
-            <span class="mini-label mini-after">RECOMMENDED &mdash; Journal page</span>
-            <div style="padding: 16px; border-radius: 8px; border: 1px solid var(--color-border); background: #f0f2ef;">
-              <code style="background:rgba(0,0,0,0.08); padding:2px 6px; border-radius:4px;">body { background: #f0f2ef; }</code>
-              <p style="margin-top: 8px; font-size: 0.9rem; color: #3c3a3a;">
-                Uses the same warm neutral as the rest of the site. Consistent, cohesive brand feel.
+            <span class="mini-label mini-after"
+              >RECOMMENDED &mdash; Journal page</span
+            >
+            <div
+              style="
+                padding: 16px;
+                border-radius: 8px;
+                border: 1px solid var(--color-border);
+                background: #f0f2ef;
+              "
+            >
+              <code
+                style="
+                  background: rgba(0, 0, 0, 0.08);
+                  padding: 2px 6px;
+                  border-radius: 4px;
+                "
+                >body { background: #f0f2ef; }</code
+              >
+              <p style="margin-top: 8px; font-size: 0.9rem; color: #3c3a3a">
+                Uses the same warm neutral as the rest of the site. Consistent,
+                cohesive brand feel.
               </p>
             </div>
           </div>
@@ -1093,15 +1254,23 @@
                     #23 (Aspect ratios), #24 (Styled placeholders)
              ======================================================================== -->
       <section class="showcase-section">
-        <span class="section-badge">#9 &middot; #11 &middot; #22 &middot; #23 &middot; #24</span>
+        <span class="section-badge"
+          >#9 &middot; #11 &middot; #22 &middot; #23 &middot; #24</span
+        >
         <h2>Interactive Card Components</h2>
-        <p>Improved card hover effects, CSS-based tech tags, status badges, aspect ratios, and styled gradient placeholders.</p>
+        <p>
+          Improved card hover effects, CSS-based tech tags, status badges,
+          aspect ratios, and styled gradient placeholders.
+        </p>
 
         <div class="showcase-grid">
           <!-- Card 1: Live with real image -->
           <div class="showcase-card">
             <div class="card-image">
-              <img src="/images/demos/webapps/raceweather.png" alt="RaceWeather dashboard" />
+              <img
+                src="/images/demos/webapps/raceweather.png"
+                alt="RaceWeather dashboard"
+              />
               <span class="status-badge live">Live</span>
             </div>
             <div class="card-body">
@@ -1110,7 +1279,10 @@
                 <span class="tech-tag-demo api">API Integration</span>
               </div>
               <h3>RaceWeather</h3>
-              <p>Real-time F1 weekend weather dashboard. Live badge pulses with a soft glow animation.</p>
+              <p>
+                Real-time F1 weekend weather dashboard. Live badge pulses with a
+                soft glow animation.
+              </p>
             </div>
           </div>
 
@@ -1125,7 +1297,10 @@
                 <span class="tech-tag-demo react">React</span>
               </div>
               <h3>Secret Sauce SaaS</h3>
-              <p>Full stack beta build. Gradient placeholder replaces the old grey box.</p>
+              <p>
+                Full stack beta build. Gradient placeholder replaces the old
+                grey box.
+              </p>
             </div>
           </div>
 
@@ -1141,7 +1316,10 @@
                 <span class="tech-tag-demo ts">TypeScript</span>
               </div>
               <h3>RepoTicket</h3>
-              <p>IT ticket system. Hover to see the card lift and image scale effect.</p>
+              <p>
+                IT ticket system. Hover to see the card lift and image scale
+                effect.
+              </p>
             </div>
           </div>
 
@@ -1156,7 +1334,10 @@
                 <span class="tech-tag-demo css">WIP</span>
               </div>
               <h3>PassPro</h3>
-              <p>Credential management tool in early planning. Hover to see the full card lift effect.</p>
+              <p>
+                Credential management tool in early planning. Hover to see the
+                full card lift effect.
+              </p>
             </div>
           </div>
         </div>
@@ -1169,27 +1350,30 @@
               <strong>Aspect ratio:</strong> Current
               <span class="mono">studio.css:84</span> uses
               <span class="mono">height: 220px</span>. Cards now use
-              <span class="mono">aspect-ratio: 16 / 9</span> for consistent proportions.
+              <span class="mono">aspect-ratio: 16 / 9</span> for consistent
+              proportions.
             </li>
             <li>
               <strong>Card hover:</strong> Current
-              <span class="mono">styles.css:326-328</span> only adds shadow. Cards now lift
-              <span class="mono">translateY(-4px)</span> + image scales
-              <span class="mono">scale(1.03)</span>.
+              <span class="mono">styles.css:326-328</span> only adds shadow.
+              Cards now lift <span class="mono">translateY(-4px)</span> + image
+              scales <span class="mono">scale(1.03)</span>.
             </li>
             <li>
               <strong>Tech tags:</strong> Current
               <span class="mono">studio.html:116</span> uses inline
-              <span class="mono">style="background: #f7df1e"</span>. Now defined as CSS classes
-              (<span class="mono">.tech-tag-demo.js</span>, <span class="mono">.react</span>, etc.).
+              <span class="mono">style="background: #f7df1e"</span>. Now defined
+              as CSS classes (<span class="mono">.tech-tag-demo.js</span>,
+              <span class="mono">.react</span>, etc.).
             </li>
             <li>
-              <strong>Placeholders:</strong> Current grey boxes with "App 2 Image" text. Replaced with unique
-              gradient backgrounds + centered emoji icon.
+              <strong>Placeholders:</strong> Current grey boxes with "App 2
+              Image" text. Replaced with unique gradient backgrounds + centered
+              emoji icon.
             </li>
             <li>
-              <strong>Status badges:</strong> New feature &mdash; coloured badge on the top-right with pulse
-              animation on Live badges.
+              <strong>Status badges:</strong> New feature &mdash; coloured badge
+              on the top-right with pulse animation on Live badges.
             </li>
           </ul>
         </div>
@@ -1206,30 +1390,65 @@
 
         <div class="compare-row">
           <div class="compare-item">
-            <span class="mini-label mini-before">CURRENT &mdash; Close button</span>
-            <div style="padding: 16px; border-radius: 8px; border: 1px solid var(--color-border); background: #fff;">
-              <code style="font-size:0.8rem;">studio.css:172 &rarr; background: red</code>
-              <div style="margin-top: 12px;">
-                <button class="close-btn-old strikethrough">Close Tool ✕</button>
+            <span class="mini-label mini-before"
+              >CURRENT &mdash; Close button</span
+            >
+            <div
+              style="
+                padding: 16px;
+                border-radius: 8px;
+                border: 1px solid var(--color-border);
+                background: #fff;
+              "
+            >
+              <code style="font-size: 0.8rem"
+                >studio.css:172 &rarr; background: red</code
+              >
+              <div style="margin-top: 12px">
+                <button class="close-btn-old strikethrough">
+                  Close Tool ✕
+                </button>
               </div>
-              <p style="font-size:0.85rem; color:var(--color-text-secondary); margin-top:8px;">
-                Bright red <span class="mono">background: red</span> clashes with the
-                sage/stone palette. Jarring and unpolished.
+              <p
+                style="
+                  font-size: 0.85rem;
+                  color: var(--color-text-secondary);
+                  margin-top: 8px;
+                "
+              >
+                Bright red <span class="mono">background: red</span> clashes
+                with the sage/stone palette. Jarring and unpolished.
               </p>
             </div>
           </div>
 
           <div class="compare-item">
-            <span class="mini-label mini-after">PROPOSED &mdash; Close button</span>
-            <div style="padding: 16px; border-radius: 8px; border: 1px solid var(--color-border); background: #fff;">
-              <code style="font-size:0.8rem;">Neutral dark, hover state</code>
-              <div style="margin-top: 12px;">
+            <span class="mini-label mini-after"
+              >PROPOSED &mdash; Close button</span
+            >
+            <div
+              style="
+                padding: 16px;
+                border-radius: 8px;
+                border: 1px solid var(--color-border);
+                background: #fff;
+              "
+            >
+              <code style="font-size: 0.8rem">Neutral dark, hover state</code>
+              <div style="margin-top: 12px">
                 <button class="close-btn-new">Close Tool ✕</button>
               </div>
-              <p style="font-size:0.85rem; color:var(--color-text-secondary); margin-top:8px;">
-                Uses <span class="mono">var(--color-text-secondary)</span> with a hover
-                transition to <span class="mono">var(--color-text-primary)</span>.
-                Blends with the design system.
+              <p
+                style="
+                  font-size: 0.85rem;
+                  color: var(--color-text-secondary);
+                  margin-top: 8px;
+                "
+              >
+                Uses <span class="mono">var(--color-text-secondary)</span> with
+                a hover transition to
+                <span class="mono">var(--color-text-primary)</span>. Blends with
+                the design system.
               </p>
             </div>
           </div>
@@ -1237,34 +1456,79 @@
 
         <div class="compare-row">
           <div class="compare-item">
-            <span class="mini-label mini-before">CURRENT &mdash; Contact form</span>
-            <div style="padding: 16px; border-radius: 8px; border: 1px solid var(--color-border); background: #fff;">
+            <span class="mini-label mini-before"
+              >CURRENT &mdash; Contact form</span
+            >
+            <div
+              style="
+                padding: 16px;
+                border-radius: 8px;
+                border: 1px solid var(--color-border);
+                background: #fff;
+              "
+            >
               <form class="form-demo-old" onsubmit="return false;">
                 <input type="email" placeholder="Your email address" />
-                <textarea rows="3" placeholder="Tell me about your project"></textarea>
+                <textarea
+                  rows="3"
+                  placeholder="Tell me about your project"
+                ></textarea>
               </form>
-              <p style="font-size:0.85rem; color:var(--color-text-secondary); margin-top:8px;">
+              <p
+                style="
+                  font-size: 0.85rem;
+                  color: var(--color-text-secondary);
+                  margin-top: 8px;
+                "
+              >
                 Current <span class="mono">initContactForm()</span> in
                 <span class="mono">script.js</span> injects inputs with
                 <span class="mono">placeholder</span> only &mdash; no
-                <span class="mono">&lt;label&gt;</span> elements. Hurts screen reader users.
+                <span class="mono">&lt;label&gt;</span> elements. Hurts screen
+                reader users.
               </p>
             </div>
           </div>
 
           <div class="compare-item">
-            <span class="mini-label mini-after">PROPOSED &mdash; Contact form</span>
-            <div style="padding: 16px; border-radius: 8px; border: 1px solid var(--color-border); background: #fff;">
+            <span class="mini-label mini-after"
+              >PROPOSED &mdash; Contact form</span
+            >
+            <div
+              style="
+                padding: 16px;
+                border-radius: 8px;
+                border: 1px solid var(--color-border);
+                background: #fff;
+              "
+            >
               <form class="form-demo" onsubmit="return false;">
                 <label for="demo-email">Email address</label>
-                <input type="email" id="demo-email" placeholder="your@email.com" aria-label="Email address" />
+                <input
+                  type="email"
+                  id="demo-email"
+                  placeholder="your@email.com"
+                  aria-label="Email address"
+                />
                 <label for="demo-message">Project details</label>
-                <textarea id="demo-message" rows="3" placeholder="Tell me about your project" aria-label="Project details"></textarea>
+                <textarea
+                  id="demo-message"
+                  rows="3"
+                  placeholder="Tell me about your project"
+                  aria-label="Project details"
+                ></textarea>
               </form>
-              <p style="font-size:0.85rem; color:var(--color-text-secondary); margin-top:8px;">
+              <p
+                style="
+                  font-size: 0.85rem;
+                  color: var(--color-text-secondary);
+                  margin-top: 8px;
+                "
+              >
                 Proper <span class="mono">&lt;label&gt;</span> elements with
                 <span class="mono">for=""</span> attributes and
-                <span class="mono">aria-label</span> fallbacks. Accessible to screen readers.
+                <span class="mono">aria-label</span> fallbacks. Accessible to
+                screen readers.
               </p>
             </div>
           </div>
@@ -1272,35 +1536,70 @@
 
         <div class="compare-row">
           <div class="compare-item">
-            <span class="mini-label mini-before">CURRENT &mdash; CTA section</span>
-            <div style="padding: 16px; border-radius: 8px; border: 1px solid var(--color-border); background: #fff; text-align: center;">
-              <h4 style="margin-bottom: 8px;">Ready to start?</h4>
-              <p style="font-size: 0.9rem; color: var(--color-text-secondary);">
+            <span class="mini-label mini-before"
+              >CURRENT &mdash; CTA section</span
+            >
+            <div
+              style="
+                padding: 16px;
+                border-radius: 8px;
+                border: 1px solid var(--color-border);
+                background: #fff;
+                text-align: center;
+              "
+            >
+              <h4 style="margin-bottom: 8px">Ready to start?</h4>
+              <p style="font-size: 0.9rem; color: var(--color-text-secondary)">
                 Get in touch through the form below.
               </p>
-              <p style="font-size: 0.8rem; color: #999; margin-top: 8px;">
+              <p style="font-size: 0.8rem; color: #999; margin-top: 8px">
                 (No button &mdash; just text instructing users to scroll)
               </p>
             </div>
           </div>
 
           <div class="compare-item">
-            <span class="mini-label mini-after">PROPOSED &mdash; CTA section</span>
-            <div style="padding: 16px; border-radius: 8px; border: 1px solid var(--color-border); background: #fff; text-align: center;">
-              <h4 style="margin-bottom: 8px;">Ready to start?</h4>
-              <p style="font-size: 0.9rem; color: var(--color-text-secondary); margin-bottom: 16px;">
+            <span class="mini-label mini-after"
+              >PROPOSED &mdash; CTA section</span
+            >
+            <div
+              style="
+                padding: 16px;
+                border-radius: 8px;
+                border: 1px solid var(--color-border);
+                background: #fff;
+                text-align: center;
+              "
+            >
+              <h4 style="margin-bottom: 8px">Ready to start?</h4>
+              <p
+                style="
+                  font-size: 0.9rem;
+                  color: var(--color-text-secondary);
+                  margin-bottom: 16px;
+                "
+              >
                 Get in touch through the form below.
               </p>
-              <a href="#contactForm" class="solid-btn-demo">Get in Touch &darr;</a>
+              <a href="#contactForm" class="solid-btn-demo"
+                >Get in Touch &darr;</a
+              >
             </div>
           </div>
         </div>
 
         <div class="btn-row">
-          <span style="font-size: 0.85rem; font-weight: 600; color: var(--color-text-secondary);">Button variants:</span>
+          <span
+            style="
+              font-size: 0.85rem;
+              font-weight: 600;
+              color: var(--color-text-secondary);
+            "
+            >Button variants:</span
+          >
           <a class="solid-btn-demo" href="#">Launch Live App &nearr;</a>
           <span class="solid-btn-demo wip-btn-demo">In Development</span>
-          <button class="toggle-btn" onclick="void(0)">Toggle Action</button>
+          <button class="toggle-btn" onclick="void 0">Toggle Action</button>
         </div>
       </section>
 
@@ -1315,32 +1614,64 @@
 
         <div class="compare-row">
           <div class="compare-item">
-            <span class="mini-label mini-before">CURRENT &mdash; Mobile nav</span>
-            <div style="padding: 16px; border-radius: 8px; border: 1px solid var(--color-border); background: #fff;">
-              <p style="font-size:0.9rem; color:var(--color-text-secondary); margin-bottom:8px;">
+            <span class="mini-label mini-before"
+              >CURRENT &mdash; Mobile nav</span
+            >
+            <div
+              style="
+                padding: 16px;
+                border-radius: 8px;
+                border: 1px solid var(--color-border);
+                background: #fff;
+              "
+            >
+              <p
+                style="
+                  font-size: 0.9rem;
+                  color: var(--color-text-secondary);
+                  margin-bottom: 8px;
+                "
+              >
                 Current <span class="mono">styles.css:462-477</span> shows/hides
-                <span class="mono">.nav-right</span> with no backdrop. The menu feels disconnected.
+                <span class="mono">.nav-right</span> with no backdrop. The menu
+                feels disconnected.
               </p>
-              <code style="font-size:0.8rem;">
-                .nav-right.active { display: flex; }<br>
+              <code style="font-size: 0.8rem">
+                .nav-right.active { display: flex; }<br />
                 /* No overlay element exists */
               </code>
             </div>
           </div>
 
           <div class="compare-item">
-            <span class="mini-label mini-after">PROPOSED &mdash; Mobile nav + overlay</span>
-            <div style="padding: 16px; border-radius: 8px; border: 1px solid var(--color-border); background: #fff;">
-              <p style="font-size:0.9rem; color:var(--color-text-secondary); margin-bottom:8px;">
-                Add a <span class="mono">&lt;div class="nav-overlay"&gt;</span> behind the
-                dropdown with semi-transparent background. Click to close.
+            <span class="mini-label mini-after"
+              >PROPOSED &mdash; Mobile nav + overlay</span
+            >
+            <div
+              style="
+                padding: 16px;
+                border-radius: 8px;
+                border: 1px solid var(--color-border);
+                background: #fff;
+              "
+            >
+              <p
+                style="
+                  font-size: 0.9rem;
+                  color: var(--color-text-secondary);
+                  margin-bottom: 8px;
+                "
+              >
+                Add a
+                <span class="mono">&lt;div class="nav-overlay"&gt;</span> behind
+                the dropdown with semi-transparent background. Click to close.
               </p>
-              <code style="font-size:0.8rem;">
-                .nav-overlay {<br>
-                &nbsp;&nbsp;position: fixed; inset: 0;<br>
-                &nbsp;&nbsp;background: rgba(0,0,0,0.4);<br>
-                &nbsp;&nbsp;z-index: 99; opacity: 0;<br>
-                &nbsp;&nbsp;pointer-events: none;<br>
+              <code style="font-size: 0.8rem">
+                .nav-overlay {<br />
+                &nbsp;&nbsp;position: fixed; inset: 0;<br />
+                &nbsp;&nbsp;background: rgba(0,0,0,0.4);<br />
+                &nbsp;&nbsp;z-index: 99; opacity: 0;<br />
+                &nbsp;&nbsp;pointer-events: none;<br />
                 }
               </code>
             </div>
@@ -1350,12 +1681,18 @@
         <!-- Phone frame simulation -->
         <div class="compare-row">
           <div class="compare-item">
-            <span class="mini-label mini-after">Live simulation (375px mobile viewport)</span>
+            <span class="mini-label mini-after"
+              >Live simulation (375px mobile viewport)</span
+            >
             <div class="phone-frame" id="phoneFrame">
               <div class="nav-overlay-demo" id="navOverlay"></div>
               <div class="phone-nav">
                 <span class="phone-logo">CabsCode</span>
-                <button class="phone-hamburger" id="phoneHamburger" aria-label="Toggle menu">
+                <button
+                  class="phone-hamburger"
+                  id="phoneHamburger"
+                  aria-label="Toggle menu"
+                >
                   <span></span><span></span><span></span>
                 </button>
               </div>
@@ -1366,29 +1703,69 @@
                 <a href="#">Journal</a>
                 <a href="#">Contact</a>
               </div>
-              <div style="padding: 24px; color: #999; font-size: 0.85rem; text-align: center; position: relative; z-index: 99; background: #f9f9f9; min-height: 120px;">
-                Tap the hamburger icon to open the menu &mdash; the overlay appears behind it.
-                Tap the overlay to close.
+              <div
+                style="
+                  padding: 24px;
+                  color: #999;
+                  font-size: 0.85rem;
+                  text-align: center;
+                  position: relative;
+                  z-index: 99;
+                  background: #f9f9f9;
+                  min-height: 120px;
+                "
+              >
+                Tap the hamburger icon to open the menu &mdash; the overlay
+                appears behind it. Tap the overlay to close.
               </div>
             </div>
           </div>
 
           <div class="compare-item">
             <span class="mini-label mini-after">Focus-visible demo</span>
-            <div style="padding: 16px; border-radius: 8px; border: 1px solid var(--color-border); background: #fff;">
-              <p style="font-size:0.9rem; color:var(--color-text-secondary); margin-bottom:12px;">
-                Tab through these elements to see the sage green focus ring in action:
+            <div
+              style="
+                padding: 16px;
+                border-radius: 8px;
+                border: 1px solid var(--color-border);
+                background: #fff;
+              "
+            >
+              <p
+                style="
+                  font-size: 0.9rem;
+                  color: var(--color-text-secondary);
+                  margin-bottom: 12px;
+                "
+              >
+                Tab through these elements to see the sage green focus ring in
+                action:
               </p>
               <div class="focus-row">
-                <a href="#" class="nav-link" style="position:static;">Link one</a>
-                <a href="#" class="nav-link" style="position:static;">Link two</a>
-                <button class="toggle-btn" style="position:static;">A button</button>
-                <input type="text" placeholder="An input" style="padding:8px; border:1px solid var(--color-border); border-radius:6px; width:140px;" />
+                <a href="#" class="nav-link" style="position: static"
+                  >Link one</a
+                >
+                <a href="#" class="nav-link" style="position: static"
+                  >Link two</a
+                >
+                <button class="toggle-btn" style="position: static">
+                  A button
+                </button>
+                <input
+                  type="text"
+                  placeholder="An input"
+                  style="
+                    padding: 8px;
+                    border: 1px solid var(--color-border);
+                    border-radius: 6px;
+                    width: 140px;
+                  "
+                />
               </div>
-              <code style="font-size:0.8rem; display:block; margin-top:12px;">
-                :focus-visible {<br>
-                &nbsp;&nbsp;outline: 2px solid var(--color-primary);<br>
-                &nbsp;&nbsp;outline-offset: 2px;<br>
+              <code style="font-size: 0.8rem; display: block; margin-top: 12px">
+                :focus-visible {<br />
+                &nbsp;&nbsp;outline: 2px solid var(--color-primary);<br />
+                &nbsp;&nbsp;outline-offset: 2px;<br />
                 }
               </code>
             </div>
@@ -1402,21 +1779,41 @@
                     #17 (Deduplicate), #18 (Logo SVG)
              ======================================================================== -->
       <section class="showcase-section">
-        <span class="section-badge">#12 &middot; #16 &middot; #17 &middot; #18</span>
+        <span class="section-badge"
+          >#12 &middot; #16 &middot; #17 &middot; #18</span
+        >
         <h2>Code &amp; Content</h2>
-        <p>Syntax highlighting for code blocks, smooth expandable tool animation, deduplication recommendations.</p>
+        <p>
+          Syntax highlighting for code blocks, smooth expandable tool animation,
+          deduplication recommendations.
+        </p>
 
         <div class="comparison-grid">
           <!-- Before: plain code -->
           <div class="comparison-panel">
-            <div class="panel-label before">BEFORE &mdash; Current code blocks</div>
+            <div class="panel-label before">
+              BEFORE &mdash; Current code blocks
+            </div>
             <div class="panel-body">
-              <p style="font-size:0.85rem; color:var(--color-text-secondary); margin-bottom:12px;">
+              <p
+                style="
+                  font-size: 0.85rem;
+                  color: var(--color-text-secondary);
+                  margin-bottom: 12px;
+                "
+              >
                 Current <span class="mono">journal.css:146-154</span> renders
-                <span class="mono">&lt;pre&gt;&lt;code&gt;</span> as monochrome dark boxes.
+                <span class="mono">&lt;pre&gt;&lt;code&gt;</span> as monochrome
+                dark boxes.
               </p>
               <div class="code-block-wrapper">
-                <button class="copy-btn" onclick="copyCode(this)" data-label="Copy">Copy</button>
+                <button
+                  class="copy-btn"
+                  onclick="copyCode(this)"
+                  data-label="Copy"
+                >
+                  Copy
+                </button>
                 <pre class="code-plain"><code>function greet(name) {
   const message = `Hello, ${name}!`;
   console.log(message);
@@ -1433,13 +1830,28 @@ console.table(json);</code></pre>
 
           <!-- After: highlighted code -->
           <div class="comparison-panel">
-            <div class="panel-label after">AFTER &mdash; With syntax highlighting</div>
+            <div class="panel-label after">
+              AFTER &mdash; With syntax highlighting
+            </div>
             <div class="panel-body">
-              <p style="font-size:0.85rem; color:var(--color-text-secondary); margin-bottom:12px;">
-                highlight.js (CDN, &lt;10 KB) applied with <span class="mono">github-dark</span> theme.
+              <p
+                style="
+                  font-size: 0.85rem;
+                  color: var(--color-text-secondary);
+                  margin-bottom: 12px;
+                "
+              >
+                highlight.js (CDN, &lt;10 KB) applied with
+                <span class="mono">github-dark</span> theme.
               </p>
               <div class="code-block-wrapper">
-                <button class="copy-btn" onclick="copyCode(this)" data-label="Copy">Copy</button>
+                <button
+                  class="copy-btn"
+                  onclick="copyCode(this)"
+                  data-label="Copy"
+                >
+                  Copy
+                </button>
                 <pre><code class="language-javascript">function greet(name) {
   const message = `Hello, ${name}!`;
   console.log(message);
@@ -1456,27 +1868,43 @@ console.table(json);</code></pre>
         </div>
 
         <!-- Expandable tool demo -->
-        <h3 style="font-size:1.25rem; margin-bottom:12px; margin-top:32px;">Expandable Tool &mdash; Smooth Animation</h3>
-        <p style="font-size:0.9rem; color:var(--color-text-secondary); margin-bottom:16px;">
+        <h3 style="font-size: 1.25rem; margin-bottom: 12px; margin-top: 32px">
+          Expandable Tool &mdash; Smooth Animation
+        </h3>
+        <p
+          style="
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 16px;
+          "
+        >
           Current: <span class="mono">studio.css:136-155</span> uses
           <span class="mono">display: none / block</span> &mdash; no transition.
-          Proposed: <span class="mono">max-height</span> + <span class="mono">opacity</span> for a smooth expand/collapse.
+          Proposed: <span class="mono">max-height</span> +
+          <span class="mono">opacity</span> for a smooth expand/collapse.
         </p>
 
         <div class="tool-card-demo" id="expandableTool">
           <div class="tool-default">
-            <div style="display:flex; gap:8px; margin-bottom:8px;">
+            <div style="display: flex; gap: 8px; margin-bottom: 8px">
               <span class="tech-tag-demo css">HTML/CSS</span>
             </div>
             <h4>CSS Box-Shadow Generator</h4>
-            <p>A quick interactive tool to help developers generate complex box-shadows on the fly.</p>
-            <button class="solid-btn-demo" id="expandToggle">Run Tool Here &darr;</button>
+            <p>
+              A quick interactive tool to help developers generate complex
+              box-shadows on the fly.
+            </p>
+            <button class="solid-btn-demo" id="expandToggle">
+              Run Tool Here &darr;
+            </button>
           </div>
           <div class="tool-workspace" id="toolWorkspace">
             <div class="workspace-inner">
               <div class="workspace-header">
                 <h4>CSS Box-Shadow Generator</h4>
-                <button class="close-btn-new" id="closeToolBtn">Close Tool ✕</button>
+                <button class="close-btn-new" id="closeToolBtn">
+                  Close Tool ✕
+                </button>
               </div>
               <div class="workspace-body">
                 <p>Interactive tool interface renders here...</p>
@@ -1486,19 +1914,22 @@ console.table(json);</code></pre>
         </div>
 
         <!-- Deduplication & logo notes -->
-        <div class="note-card" style="margin-top:24px;">
+        <div class="note-card" style="margin-top: 24px">
           <h4>#17 &amp; #18 &mdash; Deduplication recommendations</h4>
           <ul>
             <li>
-              <strong>Nav &amp; footer:</strong> The nav bar (~75 lines) and footer (~45 lines)
-              are copy-pasted across all 10+ HTML files. Any change requires editing every page.
-              <em>Suggested fix:</em> add a minimal build step (SSI, Node script, or static-site generator).
+              <strong>Nav &amp; footer:</strong> The nav bar (~75 lines) and
+              footer (~45 lines) are copy-pasted across all 10+ HTML files. Any
+              change requires editing every page. <em>Suggested fix:</em> add a
+              minimal build step (SSI, Node script, or static-site generator).
             </li>
             <li>
-              <strong>Logo SVG:</strong> The 32-line inline SVG is repeated verbatim in every page.
-              <em>Suggested fix:</em> extract to a standalone <span class="mono">images/logo.svg</span>
-              and reference via <span class="mono">&lt;img src="images/logo.svg"&gt;</span> &mdash;
-              also makes it cacheable.
+              <strong>Logo SVG:</strong> The 32-line inline SVG is repeated
+              verbatim in every page. <em>Suggested fix:</em> extract to a
+              standalone <span class="mono">images/logo.svg</span> and reference
+              via
+              <span class="mono">&lt;img src="images/logo.svg"&gt;</span>
+              &mdash; also makes it cacheable.
             </li>
           </ul>
         </div>
@@ -1511,49 +1942,69 @@ console.table(json);</code></pre>
                     #27 (Comments)
              ======================================================================== -->
       <section class="showcase-section">
-        <span class="section-badge">#10 &middot; #19 &middot; #20 &middot; #21 &middot; #25 &middot; #26 &middot; #27</span>
+        <span class="section-badge"
+          >#10 &middot; #19 &middot; #20 &middot; #21 &middot; #25 &middot; #26
+          &middot; #27</span
+        >
         <h2>Spacing &amp; Design Tokens</h2>
-        <p>Consistent spacing scale, dark mode preview, and future feature cards.</p>
+        <p>
+          Consistent spacing scale, dark mode preview, and future feature cards.
+        </p>
 
-        <h3 style="font-size:1.15rem; margin-bottom:12px;">#10 &mdash; Spacing scale</h3>
-        <p style="font-size:0.9rem; color:var(--color-text-secondary); margin-bottom:16px;">
-          Current CSS uses hardcoded pixel values throughout. A defined spacing scale with CSS custom
-          properties ensures visual rhythm and consistency.
+        <h3 style="font-size: 1.15rem; margin-bottom: 12px">
+          #10 &mdash; Spacing scale
+        </h3>
+        <p
+          style="
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 16px;
+          "
+        >
+          Current CSS uses hardcoded pixel values throughout. A defined spacing
+          scale with CSS custom properties ensures visual rhythm and
+          consistency.
         </p>
 
         <!-- Spacing scale visual -->
         <div class="spacing-bar">
           <span class="sp-label"><code>--space-xs</code> 8px</span>
-          <div class="bar" style="width:8px; height:20px;"></div>
+          <div class="bar" style="width: 8px; height: 20px"></div>
         </div>
         <div class="spacing-bar">
           <span class="sp-label"><code>--space-sm</code> 16px</span>
-          <div class="bar" style="width:16px; height:20px;"></div>
+          <div class="bar" style="width: 16px; height: 20px"></div>
         </div>
         <div class="spacing-bar">
           <span class="sp-label"><code>--space-md</code> 24px</span>
-          <div class="bar" style="width:24px; height:20px;"></div>
+          <div class="bar" style="width: 24px; height: 20px"></div>
         </div>
         <div class="spacing-bar">
           <span class="sp-label"><code>--space-lg</code> 40px</span>
-          <div class="bar" style="width:40px; height:20px;"></div>
+          <div class="bar" style="width: 40px; height: 20px"></div>
         </div>
         <div class="spacing-bar">
           <span class="sp-label"><code>--space-xl</code> 60px</span>
-          <div class="bar" style="width:60px; height:20px;"></div>
+          <div class="bar" style="width: 60px; height: 20px"></div>
         </div>
-        <div class="spacing-bar" style="margin-bottom:32px;">
+        <div class="spacing-bar" style="margin-bottom: 32px">
           <span class="sp-label"><code>--space-2xl</code> 80px</span>
-          <div class="bar" style="width:80px; height:20px;"></div>
+          <div class="bar" style="width: 80px; height: 20px"></div>
         </div>
 
         <!-- Design tokens table -->
-        <h3 style="font-size:1.15rem; margin-bottom:12px;">Design tokens</h3>
-        <p style="font-size:0.9rem; color:var(--color-text-secondary); margin-bottom:16px;">
+        <h3 style="font-size: 1.15rem; margin-bottom: 12px">Design tokens</h3>
+        <p
+          style="
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 16px;
+          "
+        >
           All CSS custom properties visualised as a reference.
         </p>
 
-        <div style="overflow-x: auto;">
+        <div style="overflow-x: auto">
           <table class="tokens-table">
             <thead>
               <tr>
@@ -1566,140 +2017,224 @@ console.table(json);</code></pre>
               <tr>
                 <td><code>--color-primary</code></td>
                 <td><code>#a9bba2</code></td>
-                <td><span class="color-swatch" style="background:#a9bba2;"></span></td>
+                <td>
+                  <span class="color-swatch" style="background: #a9bba2"></span>
+                </td>
               </tr>
               <tr>
                 <td><code>--color-primary-dark</code></td>
                 <td><code>#96a88f</code></td>
-                <td><span class="color-swatch" style="background:#96a88f;"></span></td>
+                <td>
+                  <span class="color-swatch" style="background: #96a88f"></span>
+                </td>
               </tr>
               <tr>
                 <td><code>--color-link-active</code></td>
                 <td><code>#077d4a</code></td>
-                <td><span class="color-swatch" style="background:#077d4a;"></span></td>
+                <td>
+                  <span class="color-swatch" style="background: #077d4a"></span>
+                </td>
               </tr>
               <tr>
                 <td><code>--color-text-primary</code></td>
                 <td><code>#1a1a1a</code></td>
-                <td><span class="color-swatch" style="background:#1a1a1a;"></span></td>
+                <td>
+                  <span class="color-swatch" style="background: #1a1a1a"></span>
+                </td>
               </tr>
               <tr>
                 <td><code>--color-text-secondary</code></td>
                 <td><code>#3c3a3a</code></td>
-                <td><span class="color-swatch" style="background:#3c3a3a;"></span></td>
+                <td>
+                  <span class="color-swatch" style="background: #3c3a3a"></span>
+                </td>
               </tr>
               <tr>
                 <td><code>--color-bg</code></td>
                 <td><code>#ffffff</code></td>
-                <td><span class="color-swatch" style="background:#fff; border-color:#ccc;"></span></td>
+                <td>
+                  <span
+                    class="color-swatch"
+                    style="background: #fff; border-color: #ccc"
+                  ></span>
+                </td>
               </tr>
               <tr>
                 <td><code>--color-bg-body</code> (current)</td>
                 <td><code>#babaaf</code></td>
-                <td><span class="color-swatch" style="background:#babaaf;"></span></td>
+                <td>
+                  <span class="color-swatch" style="background: #babaaf"></span>
+                </td>
               </tr>
               <tr>
                 <td><code>--color-bg-body</code> (proposed)</td>
                 <td><code>#f0f2ef</code></td>
-                <td><span class="color-swatch" style="background:#f0f2ef; border-color:#ccc;"></span></td>
+                <td>
+                  <span
+                    class="color-swatch"
+                    style="background: #f0f2ef; border-color: #ccc"
+                  ></span>
+                </td>
               </tr>
               <tr>
                 <td><code>--color-bg-placeholder</code></td>
                 <td><code>#e9ecef</code></td>
-                <td><span class="color-swatch" style="background:#e9ecef;"></span></td>
+                <td>
+                  <span class="color-swatch" style="background: #e9ecef"></span>
+                </td>
               </tr>
               <tr>
                 <td><code>--font-family</code></td>
                 <td><code>"Inter", ...sans-serif</code></td>
-                <td style="font-family:Inter, sans-serif;">Inter</td>
+                <td style="font-family: Inter, sans-serif">Inter</td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <!-- Dark mode demo -->
-        <h3 style="font-size:1.15rem; margin-bottom:12px; margin-top:32px;">#19 &mdash; Dark mode preview</h3>
-        <p style="font-size:0.9rem; color:var(--color-text-secondary); margin-bottom:16px;">
-          Proposed implementation using <span class="mono">prefers-color-scheme: dark</span>.
-          Toggle below to preview how it would look.
+        <h3 style="font-size: 1.15rem; margin-bottom: 12px; margin-top: 32px">
+          #19 &mdash; Dark mode preview
+        </h3>
+        <p
+          style="
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 16px;
+          "
+        >
+          Proposed implementation using
+          <span class="mono">prefers-color-scheme: dark</span>. Toggle below to
+          preview how it would look.
         </p>
 
-        <div class="dark-preview" id="darkPreview" style="margin-bottom:24px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-            <h4 style="margin:0;">Dark Mode Preview</h4>
-            <button class="toggle-btn" onclick="toggleDarkMode()">Toggle dark mode</button>
+        <div class="dark-preview" id="darkPreview" style="margin-bottom: 24px">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 16px;
+            "
+          >
+            <h4 style="margin: 0">Dark Mode Preview</h4>
+            <button class="toggle-btn" onclick="toggleDarkMode()">
+              Toggle dark mode
+            </button>
           </div>
           <p>
-            This panel simulates the proposed dark colour scheme. The background switches
-            to <code>#1a1a1a</code>, text to <code>#e4e4e4</code>, and muted text to
-            <code>#aaa</code>.
+            This panel simulates the proposed dark colour scheme. The background
+            switches to <code>#1a1a1a</code>, text to <code>#e4e4e4</code>, and
+            muted text to <code>#aaa</code>.
           </p>
-          <p class="meta">Secondary text appears in a lighter gray. Hover states would use the sage primary colour.</p>
-          <div style="display:flex; gap:8px; margin-top:12px;">
+          <p class="meta">
+            Secondary text appears in a lighter gray. Hover states would use the
+            sage primary colour.
+          </p>
+          <div style="display: flex; gap: 8px; margin-top: 12px">
             <span class="tech-tag-demo js">JavaScript</span>
             <span class="tech-tag-demo react">React</span>
             <span class="tech-tag-demo api">API</span>
           </div>
         </div>
 
-        <code style="font-size:0.8rem; display:block; margin-bottom:32px; background:#f4f4f4; padding:12px; border-radius:8px;">
-@media (prefers-color-scheme: dark) {<br>
-&nbsp;&nbsp;:root {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;--color-bg: #1a1a1a;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;--color-text-primary: #e4e4e4;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;--color-bg-body: #222125;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;/* etc */<br>
-&nbsp;&nbsp;}<br>
-}
+        <code
+          style="
+            font-size: 0.8rem;
+            display: block;
+            margin-bottom: 32px;
+            background: #f4f4f4;
+            padding: 12px;
+            border-radius: 8px;
+          "
+        >
+          @media (prefers-color-scheme: dark) {<br />
+          &nbsp;&nbsp;:root {<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;--color-bg: #1a1a1a;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;--color-text-primary: #e4e4e4;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;--color-bg-body: #222125;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;/* etc */<br />
+          &nbsp;&nbsp;}<br />
+          }
         </code>
 
         <!-- Future feature cards -->
-        <h3 style="font-size:1.15rem; margin-bottom:12px;">Future enhancements (LOW priority)</h3>
-        <p style="font-size:0.9rem; color:var(--color-text-secondary); margin-bottom:16px;">
-          These are planned or nice-to-have items from the recommendations document.
+        <h3 style="font-size: 1.15rem; margin-bottom: 12px">
+          Future enhancements (LOW priority)
+        </h3>
+        <p
+          style="
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 16px;
+          "
+        >
+          These are planned or nice-to-have items from the recommendations
+          document.
         </p>
 
         <div class="feature-grid">
           <div class="feature-card">
             <span class="planned-badge">Planned</span>
             <h4>#20 &mdash; Page transitions</h4>
-            <p>Use View Transitions API for smooth page-to-page navigation if a build step is introduced.</p>
+            <p>
+              Use View Transitions API for smooth page-to-page navigation if a
+              build step is introduced.
+            </p>
           </div>
 
           <div class="feature-card">
             <span class="planned-badge">Planned</span>
             <h4>#21 &mdash; Banner interactivity</h4>
-            <p>Mouse-tracking parallax effect on the homepage banner gradient. JS shifts <code>background-position</code> based on cursor.</p>
+            <p>
+              Mouse-tracking parallax effect on the homepage banner gradient. JS
+              shifts <code>background-position</code> based on cursor.
+            </p>
           </div>
 
           <div class="feature-card">
             <span class="planned-badge">Planned</span>
             <h4>#25 &mdash; QR Code Generator</h4>
-            <p>In-page Web Tool with URL input, size selector, live QR preview, and download button using <code>qrcode.js</code>.</p>
+            <p>
+              In-page Web Tool with URL input, size selector, live QR preview,
+              and download button using <code>qrcode.js</code>.
+            </p>
           </div>
 
           <div class="feature-card">
             <span class="planned-badge">Planned</span>
             <h4>#26 &mdash; Sidebar auto-shrink</h4>
-            <p>Journal sidebar shrinks on scroll to show only category icons/numbers. Expands on hover.</p>
+            <p>
+              Journal sidebar shrinks on scroll to show only category
+              icons/numbers. Expands on hover.
+            </p>
           </div>
 
           <div class="feature-card">
             <span class="planned-badge">Planned</span>
             <h4>#27 &mdash; Comments on posts</h4>
-            <p>Allow reader comments on journal articles via a third-party service (utterances, giscus) or a custom backend endpoint.</p>
+            <p>
+              Allow reader comments on journal articles via a third-party
+              service (utterances, giscus) or a custom backend endpoint.
+            </p>
           </div>
 
           <div class="feature-card">
             <span class="planned-badge">Planned</span>
             <h4>#3 &mdash; Real homepage content</h4>
-            <p>Replace the two "Image Placeholder" cards on the homepage with real project data or remove them and link directly to Studio.</p>
+            <p>
+              Replace the two "Image Placeholder" cards on the homepage with
+              real project data or remove them and link directly to Studio.
+            </p>
           </div>
 
           <div class="feature-card">
             <span class="planned-badge">Planned</span>
             <h4>#4 &mdash; Fix tool card label</h4>
-            <p>Rename "Random Number Generator" to "CSS Box-Shadow Generator" in <code>studio.html:225</code> to match its description.</p>
+            <p>
+              Rename "Random Number Generator" to "CSS Box-Shadow Generator" in
+              <code>studio.html:225</code> to match its description.
+            </p>
           </div>
         </div>
       </section>
@@ -1709,7 +2244,13 @@ console.table(json);</code></pre>
       <div class="footer-container">
         <div class="footer-col">
           <h4>Connect</h4>
-          <a href="https://www.linkedin.com/in/tema-bown-2441b73a3/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">LinkedIn</a>
+          <a
+            href="https://www.linkedin.com/in/tema-bown-2441b73a3/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn Profile"
+            >LinkedIn</a
+          >
           <a href="https://github.com/CabbageDijon" target="_blank">GitHub</a>
           <a href="mailto:bowntema@gmail.com">Gmail</a>
         </div>
@@ -1722,9 +2263,16 @@ console.table(json);</code></pre>
 
         <div class="footer-col">
           <h4>About this page</h4>
-          <p style="font-size:0.85rem; color:var(--color-text-secondary); line-height:1.5;">
+          <p
+            style="
+              font-size: 0.85rem;
+              color: var(--color-text-secondary);
+              line-height: 1.5;
+            "
+          >
             Design showcase for the CabsCode Portfolio Site. Demonstrates all 27
-            UI/design recommendations from <code>docs/design-recommendations.md</code>.
+            UI/design recommendations from
+            <code>docs/design-recommendations.md</code>.
           </p>
         </div>
       </div>
@@ -1737,89 +2285,94 @@ console.table(json);</code></pre>
       // ---- Body background toggle (Section 1) ----
       // ---- Copy code (Section 5) ----
       function copyCode(btn) {
-        const wrapper = btn.closest('.code-block-wrapper');
-        const codeEl = wrapper.querySelector('pre code, pre.code-plain code, pre.code-plain');
+        const wrapper = btn.closest(".code-block-wrapper");
+        const codeEl = wrapper.querySelector(
+          "pre code, pre.code-plain code, pre.code-plain",
+        );
         let text = codeEl.textContent || codeEl.innerText;
 
-        navigator.clipboard.writeText(text).then(() => {
-          btn.textContent = 'Copied!';
-          btn.classList.add('copied');
-          setTimeout(() => {
-            btn.textContent = btn.getAttribute('data-label') || 'Copy';
-            btn.classList.remove('copied');
-          }, 2000);
-        }).catch(() => {
-          btn.textContent = 'Failed';
-          setTimeout(() => {
-            btn.textContent = btn.getAttribute('data-label') || 'Copy';
-          }, 2000);
-        });
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            btn.textContent = "Copied!";
+            btn.classList.add("copied");
+            setTimeout(() => {
+              btn.textContent = btn.getAttribute("data-label") || "Copy";
+              btn.classList.remove("copied");
+            }, 2000);
+          })
+          .catch(() => {
+            btn.textContent = "Failed";
+            setTimeout(() => {
+              btn.textContent = btn.getAttribute("data-label") || "Copy";
+            }, 2000);
+          });
       }
 
       function toggleBodyBg() {
-        const body = document.querySelector('.showcase-body');
-        body.classList.toggle('bg-current');
-        const status = document.getElementById('bg-status');
-        if (body.classList.contains('bg-current')) {
-          status.textContent = 'Current: #babaaf';
+        const body = document.querySelector(".showcase-body");
+        body.classList.toggle("bg-current");
+        const status = document.getElementById("bg-status");
+        if (body.classList.contains("bg-current")) {
+          status.textContent = "Current: #babaaf";
         } else {
-          status.textContent = 'Current: #f0f2ef';
+          status.textContent = "Current: #f0f2ef";
         }
       }
 
       // ---- Mobile nav overlay (Section 4) ----
-      const hamburger = document.getElementById('phoneHamburger');
-      const dropdown = document.getElementById('phoneDropdown');
-      const overlay = document.getElementById('navOverlay');
+      const hamburger = document.getElementById("phoneHamburger");
+      const dropdown = document.getElementById("phoneDropdown");
+      const overlay = document.getElementById("navOverlay");
 
       if (hamburger && dropdown && overlay) {
-        hamburger.addEventListener('click', function (e) {
+        hamburger.addEventListener("click", function (e) {
           e.stopPropagation();
-          dropdown.classList.toggle('open');
-          overlay.classList.toggle('active');
+          dropdown.classList.toggle("open");
+          overlay.classList.toggle("active");
         });
 
-        overlay.addEventListener('click', function () {
-          dropdown.classList.remove('open');
-          overlay.classList.remove('active');
+        overlay.addEventListener("click", function () {
+          dropdown.classList.remove("open");
+          overlay.classList.remove("active");
         });
       }
 
       // ---- Expandable tool (Section 5) ----
       (function () {
-        const expandBtn = document.getElementById('expandToggle');
-        const closeBtn = document.getElementById('closeToolBtn');
-        const workspace = document.getElementById('toolWorkspace');
+        const expandBtn = document.getElementById("expandToggle");
+        const closeBtn = document.getElementById("closeToolBtn");
+        const workspace = document.getElementById("toolWorkspace");
 
         function openTool() {
-          workspace.classList.add('open');
-          expandBtn.textContent = 'Expanding...';
+          workspace.classList.add("open");
+          expandBtn.textContent = "Expanding...";
           setTimeout(() => {
-            expandBtn.textContent = 'Run Tool Here \u2193';
+            expandBtn.textContent = "Run Tool Here \u2193";
           }, 400);
         }
 
         function closeTool() {
-          workspace.classList.remove('open');
+          workspace.classList.remove("open");
         }
 
-        if (expandBtn) expandBtn.addEventListener('click', openTool);
-        if (closeBtn) closeBtn.addEventListener('click', closeTool);
+        if (expandBtn) expandBtn.addEventListener("click", openTool);
+        if (closeBtn) closeBtn.addEventListener("click", closeTool);
       })();
 
       // ---- Dark mode preview (Section 6) ----
       function toggleDarkMode() {
-        const panel = document.getElementById('darkPreview');
-        panel.classList.toggle('is-dark');
+        const panel = document.getElementById("darkPreview");
+        panel.classList.toggle("is-dark");
       }
 
       // ---- Highlight.js init ----
-      document.addEventListener('DOMContentLoaded', function () {
-        if (typeof hljs !== 'undefined') {
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof hljs !== "undefined") {
           hljs.highlightAll();
         }
       });
     </script>
-    <script src="script.js?v=2.0"></script>
+    <script src="script.js?v=2.1"></script>
   </body>
 </html>

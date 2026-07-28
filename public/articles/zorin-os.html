@@ -11,39 +11,64 @@
     <link rel="icon" href="/images/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/styles.css?v=2.0" />
-    <link rel="stylesheet" href="/journal.css?v=2.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css?v=2.1" />
+    <link rel="stylesheet" href="/journal.css?v=2.1" />
     <link rel="canonical" href="https://cabscode.pro/articles/zorin-os" />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://cabscode.pro/articles/zorin-os" />
-    <meta property="og:title" content="Migrating to Zorin OS on an Acer Laptop | CabsCode" />
-    <meta property="og:description" content="Resolving the InsydeH2O UEFI SATA controller ACPI wake workaround on Acer Aspire 3 laptops." />
+    <meta
+      property="og:title"
+      content="Migrating to Zorin OS on an Acer Laptop | CabsCode"
+    />
+    <meta
+      property="og:description"
+      content="Resolving the InsydeH2O UEFI SATA controller ACPI wake workaround on Acer Aspire 3 laptops."
+    />
     <meta property="og:image" content="https://cabscode.pro/images/me.png" />
     <meta property="og:locale" content="en_BW" />
 
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "TechArticle",
-      "headline": "Migrating to Zorin OS on an Acer Laptop",
-      "description": "Fixing the cold-boot hard drive detection bug on Acer Aspire 3 laptops running Linux.",
-      "author": { "@type": "Person", "name": "Tema Bown" },
-      "publisher": { "@type": "Organization", "name": "CabsCode", "url": "https://cabscode.pro" },
-      "datePublished": "2026-07-07",
-      "inLanguage": "en"
-    }
+      {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Migrating to Zorin OS on an Acer Laptop",
+        "description": "Fixing the cold-boot hard drive detection bug on Acer Aspire 3 laptops running Linux.",
+        "author": { "@type": "Person", "name": "Tema Bown" },
+        "publisher": {
+          "@type": "Organization",
+          "name": "CabsCode",
+          "url": "https://cabscode.pro"
+        },
+        "datePublished": "2026-07-07",
+        "inLanguage": "en"
+      }
     </script>
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <script
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+      async
+      defer
+    ></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <nav>
       <div class="nav-left">
         <a href="/" class="logo" aria-label="Home">
           <div class="logo">
-            <img src="/images/logo.svg" alt="CabsCode" width="48" height="48" />
-          </div></a>
+            <img
+              src="/images/logo.svg"
+              alt="CabsCode"
+              width="48"
+              height="48"
+            /></div
+        ></a>
       </div>
 
       <button class="mobile-toggle" aria-label="Toggle navigation">
@@ -57,7 +82,11 @@
         <a href="/services" class="nav-link">Services</a>
         <a href="/studio" class="nav-link">Studio</a>
         <a href="/journal" class="nav-link active">Journal</a>
-        <button class="dark-toggle" id="darkToggle" aria-label="Toggle dark mode"></button>
+        <button
+          class="dark-toggle"
+          id="darkToggle"
+          aria-label="Toggle dark mode"
+        ></button>
         <a href="#contactForm" class="contact-btn">Contact</a>
       </div>
     </nav>
@@ -82,7 +111,6 @@
                 >Migrating to Zorin OS</a
               >
             </li>
-
           </ul>
         </li>
 
@@ -150,26 +178,32 @@
 
         <h3>Preinstall Preparations</h3>
         <p>
-           Before I could even get my laptop out I had to make sure I had the
-           needed ISO from the official <a href="https://zorin.com/os/" target="_blank" rel="noopener noreferrer">Zorin OS</a> website. Once I
-          had downloaded the latest version, I used a tool called balenaEtcher
-          to flash the ISO onto a USB drive (I used a 64GB USB 3.0 drive, but
-          any good drive over 8GB will surfice). Once the ISO was selected and
-          set to flash to the USB, I left the process run then ejected the USB
-          once complete. Now a lot of systems will allow you to just plug this
-          USB into them when turned off then notice the drive and ask if you
-          want to boot from it, this Acer is not as convenient due to a few key
-          features mentions earlier. Without the USB in turn on the laptop and
-          press F2/Delete immediately to enter the BIOS. It might ask you a
-          password, if you know it enter it, if not then do 3 wrong attempts and
-          a screen with Enter Unlock Password with show, select it using the
-          arrow keys and enter. Once there a 10-digit code will show, simply use
-          an online tool to decrypt this. Once you get in the BIOS, go to Main
-          and press Ctrl+S to reveal the SATA Mode option in your menus. Select
-          this and change it to AHCI if not already set to this. Now go to the
-          Boot tab, select Secure Boot and set it to disabled. You can either
-          navigate to the Save or similar tab, or press F10 to save and exit.
-          Now you can go onto the next stage of booting from the USB.
+          Before I could even get my laptop out I had to make sure I had the
+          needed ISO from the official
+          <a
+            href="https://zorin.com/os/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Zorin OS</a
+          >
+          website. Once I had downloaded the latest version, I used a tool
+          called balenaEtcher to flash the ISO onto a USB drive (I used a 64GB
+          USB 3.0 drive, but any good drive over 8GB will surfice). Once the ISO
+          was selected and set to flash to the USB, I left the process run then
+          ejected the USB once complete. Now a lot of systems will allow you to
+          just plug this USB into them when turned off then notice the drive and
+          ask if you want to boot from it, this Acer is not as convenient due to
+          a few key features mentions earlier. Without the USB in turn on the
+          laptop and press F2/Delete immediately to enter the BIOS. It might ask
+          you a password, if you know it enter it, if not then do 3 wrong
+          attempts and a screen with Enter Unlock Password with show, select it
+          using the arrow keys and enter. Once there a 10-digit code will show,
+          simply use an online tool to decrypt this. Once you get in the BIOS,
+          go to Main and press Ctrl+S to reveal the SATA Mode option in your
+          menus. Select this and change it to AHCI if not already set to this.
+          Now go to the Boot tab, select Secure Boot and set it to disabled. You
+          can either navigate to the Save or similar tab, or press F10 to save
+          and exit. Now you can go onto the next stage of booting from the USB.
         </p>
 
         <h3>Installing Zorin OS</h3>
@@ -403,7 +437,13 @@ exit 0</code></pre>
       <div class="footer-container">
         <div class="footer-col">
           <h4>Connect</h4>
-          <a href="https://www.linkedin.com/in/tema-bown-2441b73a3/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">LinkedIn</a>
+          <a
+            href="https://www.linkedin.com/in/tema-bown-2441b73a3/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn Profile"
+            >LinkedIn</a
+          >
           <a href="https://github.com/CabbageDijon" target="_blank">GitHub</a>
           <a href="mailto:bowntema@gmail.com">Gmail</a>
         </div>
@@ -424,7 +464,7 @@ exit 0</code></pre>
       </div>
     </footer>
 
-    <script src="/script.js?v=2.0"></script>
+    <script src="/script.js?v=2.1"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   </body>
 </html>
