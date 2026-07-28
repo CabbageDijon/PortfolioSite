@@ -179,6 +179,99 @@ pre .copy-btn.copied {
   color: #fff;
 }
 
+/* ==========================================================================
+   Dark mode — keep journal backgrounds light, force text dark
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .sidebar,
+  :root:not([data-theme="light"]) .main-content,
+  :root:not([data-theme="light"]) .journal-sidebar-toggle {
+    color: #1a1a1a;
+    background-color: #ffffff;
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+
+  :root:not([data-theme="light"]) .accordion-toggle {
+    color: #1a1a1a;
+  }
+
+  :root:not([data-theme="light"]) .accordion-content li a {
+    color: #3c3a3a;
+  }
+
+  :root:not([data-theme="light"]) .accordion-content li a:hover {
+    color: #22983b;
+  }
+
+  :root:not([data-theme="light"]) .accordion-item {
+    border-bottom-color: rgba(0, 0, 0, 0.06);
+  }
+
+  :root:not([data-theme="light"]) .accordion-content {
+    border-left-color: rgba(0, 0, 0, 0.1);
+  }
+
+  :root:not([data-theme="light"]) .current-article {
+    color: #22983b !important;
+  }
+
+  :root:not([data-theme="light"]) .journal-body h3 {
+    color: #1a1a1a;
+  }
+
+  :root:not([data-theme="light"]) .journal-header h1 {
+    color: #1a1a1a;
+  }
+
+  :root:not([data-theme="light"]) body {
+    background-color: #f4f7f5;
+  }
+}
+
+[data-theme="dark"] .sidebar,
+[data-theme="dark"] .main-content,
+[data-theme="dark"] .journal-sidebar-toggle {
+  color: #1a1a1a;
+  background-color: #ffffff;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .accordion-toggle {
+  color: #1a1a1a;
+}
+
+[data-theme="dark"] .accordion-content li a {
+  color: #3c3a3a;
+}
+
+[data-theme="dark"] .accordion-content li a:hover {
+  color: #22983b;
+}
+
+[data-theme="dark"] .accordion-item {
+  border-bottom-color: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="dark"] .accordion-content {
+  border-left-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .current-article {
+  color: #22983b !important;
+}
+
+[data-theme="dark"] .journal-body h3 {
+  color: #1a1a1a;
+}
+
+[data-theme="dark"] .journal-header h1 {
+  color: #1a1a1a;
+}
+
+[data-theme="dark"] body {
+  background-color: #f4f7f5;
+}
+
 /* --- Mobile Sidebar Toggle Button (Hidden on Desktop) --- */
 .journal-sidebar-toggle {
   display: none;
