@@ -172,11 +172,13 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // --- Contact Form Component ---
+var TURNSTILE_SITE_KEY = "0x4AAAAAAD8uiSyRouhkF0Zo";
+var turnstileWidgetId = null;
+var turnstileFailed = false;
+
 function initContactForm() {
   const mount = document.getElementById("contactFormMount");
   if (!mount) return;
-
-  const siteKey = "0x4AAAAAAD8uiSyRouhkF0Zo";
 
   mount.innerHTML = [
     '<form action="/api/contact" method="POST" id="contactForm">',
@@ -198,17 +200,40 @@ function initContactForm() {
   attachFormHandler();
 }
 
-function renderTurnstileWidget() {
+function renderTurnstileWidget(attempt) {
+  if (attempt === undefined) attempt = 0;
+  if (attempt >= 50) {
+    turnstileFailed = true;
+    var status = document.getElementById("formStatus");
+    if (status) {
+      status.textContent = "Security check failed to load. Refresh the page or try again later.";
+      status.className = "form-status error";
+    }
+    return;
+  }
+
   var container = document.getElementById("turnstile-widget");
   if (!container) return;
 
   if (typeof turnstile !== "undefined") {
-    turnstile.render("#turnstile-widget", {
-      sitekey: "0x4AAAAAAD8uiSyRouhkF0Zo",
-      theme: "light",
-    });
+    try {
+      turnstileWidgetId = turnstile.render("#turnstile-widget", {
+        sitekey: TURNSTILE_SITE_KEY,
+        theme: "light",
+        "error-callback": function () {
+          turnstileFailed = true;
+          var status = document.getElementById("formStatus");
+          if (status) {
+            status.textContent = "Security check unavailable. Submit anyway or refresh.";
+            status.className = "form-status error";
+          }
+        },
+      });
+    } catch (e) {
+      turnstileFailed = true;
+    }
   } else {
-    setTimeout(renderTurnstileWidget, 200);
+    setTimeout(function () { renderTurnstileWidget(attempt + 1); }, 200);
   }
 }
 
@@ -239,10 +264,16 @@ function attachFormHandler() {
     }
 
     var token = typeof turnstile !== "undefined" ? turnstile.getResponse() : "";
+
     if (!token) {
-      status.textContent = "Please complete the security check.";
-      status.className = "form-status error";
-      return;
+      if (turnstileFailed) {
+        status.textContent = "Security check is down. You can submit, but the message may be flagged.";
+        status.className = "form-status error";
+      } else {
+        status.textContent = "Please complete the security check.";
+        status.className = "form-status error";
+        return;
+      }
     }
 
     submitBtn.disabled = true;
