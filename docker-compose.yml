@@ -1,18 +1,6 @@
 services:
-  nginx:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  web:
+    build: .
     ports:
       - "80:80"
-    depends_on:
-      - api
-    restart: unless-stopped
-
-  api:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile.api
-    expose:
-      - "3000"
     restart: unless-stopped

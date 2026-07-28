@@ -1,17 +1,22 @@
-# Use the lightweight, production-grade Nginx alpine image
-FROM nginx:alpine
+FROM node:20-alpine
 
-# Remove default Nginx configuration to prevent conflicts
-RUN rm /etc/nginx/conf.d/default.conf
+RUN apk add --no-cache nginx
 
-# Copy your custom Nginx configuration directly into the container
-COPY nginx.conf /etc/nginx/conf.d/
+RUN mkdir -p /run/nginx /etc/nginx/conf.d
 
-# Copy everything inside your local public folder into Nginx's HTML directory
+WORKDIR /app
+
+COPY backend/package*.json ./
+RUN npm ci --omit=dev
+
+COPY backend/server.js .
+
 COPY public/ /usr/share/nginx/html/
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose port 80 to the Dokploy internal network
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
 EXPOSE 80
 
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/start.sh"]
