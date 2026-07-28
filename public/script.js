@@ -178,6 +178,40 @@ var TURNSTILE_SITE_KEY = "0x4AAAAAAEAQzFYeL64ycnIb";
 var turnstileWidgetId = null;
 var turnstileFailed = false;
 
+// Global callback triggered when Cloudflare's script finishes loading
+window.onloadTurnstileCallback = function () {
+  renderTurnstileWidget();
+};
+
+function renderTurnstileWidget() {
+  var container = document.getElementById("turnstile-widget");
+  if (!container) return;
+
+  if (typeof turnstile !== "undefined") {
+    turnstile.ready(function () {
+      try {
+        // Prevent rendering duplicate widgets if already mounted
+        if (turnstileWidgetId !== null) return;
+
+        turnstileWidgetId = turnstile.render("#turnstile-widget", {
+          sitekey: TURNSTILE_SITE_KEY,
+          theme: "light",
+          "error-callback": function () {
+            turnstileFailed = true;
+            var status = document.getElementById("formStatus");
+            if (status) {
+              status.textContent = "Security check unavailable. Submit anyway or refresh.";
+              status.className = "form-status error";
+            }
+          },
+        });
+      } catch (e) {
+        turnstileFailed = true;
+      }
+    });
+  }
+}
+
 function initContactForm() {
   const mount = document.getElementById("contactFormMount");
   if (!mount) return;
@@ -198,49 +232,9 @@ function initContactForm() {
     "</form>",
   ].join("");
 
+  // Attempt to render in case turnstile script loaded before initContactForm ran
   renderTurnstileWidget();
   attachFormHandler();
-}
-
-function renderTurnstileWidget(attempt) {
-  if (attempt === undefined) attempt = 0;
-  if (attempt >= 50) {
-    turnstileFailed = true;
-    var status = document.getElementById("formStatus");
-    if (status) {
-      status.textContent =
-        "Security check failed to load. Refresh the page or try again later.";
-      status.className = "form-status error";
-    }
-    return;
-  }
-
-  var container = document.getElementById("turnstile-widget");
-  if (!container) return;
-
-  if (typeof turnstile !== "undefined") {
-    try {
-      turnstileWidgetId = turnstile.render("#turnstile-widget", {
-        sitekey: TURNSTILE_SITE_KEY,
-        theme: "light",
-        "error-callback": function () {
-          turnstileFailed = true;
-          var status = document.getElementById("formStatus");
-          if (status) {
-            status.textContent =
-              "Security check unavailable. Submit anyway or refresh.";
-            status.className = "form-status error";
-          }
-        },
-      });
-    } catch (e) {
-      turnstileFailed = true;
-    }
-  } else {
-    setTimeout(function () {
-      renderTurnstileWidget(attempt + 1);
-    }, 200);
-  }
 }
 
 function attachFormHandler() {
