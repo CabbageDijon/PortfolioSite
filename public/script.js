@@ -115,7 +115,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 2b. View Transitions API
   if (document.startViewTransition) {
-    var internalLinks = document.querySelectorAll('a[href^="/"]:not([href*="#"]), a[href^="."]');
+    var internalLinks = document.querySelectorAll(
+      'a[href^="/"]:not([href*="#"]), a[href^="."]',
+    );
     internalLinks.forEach(function (link) {
       link.addEventListener("click", function (e) {
         if (e.metaKey || e.ctrlKey || e.shiftKey) return;
@@ -138,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
       var rect = banner.getBoundingClientRect();
       var x = ((e.clientX - rect.left) / rect.width - 0.5) * 16;
       var y = ((e.clientY - rect.top) / rect.height - 0.5) * 16;
-      banner.style.backgroundPosition = (50 + x) + "% " + (50 + y) + "%";
+      banner.style.backgroundPosition = 50 + x + "% " + (50 + y) + "%";
     });
 
     banner.addEventListener("mouseleave", function () {
@@ -206,7 +208,8 @@ function renderTurnstileWidget(attempt) {
     turnstileFailed = true;
     var status = document.getElementById("formStatus");
     if (status) {
-      status.textContent = "Security check failed to load. Refresh the page or try again later.";
+      status.textContent =
+        "Security check failed to load. Refresh the page or try again later.";
       status.className = "form-status error";
     }
     return;
@@ -224,7 +227,8 @@ function renderTurnstileWidget(attempt) {
           turnstileFailed = true;
           var status = document.getElementById("formStatus");
           if (status) {
-            status.textContent = "Security check unavailable. Submit anyway or refresh.";
+            status.textContent =
+              "Security check unavailable. Submit anyway or refresh.";
             status.className = "form-status error";
           }
         },
@@ -233,7 +237,9 @@ function renderTurnstileWidget(attempt) {
       turnstileFailed = true;
     }
   } else {
-    setTimeout(function () { renderTurnstileWidget(attempt + 1); }, 200);
+    setTimeout(function () {
+      renderTurnstileWidget(attempt + 1);
+    }, 200);
   }
 }
 
@@ -267,7 +273,8 @@ function attachFormHandler() {
 
     if (!token) {
       if (turnstileFailed) {
-        status.textContent = "Security check is down. You can submit, but the message may be flagged.";
+        status.textContent =
+          "Security check is down. You can submit, but the message may be flagged.";
         status.className = "form-status error";
       } else {
         status.textContent = "Please complete the security check.";
@@ -311,7 +318,8 @@ function attachFormHandler() {
         }
       }
     } catch (_err) {
-      status.textContent = "Could not reach the server. If testing locally, the API endpoint is only available in production.";
+      status.textContent =
+        "Could not reach the server. If testing locally, the API endpoint is only available in production.";
       status.className = "form-status error";
     }
 
@@ -360,19 +368,22 @@ codeBlocks.forEach(function (code) {
 
   btn.addEventListener("click", function () {
     var text = code.textContent;
-    navigator.clipboard.writeText(text).then(function () {
-      btn.textContent = "Copied!";
-      btn.classList.add("copied");
-      setTimeout(function () {
-        btn.textContent = "Copy";
-        btn.classList.remove("copied");
-      }, 2000);
-    }).catch(function () {
-      btn.textContent = "Failed";
-      setTimeout(function () {
-        btn.textContent = "Copy";
-      }, 2000);
-    });
+    navigator.clipboard
+      .writeText(text)
+      .then(function () {
+        btn.textContent = "Copied!";
+        btn.classList.add("copied");
+        setTimeout(function () {
+          btn.textContent = "Copy";
+          btn.classList.remove("copied");
+        }, 2000);
+      })
+      .catch(function () {
+        btn.textContent = "Failed";
+        setTimeout(function () {
+          btn.textContent = "Copy";
+        }, 2000);
+      });
   });
 });
 
