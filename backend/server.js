@@ -42,25 +42,8 @@ function escapeHtml(text) {
     .replace(/'/g, "&#39;");
 }
 
-async function verifyTurnstileToken(token) {
-  const params = new URLSearchParams();
-  params.append("secret", process.env.TURNSTILE_SECRET_KEY);
-  params.append("response", token);
-
-  try {
-    const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-      method: "POST",
-      body: params,
-    });
-    const data = await res.json();
-    return data.success === true;
-  } catch {
-    return false;
-  }
-}
-
 app.post("/api/contact", async (req, res) => {
-  const { email, message, "cf-turnstile-response": turnstileToken, _timestamp } = req.body;
+  const { email, message, _timestamp } = req.body;
 
   // 1. Honeypot check — reject silently if filled (bot)
   if (req.body.website) {
@@ -89,17 +72,7 @@ app.post("/api/contact", async (req, res) => {
     return res.status(400).json({ error: "Message must be at least 10 characters." });
   }
 
-  // 4. Turnstile verification
-  if (turnstileToken) {
-    const valid = await verifyTurnstileToken(turnstileToken);
-    if (!valid) {
-      return res.status(403).json({ error: "Security check failed. Please try again." });
-    }
-  } else {
-    return res.status(400).json({ error: "Security token missing." });
-  }
-
-  // 5. Send email
+  // 4. Send email
   const safeEmail = escapeHtml(email);
   const safeMessage = escapeHtml(message);
 

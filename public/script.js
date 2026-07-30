@@ -129,23 +129,18 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 2c. Banner mouse-tracking parallax
+  // 2c. Banner gradient follows mouse
   var banner = document.querySelector(".about-banner");
   if (banner) {
-    banner.addEventListener("mouseenter", function () {
-      banner.style.animationPlayState = "paused";
-    });
-
     banner.addEventListener("mousemove", function (e) {
       var rect = banner.getBoundingClientRect();
-      var x = ((e.clientX - rect.left) / rect.width - 0.5) * 16;
-      var y = ((e.clientY - rect.top) / rect.height - 0.5) * 16;
-      banner.style.backgroundPosition = 50 + x + "% " + (50 + y) + "%";
+      var x = ((e.clientX - rect.left) / rect.width) * 100;
+      var y = ((e.clientY - rect.top) / rect.height) * 100;
+      banner.style.backgroundPosition = x + "% " + y + "%";
     });
 
     banner.addEventListener("mouseleave", function () {
-      banner.style.backgroundPosition = "";
-      banner.style.animationPlayState = "running";
+      banner.style.backgroundPosition = "50% 50%";
     });
   }
 
@@ -174,44 +169,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // --- Contact Form Component ---
-var TURNSTILE_SITE_KEY = "0x4AAAAAAEAQzFYeL64ycnIb";
-var turnstileWidgetId = null;
-var turnstileFailed = false;
-
-// Global callback triggered when Cloudflare's script finishes loading
-window.onloadTurnstileCallback = function () {
-  renderTurnstileWidget();
-};
-
-function renderTurnstileWidget() {
-  var container = document.getElementById("turnstile-widget");
-  if (!container) return;
-
-  if (typeof turnstile !== "undefined") {
-    turnstile.ready(function () {
-      try {
-        // Prevent rendering duplicate widgets if already mounted
-        if (turnstileWidgetId !== null) return;
-
-        turnstileWidgetId = turnstile.render("#turnstile-widget", {
-          sitekey: TURNSTILE_SITE_KEY,
-          theme: "light",
-          "error-callback": function () {
-            turnstileFailed = true;
-            var status = document.getElementById("formStatus");
-            if (status) {
-              status.textContent = "Security check blocked by browser privacy settings. You may still submit.";
-              status.className = "form-status warning";
-            }
-          },
-        });
-      } catch (e) {
-        turnstileFailed = true;
-      }
-    });
-  }
-}
-
 function initContactForm() {
   const mount = document.getElementById("contactFormMount");
   if (!mount) return;
@@ -226,14 +183,11 @@ function initContactForm() {
     '  <input type="email" name="email" id="contact-email" placeholder="Your Email" required />',
     '  <label for="contact-message" class="sr-only">Message</label>',
     '  <textarea name="message" id="contact-message" placeholder="Tell me about your project..." rows="3" required></textarea>',
-    '  <div id="turnstile-widget"></div>',
     '  <button type="submit" class="contact-btn">Send Request</button>',
     '  <div id="formStatus" class="form-status" role="alert" aria-live="polite"></div>',
     "</form>",
   ].join("");
 
-  // Attempt to render in case turnstile script loaded before initContactForm ran
-  renderTurnstileWidget();
   attachFormHandler();
 }
 
@@ -263,20 +217,6 @@ function attachFormHandler() {
       return;
     }
 
-    var token = typeof turnstile !== "undefined" ? turnstile.getResponse() : "";
-
-    if (!token) {
-      if (turnstileFailed) {
-        status.textContent =
-          "Security check is down. You can submit, but the message may be flagged.";
-        status.className = "form-status error";
-      } else {
-        status.textContent = "Please complete the security check.";
-        status.className = "form-status error";
-        return;
-      }
-    }
-
     submitBtn.disabled = true;
     submitBtn.textContent = "Sending...";
     status.textContent = "";
@@ -289,7 +229,6 @@ function attachFormHandler() {
         body: JSON.stringify({
           email: email,
           message: message,
-          "cf-turnstile-response": token,
           _timestamp: timestamp,
         }),
       });
@@ -301,15 +240,9 @@ function attachFormHandler() {
         status.className = "form-status success";
         form.email.value = "";
         form.message.value = "";
-        if (typeof turnstile !== "undefined") {
-          turnstile.reset();
-        }
       } else {
         status.textContent = data.error || "Failed to send message.";
         status.className = "form-status error";
-        if (typeof turnstile !== "undefined") {
-          turnstile.reset();
-        }
       }
     } catch (_err) {
       status.textContent =

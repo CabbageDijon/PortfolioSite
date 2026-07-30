@@ -21,7 +21,7 @@
   --color-bg-placeholder: #e9ecef;
   --color-placeholder-text: #adb5bd;
 
-  /* ----- Banner gradient (shimmer animation) ----- */
+  /* ----- Banner gradient (mouse-tracking) ----- */
   --color-banner-gradient-1: #616b74;
   --color-banner-gradient-2: #222125;
   --color-banner-gradient-3: #39385a;
@@ -284,6 +284,7 @@ main {
    ========================================================================== */
 .about-banner {
   width: 100%;
+  overflow: hidden;
   background: linear-gradient(
     135deg,
     var(--color-banner-gradient-1),
@@ -291,18 +292,19 @@ main {
     var(--color-banner-gradient-3)
   );
   background-size: 200% 200%;
-  animation: shimmer 10s ease-in-out infinite;
+  background-position: 50% 50%;
   border-bottom: 1px solid var(--color-border);
+  transition: background-position 0.8s ease-out;
 }
 
 .banner-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 60px 48px 0;
+  padding: 32px 48px 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 48px;
-  align-items: center;
+  gap: 24px;
+  align-items: end;
 }
 
 .about-content h2 {
@@ -325,28 +327,17 @@ main {
   height: 100%;
   display: flex;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: flex-end;
+  margin-right: -48px;
 }
 
 .profile-img {
-  width: 85%;
+  width: 120%;
+  max-width: none;
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 10px 20px var(--shadow-profile));
   display: block;
-}
-
-/* Shimmer animation */
-@keyframes shimmer {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
 }
 
 /* ==========================================================================
@@ -354,7 +345,7 @@ main {
    ========================================================================== */
 .hero {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 36px;
 }
 
 .hero h1 {
@@ -631,8 +622,8 @@ footer {
 
   .banner-inner {
     grid-template-columns: 1fr;
-    padding: 40px 24px 0;
-    gap: 32px;
+    padding: 24px 24px 0;
+    gap: 16px;
     text-align: center;
   }
 
@@ -642,6 +633,15 @@ footer {
 
   .about-content p {
     padding-bottom: 0;
+  }
+
+  .about-image-container {
+    margin-right: 0;
+  }
+
+  .profile-img {
+    width: 85%;
+    max-width: none;
   }
 
   main {
