@@ -13,12 +13,8 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile.api
-    environment:
-      - PORT=3000
-      - EMAIL_USER=${EMAIL_USER}
-      - EMAIL_PASS=${EMAIL_PASS}
-      - CONTACT_EMAIL=${CONTACT_EMAIL}
-      - TURNSTILE_SECRET_KEY=${TURNSTILE_SECRET_KEY}
+    env_file:
+      - ./backend/.env
     expose:
       - "3000"
     restart: unless-stopped
