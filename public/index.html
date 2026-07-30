@@ -15,7 +15,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=2.1" />
+    <link rel="stylesheet" href="styles.css?v=2.2" />
     <link rel="canonical" href="https://cabscode.pro/" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://cabscode.pro/" />
@@ -27,7 +27,7 @@
       property="og:description"
       content="Custom web application development, front-end engineering, and high-performance web hosting based in Botswana."
     />
-    <meta property="og:image" content="https://cabscode.pro/images/me.png" />
+    <meta property="og:image" content="https://cabscode.pro/images/favicon.png" />
     <meta property="og:locale" content="en_BW" />
 
     <meta name="twitter:card" content="summary_large_image" />
@@ -39,7 +39,7 @@
       name="twitter:description"
       content="Custom web application development and hosting services by Tema Bown."
     />
-    <meta name="twitter:image" content="https://cabscode.pro/images/me.png" />
+    <meta name="twitter:image" content="https://cabscode.pro/images/favicon.png" />
 
     <script type="application/ld+json">
       {
@@ -76,6 +76,14 @@
         "priceRange": "$$"
       }
     </script>
+    <script>
+      window.onloadTurnstileCallback = function () {
+        if (typeof renderTurnstileWidget === "function") {
+          renderTurnstileWidget();
+        }
+      };
+    </script>
+
     <script
       src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit"
       async
@@ -230,6 +238,6 @@
       </div>
     </footer>
 
-    <script src="script.js?v=2.1"></script>
+    <script src="script.js?v=2.2"></script>
   </body>
 </html>
