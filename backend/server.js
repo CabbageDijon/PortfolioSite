@@ -6,6 +6,9 @@ const rateLimit = require("express-rate-limit");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Trust Nginx reverse proxy headers for rate limiting
+app.set("trust proxy", 1);
+
 app.use(express.json());
 
 const limiter = rateLimit({

@@ -200,8 +200,8 @@ function renderTurnstileWidget() {
             turnstileFailed = true;
             var status = document.getElementById("formStatus");
             if (status) {
-              status.textContent = "Security check unavailable. Submit anyway or refresh.";
-              status.className = "form-status error";
+              status.textContent = "Security check blocked by browser privacy settings. You may still submit.";
+              status.className = "form-status warning";
             }
           },
         });
