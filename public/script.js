@@ -169,6 +169,214 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // --- Contact Form Component ---
+var COUNTRY_CODES = [
+  { name: "Botswana",        dial: "+267", code: "BW" },
+  { name: "South Africa",    dial: "+27",  code: "ZA" },
+  { name: "Namibia",         dial: "+264", code: "NA" },
+  { name: "Zambia",          dial: "+260", code: "ZM" },
+  { name: "Afghanistan",     dial: "+93",  code: "AF" },
+  { name: "Albania",         dial: "+355", code: "AL" },
+  { name: "Algeria",         dial: "+213", code: "DZ" },
+  { name: "Argentina",       dial: "+54",  code: "AR" },
+  { name: "Armenia",         dial: "+374", code: "AM" },
+  { name: "Australia",       dial: "+61",  code: "AU" },
+  { name: "Austria",         dial: "+43",  code: "AT" },
+  { name: "Azerbaijan",      dial: "+994", code: "AZ" },
+  { name: "Bahrain",         dial: "+973", code: "BH" },
+  { name: "Bangladesh",      dial: "+880", code: "BD" },
+  { name: "Belgium",         dial: "+32",  code: "BE" },
+  { name: "Benin",           dial: "+229", code: "BJ" },
+  { name: "Bolivia",         dial: "+591", code: "BO" },
+  { name: "Bosnia & Herzegovina", dial: "+387", code: "BA" },
+  { name: "Brazil",          dial: "+55",  code: "BR" },
+  { name: "Brunei",          dial: "+673", code: "BN" },
+  { name: "Bulgaria",        dial: "+359", code: "BG" },
+  { name: "Burkina Faso",    dial: "+226", code: "BF" },
+  { name: "Burundi",         dial: "+257", code: "BI" },
+  { name: "Cambodia",        dial: "+855", code: "KH" },
+  { name: "Cameroon",        dial: "+237", code: "CM" },
+  { name: "Canada",          dial: "+1",   code: "CA" },
+  { name: "Chad",            dial: "+235", code: "TD" },
+  { name: "Chile",           dial: "+56",  code: "CL" },
+  { name: "China",           dial: "+86",  code: "CN" },
+  { name: "Colombia",        dial: "+57",  code: "CO" },
+  { name: "Congo (DRC)",     dial: "+243", code: "CD" },
+  { name: "Congo (Republic)", dial: "+242", code: "CG" },
+  { name: "Costa Rica",      dial: "+506", code: "CR" },
+  { name: "Croatia",         dial: "+385", code: "HR" },
+  { name: "Cuba",            dial: "+53",  code: "CU" },
+  { name: "Cyprus",          dial: "+357", code: "CY" },
+  { name: "Czech Republic",  dial: "+420", code: "CZ" },
+  { name: "Denmark",         dial: "+45",  code: "DK" },
+  { name: "Djibouti",        dial: "+253", code: "DJ" },
+  { name: "Ecuador",         dial: "+593", code: "EC" },
+  { name: "Egypt",           dial: "+20",  code: "EG" },
+  { name: "El Salvador",     dial: "+503", code: "SV" },
+  { name: "Eritrea",         dial: "+291", code: "ER" },
+  { name: "Estonia",         dial: "+372", code: "EE" },
+  { name: "Eswatini",        dial: "+268", code: "SZ" },
+  { name: "Ethiopia",        dial: "+251", code: "ET" },
+  { name: "Fiji",            dial: "+679", code: "FJ" },
+  { name: "Finland",         dial: "+358", code: "FI" },
+  { name: "France",          dial: "+33",  code: "FR" },
+  { name: "Gabon",           dial: "+241", code: "GA" },
+  { name: "Gambia",          dial: "+220", code: "GM" },
+  { name: "Georgia",         dial: "+995", code: "GE" },
+  { name: "Germany",         dial: "+49",  code: "DE" },
+  { name: "Ghana",           dial: "+233", code: "GH" },
+  { name: "Greece",          dial: "+30",  code: "GR" },
+  { name: "Guatemala",       dial: "+502", code: "GT" },
+  { name: "Guinea",          dial: "+224", code: "GN" },
+  { name: "Guyana",          dial: "+592", code: "GY" },
+  { name: "Haiti",           dial: "+509", code: "HT" },
+  { name: "Honduras",        dial: "+504", code: "HN" },
+  { name: "Hong Kong",       dial: "+852", code: "HK" },
+  { name: "Hungary",         dial: "+36",  code: "HU" },
+  { name: "Iceland",         dial: "+354", code: "IS" },
+  { name: "India",           dial: "+91",  code: "IN" },
+  { name: "Indonesia",       dial: "+62",  code: "ID" },
+  { name: "Iran",            dial: "+98",  code: "IR" },
+  { name: "Iraq",            dial: "+964", code: "IQ" },
+  { name: "Ireland",         dial: "+353", code: "IE" },
+  { name: "Israel",          dial: "+972", code: "IL" },
+  { name: "Italy",           dial: "+39",  code: "IT" },
+  { name: "Ivory Coast",     dial: "+225", code: "CI" },
+  { name: "Jamaica",         dial: "+1-876", code: "JM" },
+  { name: "Japan",           dial: "+81",  code: "JP" },
+  { name: "Jordan",          dial: "+962", code: "JO" },
+  { name: "Kazakhstan",      dial: "+7",   code: "KZ" },
+  { name: "Kenya",           dial: "+254", code: "KE" },
+  { name: "Kuwait",          dial: "+965", code: "KW" },
+  { name: "Kyrgyzstan",      dial: "+996", code: "KG" },
+  { name: "Laos",            dial: "+856", code: "LA" },
+  { name: "Latvia",          dial: "+371", code: "LV" },
+  { name: "Lebanon",         dial: "+961", code: "LB" },
+  { name: "Liberia",         dial: "+231", code: "LR" },
+  { name: "Libya",           dial: "+218", code: "LY" },
+  { name: "Lithuania",       dial: "+370", code: "LT" },
+  { name: "Luxembourg",      dial: "+352", code: "LU" },
+  { name: "Madagascar",      dial: "+261", code: "MG" },
+  { name: "Malawi",          dial: "+265", code: "MW" },
+  { name: "Malaysia",        dial: "+60",  code: "MY" },
+  { name: "Mali",            dial: "+223", code: "ML" },
+  { name: "Malta",           dial: "+356", code: "MT" },
+  { name: "Mauritania",      dial: "+222", code: "MR" },
+  { name: "Mauritius",       dial: "+230", code: "MU" },
+  { name: "Mexico",          dial: "+52",  code: "MX" },
+  { name: "Moldova",         dial: "+373", code: "MD" },
+  { name: "Monaco",          dial: "+377", code: "MC" },
+  { name: "Mongolia",        dial: "+976", code: "MN" },
+  { name: "Montenegro",      dial: "+382", code: "ME" },
+  { name: "Morocco",         dial: "+212", code: "MA" },
+  { name: "Mozambique",      dial: "+258", code: "MZ" },
+  { name: "Myanmar",         dial: "+95",  code: "MM" },
+  { name: "Nepal",           dial: "+977", code: "NP" },
+  { name: "Netherlands",     dial: "+31",  code: "NL" },
+  { name: "New Zealand",     dial: "+64",  code: "NZ" },
+  { name: "Niger",           dial: "+227", code: "NE" },
+  { name: "Nigeria",         dial: "+234", code: "NG" },
+  { name: "North Korea",     dial: "+850", code: "KP" },
+  { name: "North Macedonia", dial: "+389", code: "MK" },
+  { name: "Norway",          dial: "+47",  code: "NO" },
+  { name: "Oman",            dial: "+968", code: "OM" },
+  { name: "Pakistan",        dial: "+92",  code: "PK" },
+  { name: "Palestine",       dial: "+970", code: "PS" },
+  { name: "Panama",          dial: "+507", code: "PA" },
+  { name: "Paraguay",        dial: "+595", code: "PY" },
+  { name: "Peru",            dial: "+51",  code: "PE" },
+  { name: "Philippines",     dial: "+63",  code: "PH" },
+  { name: "Poland",          dial: "+48",  code: "PL" },
+  { name: "Portugal",        dial: "+351", code: "PT" },
+  { name: "Qatar",           dial: "+974", code: "QA" },
+  { name: "Romania",         dial: "+40",  code: "RO" },
+  { name: "Russia",          dial: "+7",   code: "RU" },
+  { name: "Rwanda",          dial: "+250", code: "RW" },
+  { name: "Saudi Arabia",    dial: "+966", code: "SA" },
+  { name: "Senegal",         dial: "+221", code: "SN" },
+  { name: "Serbia",          dial: "+381", code: "RS" },
+  { name: "Sierra Leone",    dial: "+232", code: "SL" },
+  { name: "Singapore",       dial: "+65",  code: "SG" },
+  { name: "Slovakia",        dial: "+421", code: "SK" },
+  { name: "Slovenia",        dial: "+386", code: "SI" },
+  { name: "Somalia",         dial: "+252", code: "SO" },
+  { name: "South Korea",     dial: "+82",  code: "KR" },
+  { name: "South Sudan",     dial: "+211", code: "SS" },
+  { name: "Spain",           dial: "+34",  code: "ES" },
+  { name: "Sri Lanka",       dial: "+94",  code: "LK" },
+  { name: "Sudan",           dial: "+249", code: "SD" },
+  { name: "Suriname",        dial: "+597", code: "SR" },
+  { name: "Sweden",          dial: "+46",  code: "SE" },
+  { name: "Switzerland",     dial: "+41",  code: "CH" },
+  { name: "Syria",           dial: "+963", code: "SY" },
+  { name: "Taiwan",          dial: "+886", code: "TW" },
+  { name: "Tajikistan",      dial: "+992", code: "TJ" },
+  { name: "Tanzania",        dial: "+255", code: "TZ" },
+  { name: "Thailand",        dial: "+66",  code: "TH" },
+  { name: "Togo",            dial: "+228", code: "TG" },
+  { name: "Tunisia",         dial: "+216", code: "TN" },
+  { name: "Turkey",          dial: "+90",  code: "TR" },
+  { name: "Turkmenistan",    dial: "+993", code: "TM" },
+  { name: "Uganda",          dial: "+256", code: "UG" },
+  { name: "Ukraine",         dial: "+380", code: "UA" },
+  { name: "United Arab Emirates", dial: "+971", code: "AE" },
+  { name: "United Kingdom",  dial: "+44",  code: "GB" },
+  { name: "United States",   dial: "+1",   code: "US" },
+  { name: "Uruguay",         dial: "+598", code: "UY" },
+  { name: "Uzbekistan",      dial: "+998", code: "UZ" },
+  { name: "Venezuela",       dial: "+58",  code: "VE" },
+  { name: "Vietnam",         dial: "+84",  code: "VN" },
+  { name: "Yemen",           dial: "+967", code: "YE" },
+  { name: "Zimbabwe",        dial: "+263", code: "ZW" },
+];
+
+function validatePhone(num) {
+  if (!num) return false;
+  var digits = num.replace(/[\s\-\(\)\+]/g, "");
+  return /^\d{6,15}$/.test(digits);
+}
+
+function populateCountrySelect(select) {
+  COUNTRY_CODES.forEach(function (c) {
+    var opt = document.createElement("option");
+    opt.value = c.dial;
+    opt.textContent = c.name + " " + c.dial;
+    if (c.code === "BW") opt.selected = true;
+    select.appendChild(opt);
+  });
+}
+
+function initContactModeToggle() {
+  var emailRow = document.getElementById("emailRow");
+  var phoneRow = document.getElementById("phoneRow");
+  var emailInput = document.getElementById("contact-email");
+  var phoneInput = document.getElementById("contact-phone");
+  var modeBtns = document.querySelectorAll(".mode-btn");
+
+  modeBtns.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      modeBtns.forEach(function (b) {
+        b.classList.remove("active");
+        b.setAttribute("aria-pressed", "false");
+      });
+      btn.classList.add("active");
+      btn.setAttribute("aria-pressed", "true");
+
+      var mode = btn.getAttribute("data-mode");
+      if (mode === "email") {
+        emailRow.classList.remove("hidden");
+        phoneRow.classList.add("hidden");
+        emailInput.required = true;
+        phoneInput.required = false;
+      } else {
+        emailRow.classList.add("hidden");
+        phoneRow.classList.remove("hidden");
+        emailInput.required = false;
+        phoneInput.required = true;
+      }
+    });
+  });
+}
+
 function initContactForm() {
   const mount = document.getElementById("contactFormMount");
   if (!mount) return;
@@ -179,15 +387,37 @@ function initContactForm() {
     '    <input type="text" name="website" tabindex="-1" autocomplete="off" />',
     "  </div>",
     '  <input type="hidden" name="_timestamp" value="' + Date.now() + '" />',
-    '  <label for="contact-email" class="sr-only">Email</label>',
-    '  <input type="email" name="email" id="contact-email" placeholder="Your Email" required />',
+    '',
+    '  <div class="contact-mode-toggle" role="radiogroup" aria-label="Contact method">',
+    '    <button type="button" class="mode-btn active" data-mode="email" aria-pressed="true">',
+    '      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>',
+    '      Email',
+    '    </button>',
+    '    <button type="button" class="mode-btn" data-mode="whatsapp" aria-pressed="false">',
+    '      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
+    '      WhatsApp',
+    '    </button>',
+    "  </div>",
+    '',
+    '  <div class="contact-input-row" id="emailRow">',
+    '    <input type="email" name="email" id="contact-email" placeholder="Your Email" required />',
+    "  </div>",
+    '',
+    '  <div class="contact-input-row hidden" id="phoneRow">',
+    '    <select name="countryCode" id="countryCode" aria-label="Country code"></select>',
+    '    <input type="tel" name="phone" id="contact-phone" placeholder="Phone number" />',
+    "  </div>",
+    '',
     '  <label for="contact-message" class="sr-only">Message</label>',
     '  <textarea name="message" id="contact-message" placeholder="Tell me about your project..." rows="3" required></textarea>',
-    '  <button type="submit" class="contact-btn">Send Request</button>',
+    '',
+    '  <button type="submit" class="contact-btn" id="submitBtn">Send Request</button>',
     '  <div id="formStatus" class="form-status" role="alert" aria-live="polite"></div>',
     "</form>",
   ].join("");
 
+  populateCountrySelect(document.getElementById("countryCode"));
+  initContactModeToggle();
   attachFormHandler();
 }
 
@@ -198,13 +428,31 @@ function attachFormHandler() {
   form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    var email = form.email.value.trim();
     var message = form.message.value.trim();
     var status = document.getElementById("formStatus");
-    var submitBtn = form.querySelector('button[type="submit"]');
+    var submitBtn = document.getElementById("submitBtn");
+    var mode = document.querySelector(".mode-btn.active").getAttribute("data-mode");
 
-    if (!email || !message) {
-      status.textContent = "Please fill in all fields.";
+    var email, phone, countryCode;
+    if (mode === "email") {
+      email = form.email.value.trim();
+      if (!email) {
+        status.textContent = "Please enter your email.";
+        status.className = "form-status error";
+        return;
+      }
+    } else {
+      phone = form.phone.value.trim();
+      countryCode = form.countryCode.value;
+      if (!validatePhone(phone)) {
+        status.textContent = "Please enter a valid phone number.";
+        status.className = "form-status error";
+        return;
+      }
+    }
+
+    if (!message) {
+      status.textContent = "Please enter a message.";
       status.className = "form-status error";
       return;
     }
@@ -222,36 +470,51 @@ function attachFormHandler() {
     status.textContent = "";
     status.className = "form-status";
 
+    var body = { message: message, _timestamp: timestamp };
+    if (mode === "email") {
+      body.email = email;
+    } else {
+      body.phone = phone;
+      body.countryCode = countryCode;
+    }
+
     try {
       var res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email,
-          message: message,
-          _timestamp: timestamp,
-        }),
+        body: JSON.stringify(body),
       });
 
       var data = await res.json();
 
       if (res.ok) {
-        status.textContent = "Message sent successfully!";
-        status.className = "form-status success";
-        form.email.value = "";
+        status.textContent = "";
+        status.className = "form-status";
+        submitBtn.textContent = "Request Sent";
+        submitBtn.classList.add("sent");
         form.message.value = "";
+        if (mode === "email") {
+          form.email.value = "";
+        } else {
+          form.phone.value = "";
+        }
+        setTimeout(function () {
+          submitBtn.textContent = "Send Request";
+          submitBtn.classList.remove("sent");
+          submitBtn.disabled = false;
+        }, 4000);
       } else {
         status.textContent = data.error || "Failed to send message.";
         status.className = "form-status error";
+        submitBtn.textContent = "Send Request";
+        submitBtn.disabled = false;
       }
     } catch (_err) {
-      status.textContent =
-        "Could not reach the server. If testing locally, the API endpoint is only available in production.";
+      status.textContent = "Could not reach the server.";
       status.className = "form-status error";
+      submitBtn.textContent = "Send Request";
+      submitBtn.disabled = false;
     }
-
-    submitBtn.textContent = "Send Request";
-    submitBtn.disabled = false;
   });
 }
 

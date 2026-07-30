@@ -43,7 +43,7 @@ function escapeHtml(text) {
 }
 
 app.post("/api/contact", async (req, res) => {
-  const { email, message, _timestamp } = req.body;
+  const { email, phone, countryCode, message, _timestamp } = req.body;
 
   // 1. Honeypot check — reject silently if filled (bot)
   if (req.body.website) {
@@ -60,35 +60,49 @@ app.post("/api/contact", async (req, res) => {
   }
 
   // 3. Validate required fields
-  if (!email || !message) {
-    return res.status(400).json({ error: "Email and message are required." });
+  if (!email && !phone) {
+    return res.status(400).json({ error: "Email or phone number is required." });
   }
 
-  if (!isValidEmail(email)) {
+  if (email && !isValidEmail(email)) {
     return res.status(400).json({ error: "Invalid email address." });
   }
 
-  if (message.trim().length < 10) {
+  if (phone) {
+    const digits = phone.replace(/[\s\-\(\)\+]/g, "");
+    if (!/^\d{6,15}$/.test(digits)) {
+      return res.status(400).json({ error: "Invalid phone number." });
+    }
+  }
+
+  if (!message || message.trim().length < 10) {
     return res.status(400).json({ error: "Message must be at least 10 characters." });
   }
 
   // 4. Send email
-  const safeEmail = escapeHtml(email);
   const safeMessage = escapeHtml(message);
+  const isWhatsApp = !!phone;
+  const fromLabel = isWhatsApp
+    ? "WhatsApp (" + escapeHtml(countryCode || "") + " " + escapeHtml(phone) + ")"
+    : escapeHtml(email);
+  const subject = isWhatsApp
+    ? "New Project Inquiry via WhatsApp from " + (countryCode || "") + " " + phone
+    : "New Project Inquiry from " + email;
+  const replyTo = email || undefined;
 
   try {
     await transporter.sendMail({
-      from: `"CabsCode Contact Form" <${process.env.EMAIL_USER}>`,
+      from: '"CabsCode Contact Form" <' + process.env.EMAIL_USER + ">",
       to: process.env.CONTACT_EMAIL,
-      replyTo: email,
-      subject: `New Project Inquiry from ${email}`,
-      text: `From: ${email}\n\n${message}`,
-      html: `
-        <h2>New Project Inquiry</h2>
-        <p><strong>From:</strong> ${safeEmail}</p>
-        <hr />
-        <p>${safeMessage.replace(/\n/g, "<br />")}</p>
-      `,
+      replyTo: replyTo,
+      subject: subject,
+      text: "From: " + fromLabel + "\n\n" + message,
+      html: [
+        "<h2>New Project Inquiry</h2>",
+        "<p><strong>From:</strong> " + fromLabel + "</p>",
+        "<hr />",
+        "<p>" + safeMessage.replace(/\n/g, "<br />") + "</p>",
+      ].join(""),
     });
 
     res.json({ success: true, message: "Message sent successfully." });
