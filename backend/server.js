@@ -3,6 +3,14 @@ const express = require("express");
 const nodemailer = require("nodemailer");
 const rateLimit = require("express-rate-limit");
 
+// Global error handlers — log crashes instead of silently dying
+process.on("uncaughtException", function (err) {
+  console.error("UNCAUGHT EXCEPTION:", err);
+});
+process.on("unhandledRejection", function (reason) {
+  console.error("UNHANDLED REJECTION:", reason);
+});
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 

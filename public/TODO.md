@@ -6,6 +6,17 @@
 
 ---
 
+## Contact Form
+
+- Add service select dropdown above the message textarea
+  - Options: Web Development, Custom Tools, Consultancy, UI/UX Design
+  - Positioned between the contact method toggle+input row and the message field
+  - Required field — client must select a service before submitting
+  - Backend: accept `service` field, include in email notification subject/body
+  - CSS: style select to match existing `.footer-form input` and `.contact-input-row select` rules
+
+---
+
 ## Mobile
 
 - Reformat to come from side and not fully cover screen, either have a opacity lower or blur for rest of viewport
