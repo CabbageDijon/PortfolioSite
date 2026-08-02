@@ -121,6 +121,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // 2. Contact Form — JS Component Injection
   initContactForm();
 
+  // 2a. Service CTA pickers
+  initServicePickers();
+
   // 2b. View Transitions API
   if (document.startViewTransition) {
     var internalLinks = document.querySelectorAll(
@@ -527,6 +530,147 @@ function attachFormHandler() {
       submitBtn.textContent = "Send Request";
       submitBtn.disabled = false;
     }
+  });
+}
+
+// --- Service CTA Picker Menus ---
+var SERVICE_PICKERS = {
+  web: {
+    title: "Web Development",
+    icon: "code-xml",
+    options: [
+      { label: "Responsive landing pages", icon: "layout" },
+      { label: "Admin dashboards & panels", icon: "gauge" },
+      { label: "Single-page applications", icon: "zap" },
+      { label: "E-commerce solutions", icon: "shopping-cart" },
+    ],
+  },
+  tools: {
+    title: "Custom Tools",
+    icon: "wrench",
+    options: [
+      { label: "Workflow automation", icon: "workflow" },
+      { label: "Data visualisation tools", icon: "bar-chart-3" },
+      { label: "Internal business utilities", icon: "boxes" },
+      { label: "API integrations", icon: "plug" },
+    ],
+  },
+};
+
+function initServicePickers() {
+  var buttons = document.querySelectorAll(".service-cta-btn");
+  if (!buttons.length) return;
+
+  var grid = document.querySelector(".services-grid");
+  var picker = document.getElementById("servicePicker");
+  var pickerIcon = document.getElementById("pickerIcon");
+  var pickerTitle = document.getElementById("pickerTitle");
+  var optionsWrap = document.getElementById("pickerOptions");
+  var notes = document.getElementById("pickerNotes");
+  var activeCard = null;
+
+  function closePicker() {
+    grid.classList.remove("is-picking");
+    if (activeCard) activeCard.classList.remove("is-active");
+    activeCard = null;
+    picker.setAttribute("hidden", "");
+  }
+
+  function openPicker(service, card) {
+    var data = SERVICE_PICKERS[service];
+    if (!data) return;
+
+    activeCard = card;
+    pickerIcon.innerHTML = '<i data-lucide="' + data.icon + '"></i>';
+    pickerTitle.textContent = data.title;
+    notes.value = "";
+
+    optionsWrap.innerHTML = data.options
+      .map(function (opt) {
+        return (
+          '<label class="picker-option">' +
+          '<input type="checkbox" value="' +
+          opt.label +
+          '" />' +
+          '<i data-lucide="' +
+          opt.icon +
+          '"></i>' +
+          opt.label +
+          "</label>"
+        );
+      })
+      .join("");
+
+    grid.classList.add("is-picking");
+    card.classList.add("is-active");
+    picker.removeAttribute("hidden");
+
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+
+    picker.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "nearest",
+    });
+  }
+
+  buttons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var service = btn.getAttribute("data-service");
+      var card = btn.closest(".service-card");
+      if (card.classList.contains("is-active")) {
+        closePicker();
+      } else {
+        openPicker(service, card);
+      }
+    });
+  });
+
+  document.getElementById("pickerClose").addEventListener("click", closePicker);
+  document
+    .getElementById("pickerCancel")
+    .addEventListener("click", closePicker);
+
+  document.getElementById("pickerConfirm").addEventListener("click", function () {
+    if (!activeCard) return;
+
+    var service = activeCard
+      .querySelector(".service-cta-btn")
+      .getAttribute("data-service");
+    var data = SERVICE_PICKERS[service];
+    var selected = Array.prototype.filter
+      .call(optionsWrap.querySelectorAll('input[type="checkbox"]:checked'))
+      .map(function (cb) {
+        return cb.value;
+      });
+
+    var lines = [];
+    if (selected.length) {
+      lines.push("I'm interested in: " + selected.join(", ") + ".");
+    } else {
+      lines.push("I'd like to discuss what I need.");
+    }
+    var extra = notes.value.trim();
+    if (extra) {
+      lines.push("Details: " + extra);
+    }
+
+    var message =
+      "Hi Tema, I'd like to enquire about " + data.title + ". " + lines.join(" ");
+
+    var textarea = document.getElementById("contact-message");
+    if (textarea) {
+      textarea.value = message;
+      var form = document.getElementById("contactForm");
+      if (form) {
+        form.scrollIntoView({ behavior: "smooth", block: "start" });
+        textarea.focus();
+      }
+    }
+
+    closePicker();
   });
 }
 

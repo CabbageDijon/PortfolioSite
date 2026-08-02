@@ -26,8 +26,8 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=2.10" />
-    <link rel="stylesheet" href="services.css?v=2.10" />
+    <link rel="stylesheet" href="styles.css?v=2.12" />
+    <link rel="stylesheet" href="services.css?v=2.12" />
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   </head>
   <body>
@@ -92,6 +92,14 @@
             <li>Single-page applications</li>
             <li>E-commerce solutions</li>
           </ul>
+          <button
+            type="button"
+            class="service-cta-btn solid-btn"
+            data-service="web"
+          >
+            Start a Project
+            <i data-lucide="chevron-down" class="icon-inline"></i>
+          </button>
         </article>
 
         <article class="service-card">
@@ -110,32 +118,60 @@
             <li>Internal business utilities</li>
             <li>API integrations</li>
           </ul>
+          <button
+            type="button"
+            class="service-cta-btn solid-btn"
+            data-service="tools"
+          >
+            Request a Tool
+            <i data-lucide="chevron-down" class="icon-inline"></i>
+          </button>
         </article>
 
-        <article class="service-card">
-          <div class="service-icon">
-            <i data-lucide="users"></i>
+        <div class="service-picker" id="servicePicker" hidden>
+          <div class="picker-header">
+            <div class="picker-title">
+              <div class="service-icon picker-icon" id="pickerIcon">
+                <i data-lucide="code-xml"></i>
+              </div>
+              <h3 id="pickerTitle">Web Development</h3>
+            </div>
+            <button
+              type="button"
+              class="picker-close"
+              id="pickerClose"
+              aria-label="Close picker"
+            >
+              <i data-lucide="x"></i>
+            </button>
           </div>
-          <h3>Consultancy</h3>
-          <p>
-            Not sure what your business needs? I offer consultations to help you
-            plan your digital presence, choose the right tech stack, and make
-            informed decisions about your online strategy.
+          <p class="picker-hint">
+            Select what you need and I'll pre-write the enquiry for you.
           </p>
-          <ul class="service-details">
-            <li>Digital strategy planning</li>
-            <li>Tech stack recommendations</li>
-            <li>Code reviews &amp; audits</li>
-            <li>Project scoping &amp; estimates</li>
-          </ul>
-        </article>
+          <div class="picker-options" id="pickerOptions"></div>
+          <label for="pickerNotes" class="picker-label">Anything else?</label>
+          <textarea
+            id="pickerNotes"
+            rows="2"
+            placeholder="Optional — add details, links, timeline..."
+          ></textarea>
+          <div class="picker-actions">
+            <button type="button" class="picker-cancel" id="pickerCancel">
+              Cancel
+            </button>
+            <button type="button" class="solid-btn" id="pickerConfirm">
+              Continue
+              <i data-lucide="arrow-right" class="icon-inline"></i>
+            </button>
+          </div>
+        </div>
       </section>
 
       <section class="services-cta">
-        <h2>Ready to start?</h2>
+        <h2>For more custom, in-depth or general enquiries</h2>
         <p>
-          Get in touch through the form below to discuss your project. Whether
-          you need a full website or just a quick tool, I can help.
+          Use the form below, or reach me directly if your project needs
+          something tailored.
         </p>
         <a href="#contactForm" class="solid-btn"
           >Get in Touch
@@ -169,7 +205,7 @@
       </div>
     </footer>
 
-    <script src="script.js?v=2.10"></script>
+    <script src="script.js?v=2.12"></script>
     <script>
       lucide.createIcons();
     </script>
