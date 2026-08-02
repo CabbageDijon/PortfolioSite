@@ -265,6 +265,60 @@
   flex-direction: column;
 }
 
+/* --- Tool Card Icons --- */
+.tool-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background-color: #f0f4ee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px 16px 0 16px;
+  color: var(--color-primary-dark);
+}
+
+.tool-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+[data-theme="dark"] .tool-icon {
+  background-color: #1e2a24;
+}
+
+#qr-code {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+#qr-code canvas,
+#qr-code img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.qr-tool-preview {
+  overflow: hidden;
+}
+
+.qr-warning {
+  display: none;
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  margin-top: 12px;
+  text-align: center;
+}
+
+.qr-warning.visible {
+  display: block;
+}
+
 @media (max-width: 768px) {
   .demo-grid.two-columns {
     grid-template-columns: 1fr;
@@ -272,5 +326,20 @@
 
   .demo-image {
     aspect-ratio: 9 / 16;
+  }
+
+  .qr-tool-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .qr-tool-preview {
+    min-height: auto !important;
+  }
+
+  #qr-code canvas,
+  #qr-code img {
+    max-width: 280px;
+    max-height: 280px;
   }
 }

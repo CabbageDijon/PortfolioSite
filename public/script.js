@@ -7,7 +7,15 @@ document.addEventListener("DOMContentLoaded", () => {
     html.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
     if (darkToggle) {
-      darkToggle.textContent = theme === "dark" ? "☀" : "☾";
+      if (window.lucide) {
+        darkToggle.innerHTML =
+          theme === "dark"
+            ? '<i data-lucide="sun"></i>'
+            : '<i data-lucide="moon"></i>';
+        lucide.createIcons();
+      } else {
+        darkToggle.textContent = theme === "dark" ? "☀" : "☾";
+      }
     }
   }
 
@@ -390,11 +398,11 @@ function initContactForm() {
     '',
     '  <div class="contact-mode-toggle" role="radiogroup" aria-label="Contact method">',
     '    <button type="button" class="mode-btn active" data-mode="email" aria-pressed="true">',
-    '      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>',
+    '      <i data-lucide="mail"></i>',
     '      Email',
     '    </button>',
     '    <button type="button" class="mode-btn" data-mode="whatsapp" aria-pressed="false">',
-    '      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
+    '      <i data-lucide="phone"></i>',
     '      WhatsApp',
     '    </button>',
     "  </div>",
@@ -419,6 +427,10 @@ function initContactForm() {
   populateCountrySelect(document.getElementById("countryCode"));
   initContactModeToggle();
   attachFormHandler();
+
+  if (window.lucide) {
+    lucide.createIcons();
+  }
 }
 
 function attachFormHandler() {
@@ -606,6 +618,17 @@ function initQRTool(card) {
   input.addEventListener("input", generateQR);
   sizeSelect.addEventListener("change", generateQR);
 
+  function updateWarning() {
+    var isMobile = window.innerWidth <= 768;
+    var selectedSize = parseInt(sizeSelect.value, 10);
+    var warning = card.querySelector("#qr-warning");
+    if (isMobile && selectedSize >= 512) {
+      warning.classList.add("visible");
+    } else {
+      warning.classList.remove("visible");
+    }
+  }
+
   downloadBtn.addEventListener("click", function () {
     var canvas = container.querySelector("canvas");
     if (canvas) {
@@ -617,4 +640,7 @@ function initQRTool(card) {
   });
 
   generateQR();
+  updateWarning();
+  sizeSelect.addEventListener("change", updateWarning);
+  window.addEventListener("resize", updateWarning);
 }

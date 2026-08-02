@@ -189,6 +189,11 @@ nav {
   color: var(--color-text-inverse);
 }
 
+.dark-toggle svg {
+  width: 18px;
+  height: 18px;
+}
+
 .nav-link {
   text-decoration: none;
   font-size: 0.95rem;
@@ -450,6 +455,18 @@ main {
   text-decoration: none;
   font-weight: 600;
   font-size: 0.9rem;
+}
+
+.icon-inline {
+  width: 16px;
+  height: 16px;
+  vertical-align: -2px;
+  display: inline-block;
+}
+
+.solid-btn .icon-inline,
+.demo-link .icon-inline {
+  margin-left: 4px;
 }
 
 /* ==========================================================================

@@ -15,8 +15,9 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=2.5" />
-    <link rel="stylesheet" href="journal.css?v=2.5" />
+    <link rel="stylesheet" href="styles.css?v=2.10" />
+    <link rel="stylesheet" href="journal.css?v=2.10" />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <link rel="canonical" href="https://cabscode.pro/journal" />
     <meta property="og:type" content="blog" />
     <meta property="og:url" content="https://cabscode.pro/journal" />
@@ -73,7 +74,7 @@
 
     <!-- MOBILE SIDEBAR TOGGLE -->
     <button id="journalSidebarToggle" class="journal-sidebar-toggle">
-      <span>▶</span>
+      <span><i data-lucide="panel-left-open" class="icon-inline"></i></span>
     </button>
 
     <!-- THE ACCORDION SIDEBAR -->
@@ -83,22 +84,41 @@
       <ul class="accordion-menu">
         <li class="accordion-item">
           <button class="accordion-toggle">
-            <span>📁 Personal Projects</span>
+            <span
+              ><i data-lucide="folder" class="accordion-icon"></i> Personal
+              Projects</span
+            >
           </button>
           <ul class="accordion-content">
             <li>
-              <a href="/articles/zorin-os">Migrating to Zorin OS</a>
+              <a href="/articles/zorin-os"
+                ><i data-lucide="laptop" class="accordion-link-icon"></i>
+                Migrating to Zorin OS</a
+              >
             </li>
           </ul>
         </li>
 
         <li class="accordion-item">
           <button class="accordion-toggle">
-            <span>🌐 Web Development</span>
+            <span
+              ><i data-lucide="globe" class="accordion-icon"></i> Web
+              Development</span
+            >
           </button>
           <ul class="accordion-content">
-            <li><a href="/articles/portfolio">Portfolio Architecture</a></li>
-            <li><a href="/articles/projects">Projects by Tema</a></li>
+            <li>
+              <a href="/articles/portfolio"
+                ><i data-lucide="layout" class="accordion-link-icon"></i>
+                Portfolio Architecture</a
+              >
+            </li>
+            <li>
+              <a href="/articles/projects"
+                ><i data-lucide="folder-cog" class="accordion-link-icon"></i>
+                Projects by Tema</a
+              >
+            </li>
           </ul>
         </li>
       </ul>
@@ -167,7 +187,10 @@
       </div>
     </footer>
 
-    <script src="script.js?v=2.5"></script>
+    <script src="script.js?v=2.10"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script>
+      lucide.createIcons();
+    </script>
   </body>
 </html>

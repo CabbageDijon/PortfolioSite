@@ -1,5 +1,5 @@
 body {
-  background-color: #f4f7f5;
+  background-color: var(--color-bg-body);
 }
 .sidebar {
   position: fixed;
@@ -9,8 +9,8 @@ body {
   height: fit-content;
   max-height: calc(100vh - 140px);
   overflow-y: auto;
-  background-color: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
   border-left: none;
   border-radius: 0 12px 12px 0;
   padding: 24px;
@@ -23,7 +23,7 @@ body {
   padding: 40px;
   margin-top: 40px;
   color: var(--color-text-primary);
-  background-color: #ffffff;
+  background-color: var(--color-bg);
 }
 
 .accordion-menu {
@@ -34,7 +34,7 @@ body {
 
 .accordion-item {
   margin-bottom: 8px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .accordion-toggle {
@@ -57,6 +57,18 @@ body {
   color: var(--color-primary);
 }
 
+.accordion-toggle span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.accordion-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
 .icon {
   font-size: 0.7rem;
   transition: transform 0.3s ease;
@@ -76,7 +88,9 @@ body {
 }
 
 .accordion-content li a {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   padding: 8px 0;
   color: var(--color-text-secondary);
   text-decoration: none;
@@ -84,6 +98,12 @@ body {
   transition:
     color 0.2s ease,
     transform 0.2s ease;
+}
+
+.accordion-link-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
 }
 
 .accordion-content li a:hover {
@@ -103,6 +123,24 @@ body {
 .current-article {
   color: #22983b !important;
   font-weight: 600 !important;
+}
+
+[data-theme="dark"] .current-article {
+  color: #4caf50 !important;
+}
+
+[data-theme="dark"] .accordion-content li a:hover {
+  color: #6fbf73;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .current-article {
+    color: #4caf50 !important;
+  }
+
+  :root:not([data-theme="light"]) .accordion-content li a:hover {
+    color: #6fbf73;
+  }
 }
 
 .journal-meta {
@@ -179,99 +217,6 @@ pre .copy-btn.copied {
   color: #fff;
 }
 
-/* ==========================================================================
-   Dark mode — keep journal backgrounds light, force text dark
-   ========================================================================== */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .sidebar,
-  :root:not([data-theme="light"]) .main-content,
-  :root:not([data-theme="light"]) .journal-sidebar-toggle {
-    color: #1a1a1a;
-    background-color: #ffffff;
-    border-color: rgba(0, 0, 0, 0.08);
-  }
-
-  :root:not([data-theme="light"]) .accordion-toggle {
-    color: #1a1a1a;
-  }
-
-  :root:not([data-theme="light"]) .accordion-content li a {
-    color: #3c3a3a;
-  }
-
-  :root:not([data-theme="light"]) .accordion-content li a:hover {
-    color: #22983b;
-  }
-
-  :root:not([data-theme="light"]) .accordion-item {
-    border-bottom-color: rgba(0, 0, 0, 0.06);
-  }
-
-  :root:not([data-theme="light"]) .accordion-content {
-    border-left-color: rgba(0, 0, 0, 0.1);
-  }
-
-  :root:not([data-theme="light"]) .current-article {
-    color: #22983b !important;
-  }
-
-  :root:not([data-theme="light"]) .journal-body h3 {
-    color: #1a1a1a;
-  }
-
-  :root:not([data-theme="light"]) .journal-header h1 {
-    color: #1a1a1a;
-  }
-
-  :root:not([data-theme="light"]) body {
-    background-color: #f4f7f5;
-  }
-}
-
-[data-theme="dark"] .sidebar,
-[data-theme="dark"] .main-content,
-[data-theme="dark"] .journal-sidebar-toggle {
-  color: #1a1a1a;
-  background-color: #ffffff;
-  border-color: rgba(0, 0, 0, 0.08);
-}
-
-[data-theme="dark"] .accordion-toggle {
-  color: #1a1a1a;
-}
-
-[data-theme="dark"] .accordion-content li a {
-  color: #3c3a3a;
-}
-
-[data-theme="dark"] .accordion-content li a:hover {
-  color: #22983b;
-}
-
-[data-theme="dark"] .accordion-item {
-  border-bottom-color: rgba(0, 0, 0, 0.06);
-}
-
-[data-theme="dark"] .accordion-content {
-  border-left-color: rgba(0, 0, 0, 0.1);
-}
-
-[data-theme="dark"] .current-article {
-  color: #22983b !important;
-}
-
-[data-theme="dark"] .journal-body h3 {
-  color: #1a1a1a;
-}
-
-[data-theme="dark"] .journal-header h1 {
-  color: #1a1a1a;
-}
-
-[data-theme="dark"] body {
-  background-color: #f4f7f5;
-}
-
 /* --- Mobile Sidebar Toggle Button (Hidden on Desktop) --- */
 .journal-sidebar-toggle {
   display: none;
@@ -315,8 +260,8 @@ pre .copy-btn.copied {
     position: fixed;
     top: 120px; /* Sits comfortably below your mobile navbar */
     left: 0;
-    background-color: #ffffff; /* Explicit white bar */
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    background-color: var(--color-bg); /* Explicit white bar */
+    border: 1px solid var(--color-border);
     border-left: none;
     border-radius: 0 8px 8px 0;
     padding: 12px 16px;

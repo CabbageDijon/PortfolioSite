@@ -15,8 +15,8 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=2.5" />
-    <link rel="stylesheet" href="studio.css?v=2.5" />
+    <link rel="stylesheet" href="styles.css?v=2.10" />
+    <link rel="stylesheet" href="studio.css?v=2.10" />
     <link rel="canonical" href="https://cabscode.pro/studio" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://cabscode.pro/studio" />
@@ -34,6 +34,7 @@
     />
     <meta property="og:locale" content="en_BW" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   </head>
   <body>
     <nav>
@@ -115,8 +116,9 @@
                   href="https://raceweather.cabscode.pro/"
                   target="_blank"
                   class="solid-btn"
-                  >Launch Live App ↗</a
-                >
+                  >Launch Live App
+                  <i data-lucide="external-link" class="icon-inline"></i
+                ></a>
                 <a
                   href="https://github.com/CabbageDijon"
                   target="_blank"
@@ -140,8 +142,9 @@
               </p>
               <div class="card-actions">
                 <a href="#" target="_blank" class="solid-btn"
-                  >Launch Live App ↗</a
-                >
+                  >Launch Live App
+                  <i data-lucide="external-link" class="icon-inline"></i
+                ></a>
               </div>
             </div>
           </article>
@@ -201,7 +204,9 @@
           <article class="demo-card expandable-card" id="css-tool">
             <!-- Default View (Visible when small) -->
             <div class="card-default-view">
-              <div class="demo-image placeholder-img">Tool Preview</div>
+              <div class="tool-icon">
+                <i data-lucide="box"></i>
+              </div>
               <span class="card-badge badge-dev">WIP</span>
               <div class="demo-content">
                 <div class="tech-tags">
@@ -213,7 +218,10 @@
                   box-shadows on the fly. WIP
                 </p>
                 <div class="card-actions">
-                  <button class="solid-btn expand-btn">Run Tool Here ↓</button>
+                  <button class="solid-btn expand-btn">
+                    Run Tool Here
+                    <i data-lucide="chevron-down" class="icon-inline"></i>
+                  </button>
                 </div>
               </div>
             </div>
@@ -222,7 +230,10 @@
             <div class="card-expanded-workspace">
               <div class="workspace-header">
                 <h3>CSS Box-Shadow Generator</h3>
-                <button class="close-btn">Close Tool ✕</button>
+                <button class="close-btn">
+                  Close Tool
+                  <i data-lucide="x" class="icon-inline"></i>
+                </button>
               </div>
               <div class="workspace-content">
                 <!-- Your tool's HTML goes inside here -->
@@ -241,7 +252,9 @@
 
           <article class="demo-card expandable-card" id="qr-tool">
             <div class="card-default-view">
-              <div class="demo-image placeholder-img wip-tool">QR Tool</div>
+              <div class="tool-icon">
+                <i data-lucide="qr-code"></i>
+              </div>
               <span class="card-badge badge-dev">New</span>
               <div class="demo-content">
                 <div class="tech-tags">
@@ -254,7 +267,10 @@
                   download as PNG.
                 </p>
                 <div class="card-actions">
-                  <button class="solid-btn expand-btn">Run Tool Here ↓</button>
+                  <button class="solid-btn expand-btn">
+                    Run Tool Here
+                    <i data-lucide="chevron-down" class="icon-inline"></i>
+                  </button>
                 </div>
               </div>
             </div>
@@ -262,7 +278,10 @@
             <div class="card-expanded-workspace">
               <div class="workspace-header">
                 <h3>QR Code Generator</h3>
-                <button class="close-btn">Close Tool ✕</button>
+                <button class="close-btn">
+                  Close Tool
+                  <i data-lucide="x" class="icon-inline"></i>
+                </button>
               </div>
               <div class="workspace-content" style="padding: 32px">
                 <div class="qr-tool-layout">
@@ -335,6 +354,10 @@
                       min-height: 280px;
                     "
                   >
+                    <div id="qr-warning" class="qr-warning">
+                      Selected size exceeds screen width — QR scaled down for
+                      preview. Download uses full resolution.
+                    </div>
                     <div id="qr-code"></div>
                   </div>
                 </div>
@@ -370,7 +393,10 @@
                 converting visitors into clients.
               </p>
               <div class="card-actions">
-                <a href="#" target="_blank" class="solid-btn">Visit Site ↗</a>
+                <a href="#" target="_blank" class="solid-btn"
+                  >Visit Site
+                  <i data-lucide="external-link" class="icon-inline"></i
+                ></a>
               </div>
             </div>
           </article>
@@ -409,6 +435,9 @@
       </div>
     </footer>
 
-    <script src="script.js?v=2.5"></script>
+    <script src="script.js?v=2.10"></script>
+    <script>
+      lucide.createIcons();
+    </script>
   </body>
 </html>

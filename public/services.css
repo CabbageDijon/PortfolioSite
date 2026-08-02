@@ -32,6 +32,11 @@
   color: var(--color-primary-dark);
 }
 
+.service-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
 .service-card h3 {
   font-size: 1.25rem;
   margin-bottom: 12px;
