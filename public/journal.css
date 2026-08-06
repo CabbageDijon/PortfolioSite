@@ -196,15 +196,23 @@ pre .copy-btn {
   position: absolute;
   top: 4px;
   right: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
   background: rgba(255, 255, 255, 0.1);
   border: none;
-  color: rgba(255, 255, 255, 0.6);
-  font-family: inherit;
-  font-size: 0.75rem;
-  padding: 4px 10px;
   border-radius: 4px;
+  color: rgba(255, 255, 255, 0.6);
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
+}
+
+pre .copy-btn svg {
+  display: block;
+  width: 14px;
+  height: 14px;
 }
 
 pre .copy-btn:hover {

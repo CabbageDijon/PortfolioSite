@@ -1,8 +1,6 @@
 ## Design
 
-- Mouse shiver follow on banner
-- Add in Studio layout framing (Sites stay iframe with easy back actions and navigation)
-- Take image for main banner
+- auto theming to device
 
 ---
 
@@ -21,7 +19,7 @@
 
 - Reformat to come from side and not fully cover screen, either have a opacity lower or blur for rest of viewport
 - Thin green bar on bottom when address bar in view, fix
-- Fix arrow UI clash
+- Move theme to outside burger menu
 
 ---
 

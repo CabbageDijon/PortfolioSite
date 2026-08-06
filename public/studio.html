@@ -377,32 +377,25 @@
           </p>
         </div>
 
-        <div class="demo-grid two-columns">
-          <article class="demo-card">
-            <div class="demo-image placeholder-img">
-              Website Image Placeholder
-            </div>
-            <span class="card-badge badge-concept">Concept</span>
-            <div class="demo-content">
-              <div class="tech-tags">
-                <span class="tech-tag">Responsive Design</span>
-              </div>
-              <h3>Creative Agency Landing</h3>
-              <p>
-                An interactive portfolio site focusing on smooth animations and
-                converting visitors into clients.
-              </p>
-              <div class="card-actions">
-                <a href="#" target="_blank" class="solid-btn"
-                  >Visit Site
-                  <i data-lucide="external-link" class="icon-inline"></i
-                ></a>
-              </div>
-            </div>
-          </article>
-        </div>
+        <!-- Cards are rendered from the WEBSITE_DEMOS data in script.js -->
+        <div class="demo-grid two-columns" id="websitesGrid"></div>
       </section>
     </main>
+
+    <!-- Embedded demo preview modal -->
+    <div class="demo-preview-overlay" id="demoPreviewOverlay" aria-hidden="true">
+      <div class="demo-preview-modal" role="dialog" aria-modal="true" aria-label="Site preview">
+        <div class="demo-preview-header">
+          <h3 id="demoPreviewTitle">Preview</h3>
+          <button class="demo-preview-close" id="demoPreviewClose" aria-label="Close preview">
+            <i data-lucide="x" class="icon-inline"></i>
+          </button>
+        </div>
+        <div class="demo-preview-body">
+          <iframe id="demoPreviewFrame" title="Site preview" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
 
     <footer>
       <div class="footer-container">

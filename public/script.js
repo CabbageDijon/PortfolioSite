@@ -704,12 +704,23 @@ expandableCards.forEach(function (card) {
 });
 
 // --- Code Snippet Copy Buttons ---
+var copyIcons = {
+  clipboard:
+    '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><path d="M9 12h6"></path><path d="M9 16h4"></path></svg>',
+  copied:
+    '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>',
+  failed:
+    '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>',
+};
+
 var codeBlocks = document.querySelectorAll("pre code");
 codeBlocks.forEach(function (code) {
   var pre = code.parentElement;
   var btn = document.createElement("button");
   btn.className = "copy-btn";
-  btn.textContent = "Copy";
+  btn.setAttribute("aria-label", "Copy code");
+  btn.title = "Copy code";
+  btn.innerHTML = copyIcons.clipboard;
   pre.appendChild(btn);
 
   btn.addEventListener("click", function () {
@@ -717,20 +728,158 @@ codeBlocks.forEach(function (code) {
     navigator.clipboard
       .writeText(text)
       .then(function () {
-        btn.textContent = "Copied!";
+        btn.innerHTML = copyIcons.copied;
         btn.classList.add("copied");
+        btn.setAttribute("aria-label", "Copied");
         setTimeout(function () {
-          btn.textContent = "Copy";
+          btn.innerHTML = copyIcons.clipboard;
           btn.classList.remove("copied");
+          btn.setAttribute("aria-label", "Copy code");
         }, 2000);
       })
       .catch(function () {
-        btn.textContent = "Failed";
+        btn.innerHTML = copyIcons.failed;
+        btn.setAttribute("aria-label", "Copy failed");
         setTimeout(function () {
-          btn.textContent = "Copy";
+          btn.innerHTML = copyIcons.clipboard;
+          btn.setAttribute("aria-label", "Copy code");
         }, 2000);
       });
   });
+});
+
+// --- Websites & Concepts: data-driven demo cards ---
+// Add a new demo here (one entry + one screenshot in images/demos/websites/).
+var WEBSITE_DEMOS = [
+  {
+    id: "kwena",
+    title: "Kwena Water Works",
+    description:
+      "A full business site for a Botswana water & filtration company — hero, stats, featured products, services, contact and Google Maps. Built with plain HTML, CSS and JavaScript.",
+    tags: [
+      { label: "HTML/CSS", cls: "" },
+      { label: "JavaScript", cls: "js" },
+      { label: "Responsive", cls: "" },
+    ],
+    badge: "Live",
+    badgeClass: "badge-live",
+    screenshot: "images/demos/websites/kwena-home.png",
+    screenshotAlt: "Kwena Water Works homepage",
+    demoUrl: "/demos/kwena/",
+    sourceUrl: "https://github.com/CabbageDijon/KwenaWaterWorks",
+  },
+];
+
+var websitesGrid = document.getElementById("websitesGrid");
+
+if (websitesGrid) {
+  WEBSITE_DEMOS.forEach(function (demo) {
+    var card = document.createElement("article");
+    card.className = "demo-card";
+
+    var tagsHtml = demo.tags
+      .map(function (t) {
+        return '<span class="tech-tag ' + (t.cls || "") + '">' + t.label + "</span>";
+      })
+      .join("");
+
+    card.innerHTML =
+      '<img src="' +
+      demo.screenshot +
+      '" alt="' +
+      demo.screenshotAlt +
+      '" class="demo-image" loading="lazy" />' +
+      '<span class="card-badge ' +
+      demo.badgeClass +
+      '">' +
+      demo.badge +
+      "</span>" +
+      '<div class="demo-content">' +
+      '<div class="tech-tags">' +
+      tagsHtml +
+      "</div>" +
+      "<h3>" +
+      demo.title +
+      "</h3>" +
+      "<p>" +
+      demo.description +
+      "</p>" +
+      '<div class="card-actions">' +
+      '<a href="' +
+      demo.demoUrl +
+      '" target="_blank" rel="noopener" class="solid-btn">Visit Site ' +
+      '<i data-lucide="external-link" class="icon-inline"></i></a>' +
+      '<button type="button" class="solid-btn demo-preview-btn" ' +
+      'data-preview-title="' +
+      demo.title +
+      '" data-preview-url="' +
+      demo.demoUrl +
+      '">Preview Site</button>' +
+      "</div>" +
+      "</div>";
+
+    websitesGrid.appendChild(card);
+  });
+
+  if (window.lucide) {
+    lucide.createIcons();
+  }
+}
+
+// --- Embedded demo preview modal ---
+var previewOverlay = document.getElementById("demoPreviewOverlay");
+var previewFrame = document.getElementById("demoPreviewFrame");
+var previewTitle = document.getElementById("demoPreviewTitle");
+var previewClose = document.getElementById("demoPreviewClose");
+
+function openDemoPreview(title, url) {
+  if (!previewOverlay || !previewFrame) return;
+  previewTitle.textContent = title;
+  if (previewFrame.getAttribute("src") !== url) {
+    previewFrame.setAttribute("src", url);
+  }
+  previewOverlay.classList.add("open");
+  previewOverlay.setAttribute("aria-hidden", "false");
+  document.body.classList.add("preview-open");
+}
+
+function closeDemoPreview() {
+  if (!previewOverlay) return;
+  previewOverlay.classList.remove("open");
+  previewOverlay.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("preview-open");
+  previewFrame.setAttribute("src", "about:blank");
+}
+
+if (websitesGrid) {
+  websitesGrid.addEventListener("click", function (e) {
+    var btn = e.target.closest(".demo-preview-btn");
+    if (btn) {
+      e.preventDefault();
+      openDemoPreview(
+        btn.getAttribute("data-preview-title"),
+        btn.getAttribute("data-preview-url")
+      );
+    }
+  });
+}
+
+if (previewClose) {
+  previewClose.addEventListener("click", closeDemoPreview);
+}
+
+if (previewOverlay) {
+  previewOverlay.addEventListener("click", function (e) {
+    if (e.target === previewOverlay) {
+      closeDemoPreview();
+    }
+  });
+}
+
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") {
+    closeDemoPreview();
+  }
 });
 
 // --- QR Code Generator ---

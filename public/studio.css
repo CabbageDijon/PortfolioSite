@@ -343,3 +343,115 @@
     max-height: 280px;
   }
 }
+
+/* =========================================
+   Embedded Demo Preview Modal
+   ========================================= */
+.demo-preview-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(20, 24, 22, 0.6);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  padding: 24px;
+}
+
+.demo-preview-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.demo-preview-modal {
+  width: 100%;
+  max-width: 1100px;
+  height: min(85vh, 820px);
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--color-border);
+}
+
+[data-theme="dark"] .demo-preview-modal {
+  background: #1a1a1a;
+}
+
+.demo-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--color-border);
+  background-color: #faf8f5;
+}
+
+[data-theme="dark"] .demo-preview-header {
+  background-color: #222125;
+}
+
+.demo-preview-header h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.demo-preview-close {
+  background: var(--color-text-secondary);
+  border-radius: 6px;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.demo-preview-close:hover {
+  background: var(--color-text-primary);
+}
+
+.demo-preview-close .icon-inline {
+  width: 18px;
+  height: 18px;
+}
+
+.demo-preview-body {
+  flex: 1;
+  min-height: 0;
+  background: #ffffff;
+}
+
+.demo-preview-body iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+body.preview-open {
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .demo-preview-overlay {
+    padding: 0;
+  }
+
+  .demo-preview-modal {
+    height: 100vh;
+    max-height: none;
+    max-width: none;
+    border-radius: 0;
+  }
+}
