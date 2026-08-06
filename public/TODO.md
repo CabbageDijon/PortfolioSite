@@ -27,7 +27,7 @@
 
 ### Tools
 
-- Online QR Code generator
+- Online QR Code generator - hotfix for scaling + downloads
 - APR calculator
 - Sudoku solver
 
