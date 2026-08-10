@@ -519,18 +519,41 @@ function attachFormHandler() {
           submitBtn.disabled = false;
         }, 4000);
       } else {
-        status.textContent = data.error || "Failed to send message.";
-        status.className = "form-status error";
-        submitBtn.textContent = "Send Request";
-        submitBtn.disabled = false;
+        clientSendFallback(mode, email, phone, countryCode, message, data && data.error);
       }
     } catch (_err) {
-      status.textContent = "Could not reach the server.";
-      status.className = "form-status error";
-      submitBtn.textContent = "Send Request";
-      submitBtn.disabled = false;
+      clientSendFallback(mode, email, phone, countryCode, message);
     }
   });
+}
+
+function clientSendFallback(mode, email, phone, countryCode, message, reason) {
+  var status = document.getElementById("formStatus");
+  var submitBtn = document.getElementById("submitBtn");
+
+  var num = (countryCode || "") + " " + (phone || "");
+  var body =
+    mode === "whatsapp"
+      ? "WhatsApp: " + (num.trim() || "No number") + "\n\n" + message
+      : "Email: " + (email || "No email") + "\n\n" + message;
+  var subject = "CabsCode Project Inquiry";
+  if (mode === "whatsapp") subject += " via WhatsApp";
+
+  var href =
+    "mailto:bowntema@gmail.com?subject=" +
+    encodeURIComponent(subject) +
+    "&body=" +
+    encodeURIComponent(body);
+
+  window.location.href = href;
+
+  status.textContent = reason
+    ? "Server couldn't send it (" + reason + ") — your email app opened instead."
+    : "Could not reach the server — your email app opened instead.";
+  status.className = "form-status error";
+
+  submitBtn.textContent = "Send Request";
+  submitBtn.disabled = false;
 }
 
 // --- Service CTA Picker Menus ---
@@ -640,11 +663,13 @@ function initServicePickers() {
       .querySelector(".service-cta-btn")
       .getAttribute("data-service");
     var data = SERVICE_PICKERS[service];
-    var selected = Array.prototype.filter
-      .call(optionsWrap.querySelectorAll('input[type="checkbox"]:checked'))
-      .map(function (cb) {
-        return cb.value;
-      });
+    var selected = [];
+    var checkedBoxes = optionsWrap.querySelectorAll(
+      'input[type="checkbox"]:checked',
+    );
+    for (var i = 0; i < checkedBoxes.length; i++) {
+      selected.push(checkedBoxes[i].value);
+    }
 
     var lines = [];
     if (selected.length) {

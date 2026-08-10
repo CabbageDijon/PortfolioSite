@@ -17,7 +17,7 @@
 
 | Step | File | Action |
 |------|------|--------|
-| 7 | `public/services.html` | Fill `<main>` with service offerings: Web Dev, Hosting, Custom Tools, Consultancy |
+| 7 | `public/services.html` | Fill `<main>` with service offerings: Web Dev, Custom Tools, Consultancy |
 
 ---
 
