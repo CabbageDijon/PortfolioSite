@@ -20,7 +20,7 @@
       content="https://cabscode.pro/images/favicon.png"
     />
     <link rel="icon" href="images/favicon.png" />
-    <link rel="stylesheet" href="styles.css?v=2.12" />
+    <link rel="stylesheet" href="styles.css?v=2.14" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -32,6 +32,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <style>
       /* ==========================================================================
          Showcase Page — Demo-specific styles
@@ -918,6 +919,49 @@
         background: #eee;
         padding: 2px 6px;
         border-radius: 4px;
+      }
+
+      /* --- Programming icons showcase --- */
+      .icon-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 12px;
+      }
+
+      .icon-tile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding: 20px 12px;
+        background: var(--color-bg, #fff);
+        border: 1px solid var(--color-border);
+        border-radius: 12px;
+        text-align: center;
+      }
+
+      .icon-tile svg {
+        width: 26px;
+        height: 26px;
+        color: var(--color-primary-dark, #4a6b53);
+      }
+
+      .icon-tile .icon-name {
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: var(--color-text-secondary, #666);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        word-break: break-all;
+      }
+
+      .icon-group-title {
+        grid-column: 1 / -1;
+        margin: 12px 0 4px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--color-text-secondary, #666);
       }
 
       /* --- Responsive --- */
@@ -2244,6 +2288,75 @@ console.table(json);</code></pre>
           </div>
         </div>
       </section>
+
+      <!-- ========================================================================
+           Section 7: Lucide Programming Icons
+           A reference of the programming/development icons available in Lucide.
+           ======================================================================== -->
+      <section class="showcase-section">
+        <span class="section-badge">Lucide &middot; Dev icons</span>
+        <h2>Programming Icons (Lucide)</h2>
+        <p>
+          A curated reference of Lucide icons relevant to programming and web
+          development. Rendered via
+          <span class="mono">lucide.createIcons()</span> from the CDN build.
+        </p>
+
+        <div class="icon-grid">
+          <div class="icon-group-title">Code &amp; Editor</div>
+          <div class="icon-tile"><i data-lucide="code"></i><span class="icon-name">code</span></div>
+          <div class="icon-tile"><i data-lucide="code-xml"></i><span class="icon-name">code-xml</span></div>
+          <div class="icon-tile"><i data-lucide="square-code"></i><span class="icon-name">square-code</span></div>
+          <div class="icon-tile"><i data-lucide="file-code"></i><span class="icon-name">file-code</span></div>
+          <div class="icon-tile"><i data-lucide="file-braces"></i><span class="icon-name">file-braces</span></div>
+          <div class="icon-tile"><i data-lucide="file-terminal"></i><span class="icon-name">file-terminal</span></div>
+          <div class="icon-tile"><i data-lucide="braces"></i><span class="icon-name">braces</span></div>
+          <div class="icon-tile"><i data-lucide="binary"></i><span class="icon-name">binary</span></div>
+
+          <div class="icon-group-title">Terminal &amp; Shell</div>
+          <div class="icon-tile"><i data-lucide="terminal"></i><span class="icon-name">terminal</span></div>
+          <div class="icon-tile"><i data-lucide="square-terminal"></i><span class="icon-name">square-terminal</span></div>
+          <div class="icon-tile"><i data-lucide="shell"></i><span class="icon-name">shell</span></div>
+          <div class="icon-tile"><i data-lucide="command"></i><span class="icon-name">command</span></div>
+
+          <div class="icon-group-title">Version Control</div>
+          <div class="icon-tile"><i data-lucide="git-branch"></i><span class="icon-name">git-branch</span></div>
+          <div class="icon-tile"><i data-lucide="git-commit-horizontal"></i><span class="icon-name">git-commit-horizontal</span></div>
+          <div class="icon-tile"><i data-lucide="git-merge"></i><span class="icon-name">git-merge</span></div>
+          <div class="icon-tile"><i data-lucide="git-fork"></i><span class="icon-name">git-fork</span></div>
+          <div class="icon-tile"><i data-lucide="git-pull-request"></i><span class="icon-name">git-pull-request</span></div>
+          <div class="icon-tile"><i data-lucide="git-graph"></i><span class="icon-name">git-graph</span></div>
+          <div class="icon-tile"><i data-lucide="git-compare"></i><span class="icon-name">git-compare</span></div>
+          <div class="icon-tile"><i data-lucide="git-merge-conflict"></i><span class="icon-name">git-merge-conflict</span></div>
+
+          <div class="icon-group-title">Data &amp; Infrastructure</div>
+          <div class="icon-tile"><i data-lucide="database"></i><span class="icon-name">database</span></div>
+          <div class="icon-tile"><i data-lucide="server"></i><span class="icon-name">server</span></div>
+          <div class="icon-tile"><i data-lucide="cpu"></i><span class="icon-name">cpu</span></div>
+          <div class="icon-tile"><i data-lucide="gpu"></i><span class="icon-name">gpu</span></div>
+          <div class="icon-tile"><i data-lucide="hard-drive"></i><span class="icon-name">hard-drive</span></div>
+          <div class="icon-tile"><i data-lucide="memory-stick"></i><span class="icon-name">memory-stick</span></div>
+          <div class="icon-tile"><i data-lucide="cloud"></i><span class="icon-name">cloud</span></div>
+          <div class="icon-tile"><i data-lucide="container"></i><span class="icon-name">container</span></div>
+
+          <div class="icon-group-title">Dev Workflow &amp; Misc</div>
+          <div class="icon-tile"><i data-lucide="bug"></i><span class="icon-name">bug</span></div>
+          <div class="icon-tile"><i data-lucide="square-function"></i><span class="icon-name">square-function</span></div>
+          <div class="icon-tile"><i data-lucide="variable"></i><span class="icon-name">variable</span></div>
+          <div class="icon-tile"><i data-lucide="component"></i><span class="icon-name">component</span></div>
+          <div class="icon-tile"><i data-lucide="workflow"></i><span class="icon-name">workflow</span></div>
+          <div class="icon-tile"><i data-lucide="waypoints"></i><span class="icon-name">waypoints</span></div>
+          <div class="icon-tile"><i data-lucide="package"></i><span class="icon-name">package</span></div>
+          <div class="icon-tile"><i data-lucide="blocks"></i><span class="icon-name">blocks</span></div>
+          <div class="icon-tile"><i data-lucide="webhook"></i><span class="icon-name">webhook</span></div>
+          <div class="icon-tile"><i data-lucide="kanban"></i><span class="icon-name">kanban</span></div>
+          <div class="icon-tile"><i data-lucide="list-tree"></i><span class="icon-name">list-tree</span></div>
+          <div class="icon-tile"><i data-lucide="languages"></i><span class="icon-name">languages</span></div>
+          <div class="icon-tile"><i data-lucide="hash"></i><span class="icon-name">hash</span></div>
+          <div class="icon-tile"><i data-lucide="plug"></i><span class="icon-name">plug</span></div>
+          <div class="icon-tile"><i data-lucide="usb"></i><span class="icon-name">usb</span></div>
+        </div>
+      </section>
     </main>
 
     <footer>
@@ -2377,8 +2490,12 @@ console.table(json);</code></pre>
         if (typeof hljs !== "undefined") {
           hljs.highlightAll();
         }
+        if (window.lucide) {
+          lucide.createIcons();
+        }
       });
     </script>
-    <script src="script.js?v=2.15"></script>
+    <script src="phone-lengths.js?v=2.18"></script>
+    <script src="script.js?v=2.18"></script>
   </body>
 </html>

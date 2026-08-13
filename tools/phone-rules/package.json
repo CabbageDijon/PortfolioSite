@@ -1,0 +1,12 @@
+{
+  "name": "phone-rules-gen",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Generates per-country national-number-length rules from libphonenumber metadata",
+  "scripts": {
+    "generate": "node generate.js"
+  },
+  "dependencies": {
+    "libphonenumber-js": "^1.11.0"
+  }
+}

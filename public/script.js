@@ -6,6 +6,11 @@ document.addEventListener("DOMContentLoaded", () => {
   function setTheme(theme) {
     html.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
+    try {
+      document.dispatchEvent(
+        new CustomEvent("themechange", { detail: { theme: theme } }),
+      );
+    } catch (e) {}
     if (darkToggle) {
       if (window.lucide) {
         darkToggle.innerHTML =
@@ -340,10 +345,59 @@ var COUNTRY_CODES = [
   { name: "Zimbabwe",        dial: "+263", code: "ZW" },
 ];
 
-function validatePhone(num) {
-  if (!num) return false;
-  var digits = num.replace(/[\s\-\(\)\+]/g, "");
+function phoneDigits(num) {
+  return String(num || "").replace(/[\s\-\(\)\+]/g, "");
+}
+
+function getCountryByDial(dial) {
+  for (var i = 0; i < COUNTRY_CODES.length; i++) {
+    if (COUNTRY_CODES[i].dial === dial) return COUNTRY_CODES[i];
+  }
+  return null;
+}
+
+function getPhoneLengths(code) {
+  if (typeof PHONE_LENGTHS !== "undefined" && PHONE_LENGTHS[code]) {
+    return PHONE_LENGTHS[code];
+  }
+  return null;
+}
+
+function validatePhone(num, countryCode) {
+  var digits = phoneDigits(num);
+  if (!digits) return false;
+  if (!/^\d+$/.test(digits)) return false;
+
+  var country = countryCode ? getCountryByDial(countryCode) : null;
+  var lengths = country ? getPhoneLengths(country.code) : null;
+
+  if (lengths && lengths.length) {
+    return lengths.indexOf(digits.length) !== -1;
+  }
   return /^\d{6,15}$/.test(digits);
+}
+
+function phoneLengthHint(countryCode) {
+  var country = countryCode ? getCountryByDial(countryCode) : null;
+  var lengths = country ? getPhoneLengths(country.code) : null;
+  if (!lengths || !lengths.length) return "";
+
+  var singular = lengths.length === 1;
+  var text = singular ? "exactly " : "between ";
+  text +=
+    singular
+      ? lengths[0] + " digits"
+      : lengths[0] + " and " + lengths[lengths.length - 1] + " digits";
+  return country.name + " numbers are " + text + ".";
+}
+
+function phoneMaxLength(countryCode) {
+  var country = countryCode ? getCountryByDial(countryCode) : null;
+  var lengths = country ? getPhoneLengths(country.code) : null;
+  if (lengths && lengths.length) {
+    return Math.max.apply(null, lengths);
+  }
+  return 15;
 }
 
 function populateCountrySelect(select) {
@@ -429,11 +483,41 @@ function initContactForm() {
 
   populateCountrySelect(document.getElementById("countryCode"));
   initContactModeToggle();
+  initPhoneFilter();
   attachFormHandler();
 
   if (window.lucide) {
     lucide.createIcons();
   }
+}
+
+function initPhoneFilter() {
+  var phoneInput = document.getElementById("contact-phone");
+  var countrySelect = document.getElementById("countryCode");
+  if (!phoneInput || !countrySelect) return;
+
+  function applyFilter() {
+    var maxLen = phoneMaxLength(countrySelect.value);
+    var dial = countrySelect.value || "";
+    var dash = dial.indexOf("-");
+    var ccDigits = phoneDigits(dash === -1 ? dial : dial.slice(0, dash));
+    var raw = phoneInput.value.replace(/[^\d]/g, "");
+
+    if (
+      ccDigits &&
+      raw.length > maxLen &&
+      raw.indexOf(ccDigits) === 0
+    ) {
+      raw = raw.slice(ccDigits.length);
+    }
+
+    phoneInput.value = raw.slice(0, maxLen);
+    phoneInput.placeholder = "+" + phoneDigits(dial) + " (max " + maxLen + " digits)";
+  }
+
+  phoneInput.addEventListener("input", applyFilter);
+  countrySelect.addEventListener("change", applyFilter);
+  applyFilter();
 }
 
 function attachFormHandler() {
@@ -459,8 +543,9 @@ function attachFormHandler() {
     } else {
       phone = form.phone.value.trim();
       countryCode = form.countryCode.value;
-      if (!validatePhone(phone)) {
-        status.textContent = "Please enter a valid phone number.";
+      if (!validatePhone(phone, countryCode)) {
+        var hint = phoneLengthHint(countryCode);
+        status.textContent = hint || "Please enter a valid phone number.";
         status.className = "form-status error";
         return;
       }
@@ -935,6 +1020,8 @@ function initQRTool(card) {
 
   input.addEventListener("input", generateQR);
   sizeSelect.addEventListener("change", generateQR);
+
+  document.addEventListener("themechange", generateQR);
 
   function updateWarning() {
     var isMobile = window.innerWidth <= 768;

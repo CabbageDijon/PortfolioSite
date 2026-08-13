@@ -2,6 +2,20 @@ require("dotenv").config();
 const express = require("express");
 const nodemailer = require("nodemailer");
 const rateLimit = require("express-rate-limit");
+const { PHONE_LENGTHS, DIAL_TO_CODE } = require("./phone-rules");
+
+function isValidPhone(phone, countryCode) {
+  const digits = String(phone || "").replace(/[\s\-\(\)\+]/g, "");
+  if (!/^\d+$/.test(digits)) return false;
+
+  const code = DIAL_TO_CODE[countryCode] || null;
+  const lengths = code ? PHONE_LENGTHS[code] : null;
+
+  if (lengths && lengths.length) {
+    return lengths.indexOf(digits.length) !== -1;
+  }
+  return /^\d{6,15}$/.test(digits);
+}
 
 // Global error handlers — log crashes instead of silently dying
 process.on("uncaughtException", function (err) {
@@ -77,8 +91,7 @@ app.post("/api/contact", async (req, res) => {
   }
 
   if (phone) {
-    const digits = phone.replace(/[\s\-\(\)\+]/g, "");
-    if (!/^\d{6,15}$/.test(digits)) {
+    if (!isValidPhone(phone, countryCode)) {
       return res.status(400).json({ error: "Invalid phone number." });
     }
   }

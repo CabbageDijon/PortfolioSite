@@ -65,10 +65,29 @@
   background: #e8e8e8;
 }
 
-[data-theme="dark"] .tech-tag.js,
-[data-theme="dark"] .tech-tag.react,
+[data-theme="dark"] .tech-tag {
+  background-color: #2a2a2a;
+  color: var(--color-text-secondary);
+}
+
+[data-theme="dark"] .tech-tag.js {
+  background: rgba(247, 223, 30, 0.14);
+  color: #f7df1e;
+}
+
+[data-theme="dark"] .tech-tag.api {
+  background: rgba(199, 43, 199, 0.18);
+  color: #e070e0;
+}
+
+[data-theme="dark"] .tech-tag.react {
+  background: rgba(97, 219, 251, 0.14);
+  color: #61dbfb;
+}
+
 [data-theme="dark"] .tech-tag.pocketbase {
-  color: #1a1a1a;
+  background: #2a2a2a;
+  color: var(--color-text-secondary);
 }
 
 /* --- Card Action Links --- */
@@ -113,10 +132,13 @@
 .placeholder-img {
   background: linear-gradient(135deg, #e3e8e1, #c8d0c5);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   color: #4a6b53;
   font-weight: 500;
+  text-align: center;
 }
 
 .placeholder-img.wip-app {
@@ -129,6 +151,29 @@
 
 .placeholder-img.wip-concept {
   background: linear-gradient(135deg, #e8ebe4, #d3d9cb);
+}
+
+.placeholder-img .placeholder-icon,
+.placeholder-icon {
+  width: 34px;
+  height: 34px;
+}
+
+[data-theme="dark"] .placeholder-img {
+  background: linear-gradient(135deg, #232b26, #1d231f);
+  color: var(--color-text-secondary);
+}
+
+[data-theme="dark"] .placeholder-img.wip-app {
+  background: linear-gradient(135deg, #232630, #1e2028);
+}
+
+[data-theme="dark"] .placeholder-img.wip-tool {
+  background: linear-gradient(135deg, #232b26, #1d231f);
+}
+
+[data-theme="dark"] .placeholder-img.wip-concept {
+  background: linear-gradient(135deg, #262b22, #20231c);
 }
 
 /* =========================================
@@ -196,9 +241,8 @@
   transition: max-height 0.4s ease, opacity 0.4s ease, margin 0.4s ease;
 }
 
-/* The active expanded state */
+/* The active expanded state — stays in its own column, only grows downward */
 .demo-card.is-expanded {
-  grid-column: 1 / -1;
   border-color: var(--color-primary);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
 }
@@ -247,6 +291,24 @@
 .workspace-content {
   background-color: #ffffff;
   min-height: 300px; /* Minimum height for your tools */
+}
+
+[data-theme="dark"] .workspace-header {
+  background-color: #1e1e1e;
+}
+
+[data-theme="dark"] .workspace-content {
+  background-color: #1a1a1a;
+}
+
+[data-theme="dark"] .workspace-content input,
+[data-theme="dark"] .workspace-content select {
+  background-color: #242424;
+  color: var(--color-text-primary);
+}
+
+[data-theme="dark"] .workspace-content label {
+  color: var(--color-text-primary);
 }
 
 /* --- Mobile Responsiveness --- */
@@ -301,6 +363,15 @@
 
 .qr-tool-preview {
   overflow: hidden;
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+/* QR codes need a light quiet zone to stay scannable in both themes */
+[data-theme="dark"] .qr-tool-preview {
+  background: #ffffff;
 }
 
 .qr-warning {

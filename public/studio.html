@@ -15,8 +15,8 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=2.12" />
-    <link rel="stylesheet" href="studio.css?v=2.12" />
+    <link rel="stylesheet" href="styles.css?v=2.14" />
+    <link rel="stylesheet" href="studio.css?v=2.15" />
     <link rel="canonical" href="https://cabscode.pro/studio" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://cabscode.pro/studio" />
@@ -98,7 +98,7 @@
               alt="F1 Weekend Weather Dashboard Interface"
               class="demo-image"
             />
-            <span class="card-badge badge-live">Live</span>
+            <span class="card-badge badge-live">Live · Beta</span>
             <div class="demo-content">
               <div class="tech-tags">
                 <span class="tech-tag js">JavaScript</span>
@@ -130,8 +130,11 @@
           </article>
 
           <article class="demo-card">
-            <div class="demo-image placeholder-img">App 2 Image</div>
-            <span class="card-badge badge-beta">Beta</span>
+            <div class="demo-image placeholder-img">
+              <i data-lucide="image" class="placeholder-icon"></i>
+              <span>App 2 Image</span>
+            </div>
+            <span class="card-badge badge-coming">Planned</span>
             <div class="demo-content">
               <div class="tech-tags">
                 <span class="tech-tag react">React</span>
@@ -141,16 +144,16 @@
                 Full stack application built in house. Beta build coming soon.
               </p>
               <div class="card-actions">
-                <a href="#" target="_blank" class="solid-btn"
-                  >Launch Live App
-                  <i data-lucide="external-link" class="icon-inline"></i
-                ></a>
+                <span class="solid-btn wip-btn">Coming Soon</span>
               </div>
             </div>
           </article>
 
           <article class="demo-card">
-            <div class="demo-image placeholder-img">RepoTicket Image</div>
+            <div class="demo-image placeholder-img">
+              <i data-lucide="image" class="placeholder-icon"></i>
+              <span>RepoTicket Image</span>
+            </div>
             <span class="card-badge badge-dev">Dev</span>
             <div class="demo-content">
               <div class="tech-tags">
@@ -169,7 +172,10 @@
           </article>
 
           <article class="demo-card">
-            <div class="demo-image placeholder-img">PassPro Image</div>
+            <div class="demo-image placeholder-img">
+              <i data-lucide="image" class="placeholder-icon"></i>
+              <span>PassPro Image</span>
+            </div>
             <span class="card-badge badge-coming">Planned</span>
             <div class="demo-content">
               <div class="tech-tags">
@@ -201,51 +207,22 @@
 
         <div class="demo-grid two-columns">
           <!-- Added 'expandable-card' class -->
-          <article class="demo-card expandable-card" id="css-tool">
-            <!-- Default View (Visible when small) -->
-            <div class="card-default-view">
-              <div class="tool-icon">
-                <i data-lucide="box"></i>
-              </div>
-              <span class="card-badge badge-dev">WIP</span>
-              <div class="demo-content">
-                <div class="tech-tags">
-                  <span class="tech-tag">HTML/CSS</span>
-                </div>
-                <h3>CSS Box-Shadow Generator</h3>
-                <p>
-                  A quick interactive tool to help developers generate complex
-                  box-shadows on the fly. WIP
-                </p>
-                <div class="card-actions">
-                  <button class="solid-btn expand-btn">
-                    Run Tool Here
-                    <i data-lucide="chevron-down" class="icon-inline"></i>
-                  </button>
-                </div>
-              </div>
+          <article class="demo-card">
+            <div class="tool-icon">
+              <i data-lucide="box"></i>
             </div>
-
-            <!-- Expanded Workspace (Hidden by default) -->
-            <div class="card-expanded-workspace">
-              <div class="workspace-header">
-                <h3>CSS Box-Shadow Generator</h3>
-                <button class="close-btn">
-                  Close Tool
-                  <i data-lucide="x" class="icon-inline"></i>
-                </button>
+            <span class="card-badge badge-dev">WIP</span>
+            <div class="demo-content">
+              <div class="tech-tags">
+                <span class="tech-tag">HTML/CSS</span>
               </div>
-              <div class="workspace-content">
-                <!-- Your tool's HTML goes inside here -->
-                <p
-                  style="
-                    padding: 40px;
-                    text-align: center;
-                    color: var(--color-text-secondary);
-                  "
-                >
-                  Interactive tool interface renders here...
-                </p>
+              <h3>CSS Box-Shadow Generator</h3>
+              <p>
+                A quick interactive tool to help developers generate complex
+                box-shadows on the fly. Not built yet.
+              </p>
+              <div class="card-actions">
+                <span class="solid-btn wip-btn">In Development</span>
               </div>
             </div>
           </article>
@@ -428,7 +405,8 @@
       </div>
     </footer>
 
-    <script src="script.js?v=2.15"></script>
+    <script src="phone-lengths.js?v=2.18"></script>
+    <script src="script.js?v=2.18"></script>
     <script>
       lucide.createIcons();
     </script>

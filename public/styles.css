@@ -428,10 +428,41 @@ main {
 .placeholder-img {
   background-color: var(--color-bg-placeholder);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   color: var(--color-placeholder-text);
   font-weight: 500;
+  text-align: center;
+}
+
+/* --- Tool card icon (Web Tools use icons instead of image previews) --- */
+.tool-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background-color: #f0f4ee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px 16px 0 16px;
+  color: var(--color-primary-dark);
+}
+
+.tool-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+[data-theme="dark"] .tool-icon {
+  background-color: #1e2a24;
+}
+
+.placeholder-img .placeholder-icon,
+.placeholder-icon {
+  width: 34px;
+  height: 34px;
 }
 
 .demo-content {
