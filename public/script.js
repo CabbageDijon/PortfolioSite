@@ -129,6 +129,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // 2a. Service CTA pickers
   initServicePickers();
 
+  // 2aa. Website price estimator (services / design showcase)
+  initQuoteMaker();
+
   // 2b. View Transitions API
   if (document.startViewTransition) {
     var internalLinks = document.querySelectorAll(
@@ -782,6 +785,640 @@ function initServicePickers() {
 
     closePicker();
   });
+}
+
+// --- Website Price Estimator ---
+var QUOTE_TIERS = [
+  {
+    id: "base",
+    title: "Base Site",
+    icon: "layout",
+    minPrice: 600,
+    maxPrice: 750,
+    minPages: 1,
+    maxPages: 3,
+    revisions: "1 round of revisions",
+    blurb:
+      "Micro / info site for side hustlers & sole traders. Fast, simple online presence with WhatsApp & contact form included.",
+  },
+  {
+    id: "standard",
+    title: "Standard Site",
+    icon: "building-2",
+    minPrice: 1300,
+    maxPrice: 1700,
+    minPages: 4,
+    maxPages: 6,
+    revisions: "2 rounds of revisions",
+    blurb:
+      "Small business site for SMEs. Full layout, Google Maps integration & social media linking.",
+  },
+  {
+    id: "advanced",
+    title: "Advanced Site",
+    icon: "sparkles",
+    minPrice: 2200,
+    maxPrice: 2800,
+    minPages: 7,
+    maxPages: 12,
+    revisions: "2 rounds of revisions",
+    blurb:
+      "Corporate & dynamic sites for established firms, schools & NGOs. Portfolio, blog, advanced lead forms & Analytics.",
+  },
+  {
+    id: "ecommerce",
+    title: "E-commerce Site",
+    icon: "shopping-cart",
+    quoteOnly: true,
+    blurb:
+      "Full online store with cart, checkout & stock management. Custom quote.",
+  },
+];
+
+var QUOTE_ADDONS = [
+  { id: "logo", label: "Logo & brand starter", price: 400, icon: "palette" },
+  { id: "booking", label: "Online booking / scheduling", price: 700, icon: "calendar-check" },
+  // TODO (future update): split Orange / MyZaka Money out as a separate P600 add-on — see docs/SiteQuoter/specifics.md
+  { id: "gateway", label: "Payment gateway setup (DPO / cards / mobile money)", price: 1000, icon: "credit-card" },
+  { id: "multilang", label: "Multi-language switcher (English / Setswana)", price: 600, icon: "languages" },
+  { id: "emails", label: "Custom business emails", price: 300, icon: "mail" },
+  {
+    id: "domain",
+    label: "Domain & hosting setup",
+    price: 400,
+    icon: "globe",
+    tip: "Hosting provider is provided by the client. This add-on is the 12-month domain + help moving files to the host and tying the domain to the website.",
+  },
+  { id: "seo-basic", label: "Basic SEO — meta tag optimizations", price: 250, icon: "tag" },
+  { id: "seo", label: "SEO expansion package", price: 700, icon: "search" },
+];
+
+var QUOTE_MONTHLY_ADDONS = [
+  { id: "cms", label: "CMS — WordPress / Webflow", price: 150, per: "month", icon: "file-text" },
+  {
+    id: "maintenance",
+    label: "Monthly maintenance & care",
+    price: null,
+    per: "month",
+    icon: "shield-check",
+  },
+  { id: "support", label: "Hourly technical support", price: 200, per: "hour", icon: "wrench" },
+];
+
+var QUOTE_RATES = { inRangePage: 100, extraPage: 150, copywriting: 300 };
+
+function pagePrice(tier, pages) {
+  if (!tier || tier.quoteOnly) return 0;
+  if (tier.id === "base") {
+    if (pages <= 1) return 600;
+    if (pages === 2) return 650;
+    return 750;
+  }
+  return tier.minPrice + (pages - tier.minPages) * QUOTE_RATES.inRangePage;
+}
+
+function maintenancePrice(siteCost) {
+  var pct = Math.round(siteCost * 0.2);
+  if (pct > 400) return 350;
+  return Math.ceil(pct / 50) * 50;
+}
+
+function initQuoteMaker() {
+  var root = document.getElementById("quoteMaker");
+  if (!root) return;
+
+  var tiersWrap = document.getElementById("quoteTiers");
+  var addonsWrap = document.getElementById("quoteAddons");
+  var monthlyAddonsWrap = document.getElementById("quoteMonthlyAddons");
+  var qtyWrap = root.querySelector(".quote-quantities");
+  var summaryLines = document.getElementById("quoteLines");
+  var totalLabel = document.getElementById("quoteTotalLabel");
+  var totalEl = document.getElementById("quoteTotal");
+  var continueBtn = document.getElementById("quoteContinue");
+  var requestForm = document.getElementById("quoteRequestForm");
+  var statusEl = document.getElementById("quoteRequestStatus");
+  var submitBtn = requestForm.querySelector('[type="submit"]');
+  var notesEl = document.getElementById("quoteNotes");
+  var pageValueEl = document.getElementById("pageValue");
+  var pagePriceEl = document.getElementById("pagePrice");
+  var monthlyLines = document.getElementById("quoteMonthlyLines");
+  var monthlyTotalEl = document.getElementById("quoteMonthlyTotal");
+  var monthlyGroup = document.getElementById("quoteMonthlyGroup");
+
+  var state = {
+    tier: null,
+    pages: 1,
+    extraPages: 0,
+    copyPages: 0,
+    startedAt: Date.now(),
+  };
+
+  function checkedIds(wrap) {
+    var ids = [];
+    wrap.querySelectorAll('input[type="checkbox"]:checked').forEach(function (cb) {
+      ids.push(cb.getAttribute("data-addon"));
+    });
+    return ids;
+  }
+
+  function selectedAddons() {
+    var list = [];
+    checkedIds(addonsWrap).forEach(function (id) {
+      QUOTE_ADDONS.forEach(function (a) {
+        if (a.id === id) list.push(a);
+      });
+    });
+    return list;
+  }
+
+  function selectedMonthlyAddons() {
+    var list = [];
+    checkedIds(monthlyAddonsWrap).forEach(function (id) {
+      QUOTE_MONTHLY_ADDONS.forEach(function (a) {
+        if (a.id === id) list.push(a);
+      });
+    });
+    return list;
+  }
+
+  function maintenanceSiteCost() {
+    var tier = state.tier;
+    if (tier && tier.quoteOnly) return 4000;
+    return computeTotal();
+  }
+
+  function effectiveMonthlyPrice(a) {
+    return a.price === null ? maintenancePrice(maintenanceSiteCost()) : a.price;
+  }
+
+  function monthlyRecurringTotal() {
+    var total = 0;
+    selectedMonthlyAddons().forEach(function (a) {
+      if (a.per === "month") total += effectiveMonthlyPrice(a);
+    });
+    return total;
+  }
+
+  function computeTotal() {
+    var tier = state.tier;
+    if (!tier || tier.quoteOnly) return 0;
+    var total = pagePrice(tier, state.pages);
+    total += state.extraPages * QUOTE_RATES.extraPage;
+    total += state.copyPages * QUOTE_RATES.copywriting;
+    selectedAddons().forEach(function (a) {
+      total += a.price;
+    });
+    return total;
+  }
+
+  function updateMaintenanceAddonPrice() {
+    var label = monthlyAddonsWrap.querySelector(
+      '.quote-addon[data-addon-wrap="maintenance"] .quote-addon-price',
+    );
+    if (!label) return;
+    if (!state.tier) {
+      label.textContent = "—";
+      return;
+    }
+    label.textContent =
+      "P" + maintenancePrice(maintenanceSiteCost()).toLocaleString() + "/month";
+  }
+
+  function renderMonthlySummary() {
+    var items = selectedMonthlyAddons();
+    if (!items.length) {
+      if (monthlyGroup) monthlyGroup.classList.add("hidden");
+      monthlyLines.innerHTML = "";
+      monthlyTotalEl.classList.add("hidden");
+      return;
+    }
+    if (monthlyGroup) monthlyGroup.classList.remove("hidden");
+    monthlyLines.innerHTML = items
+      .map(function (a) {
+        return (
+          '<li class="quote-line"><span>' +
+          a.label +
+          '</span><span class="quote-line-price">P' +
+          effectiveMonthlyPrice(a).toLocaleString() +
+          "/" +
+          a.per +
+          "</span></li>"
+        );
+      })
+      .join("");
+    var recurring = monthlyRecurringTotal();
+    if (recurring > 0) {
+      monthlyTotalEl.textContent = "Recurring: P" + recurring.toLocaleString() + "/month";
+      monthlyTotalEl.classList.remove("hidden");
+    } else {
+      monthlyTotalEl.classList.add("hidden");
+    }
+  }
+
+  function renderSummary() {
+    updateMaintenanceAddonPrice();
+
+    if (!state.tier) {
+      totalLabel.textContent = "Estimated price";
+      totalEl.textContent = "P—";
+      summaryLines.innerHTML =
+        '<li class="quote-line quote-line-empty">Select a site type to see an estimate.</li>';
+      monthlyLines.innerHTML = "";
+      monthlyTotalEl.classList.add("hidden");
+      if (monthlyGroup) monthlyGroup.classList.add("hidden");
+      continueBtn.classList.add("hidden");
+      requestForm.classList.add("hidden");
+      return;
+    }
+
+    if (state.tier.quoteOnly) {
+      totalLabel.textContent = "Pricing";
+      totalEl.textContent = "Custom quote";
+      summaryLines.innerHTML =
+        '<li class="quote-line quote-line-empty">E-commerce projects are quoted individually. ' +
+        "Send me your specifics below and I'll get back to you with a price.</li>";
+      renderMonthlySummary();
+      continueBtn.classList.add("hidden");
+      requestForm.classList.remove("hidden");
+      return;
+    }
+
+    requestForm.classList.add("hidden");
+    continueBtn.classList.remove("hidden");
+
+    var rows = [
+      {
+        label:
+          state.tier.title + " · " + state.pages + " page" + (state.pages === 1 ? "" : "s"),
+        price: pagePrice(state.tier, state.pages),
+      },
+    ];
+    if (state.extraPages > 0) {
+      rows.push({
+        label: "Extra pages × " + state.extraPages,
+        price: state.extraPages * QUOTE_RATES.extraPage,
+      });
+    }
+    if (state.copyPages > 0) {
+      rows.push({
+        label: "Copywriting × " + state.copyPages,
+        price: state.copyPages * QUOTE_RATES.copywriting,
+      });
+    }
+    selectedAddons().forEach(function (a) {
+      rows.push({ label: a.label, price: a.price });
+    });
+
+    if (rows.length === 1) {
+      summaryLines.innerHTML =
+        '<li class="quote-line quote-line-empty">This is the price for your pages — add extras below.</li>';
+    } else {
+      summaryLines.innerHTML = rows
+        .map(function (r) {
+          return (
+            '<li class="quote-line"><span>' +
+            r.label +
+            '</span><span class="quote-line-price">P' +
+            r.price.toLocaleString() +
+            "</span></li>"
+          );
+        })
+        .join("");
+    }
+
+    totalLabel.textContent = "Estimated price";
+    totalEl.textContent = "P" + computeTotal().toLocaleString();
+    renderMonthlySummary();
+  }
+
+  function buildMessage() {
+    var tier = state.tier;
+    var lines = [];
+    lines.push("Site type: " + tier.title);
+    if (!tier.quoteOnly) {
+      lines.push(
+        "Pages: " + state.pages + " (est. P" + pagePrice(tier, state.pages).toLocaleString() + ")",
+      );
+      if (state.extraPages > 0) {
+        lines.push(
+          "Extra pages: " +
+            state.extraPages +
+            " (+P" +
+            (state.extraPages * QUOTE_RATES.extraPage) +
+            ")",
+        );
+      }
+      if (state.copyPages > 0) {
+        lines.push(
+          "Copywriting: " +
+            state.copyPages +
+            " page(s) (+P" +
+            (state.copyPages * QUOTE_RATES.copywriting) +
+            ")",
+        );
+      }
+    }
+    var adds = selectedAddons().map(function (a) {
+      return a.label;
+    });
+    if (adds.length) lines.push("One-time add-ons: " + adds.join(", "));
+    var monthly = selectedMonthlyAddons().map(function (a) {
+      return a.label + " (P" + effectiveMonthlyPrice(a).toLocaleString() + "/" + a.per + ")";
+    });
+    if (monthly.length) lines.push("Monthly / care: " + monthly.join(", "));
+    var extra = notesEl.value.trim();
+    if (extra) lines.push("Details: " + extra);
+    return lines.join("\n");
+  }
+
+  function setStatus(text, kind) {
+    statusEl.textContent = text;
+    statusEl.className = "quote-request-status" + (kind ? " " + kind : "");
+  }
+
+  function fallback(mode, email, phone, countryCode, message) {
+    var num = (countryCode || "") + " " + (phone || "");
+    var body =
+      mode === "whatsapp"
+        ? "WhatsApp: " + (num.trim() || "No number") + "\n\n" + message
+        : "Email: " + (email || "No email") + "\n\n" + message;
+    var subject = "E-commerce Quote Request";
+    if (mode === "whatsapp") subject += " via WhatsApp";
+    window.location.href =
+      "mailto:bowntema@gmail.com?subject=" +
+      encodeURIComponent(subject) +
+      "&body=" +
+      encodeURIComponent(body);
+    setStatus("Could not reach the server — your email app opened instead.", "error");
+  }
+
+  // --- Render tiers ---
+  tiersWrap.innerHTML = QUOTE_TIERS.map(function (t) {
+    return (
+      '<button type="button" class="quote-tier" data-tier="' +
+      t.id +
+      '" aria-pressed="false">' +
+      '<span class="quote-tier-icon"><i data-lucide="' +
+      t.icon +
+      '"></i></span>' +
+      '<span class="quote-tier-name">' + t.title + "</span>" +
+      '<span class="quote-tier-price">' +
+      (t.quoteOnly
+        ? "Custom quote"
+        : "from P" + t.minPrice.toLocaleString()) +
+      "</span>" +
+      (t.revisions
+        ? '<span class="quote-tier-revisions">' + t.revisions + "</span>"
+        : "") +
+      '<span class="quote-tier-blurb">' + t.blurb + "</span>" +
+      "</button>"
+    );
+  }).join("");
+
+  function syncPageStepper() {
+    var tier = state.tier;
+    var pageStepper = root.querySelector('.quote-stepper[data-target="pages"]');
+    var minus = pageStepper.querySelector('.stepper-btn[data-step="-1"]');
+    var plus = pageStepper.querySelector('.stepper-btn[data-step="1"]');
+    minus.disabled = !tier || state.pages <= tier.minPages;
+    plus.disabled = !tier || state.pages >= tier.maxPages;
+    if (pageValueEl) pageValueEl.textContent = tier ? state.pages : "—";
+    if (pagePriceEl) {
+      pagePriceEl.textContent =
+        tier && !tier.quoteOnly ? "P" + pagePrice(tier, state.pages).toLocaleString() : "—";
+    }
+  }
+
+  tiersWrap.querySelectorAll(".quote-tier").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var id = btn.getAttribute("data-tier");
+      var tier = null;
+      QUOTE_TIERS.forEach(function (t) {
+        if (t.id === id) tier = t;
+      });
+      if (!tier) return;
+
+      state.tier = tier;
+      if (!tier.quoteOnly) {
+        state.pages = tier.minPages;
+      }
+      state.extraPages = 0;
+      tiersWrap.querySelectorAll(".quote-tier").forEach(function (b) {
+        var on = b === btn;
+        b.classList.toggle("is-selected", on);
+        b.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+
+      if (qtyWrap) {
+        qtyWrap.classList.toggle("hidden", !!tier.quoteOnly);
+      }
+      syncPageStepper();
+      renderSummary();
+    });
+  });
+
+  // --- Render add-ons ---
+  function renderAddon(wrap, list, withPer) {
+    wrap.innerHTML = list
+      .map(function (a) {
+        var price =
+          a.price === null
+            ? "—"
+            : "P" + a.price + (withPer && a.per ? "/" + a.per : "");
+        var tip = a.tip
+          ? '<span class="quote-addon-tip" tabindex="0" role="note" aria-label="More info">' +
+            '<i data-lucide="info"></i>' +
+            '<span class="quote-addon-tip-text">' +
+            a.tip +
+            "</span></span>"
+          : "";
+        return (
+          '<label class="quote-addon" data-addon-wrap="' + a.id + '">' +
+          '<input type="checkbox" data-addon="' + a.id + '" />' +
+          '<span class="quote-addon-icon"><i data-lucide="' +
+          a.icon +
+          '"></i></span>' +
+          '<span class="quote-addon-label">' +
+          a.label +
+          tip +
+          "</span>" +
+          '<span class="quote-addon-price">' + price + "</span>" +
+          "</label>"
+        );
+      })
+      .join("");
+  }
+  renderAddon(addonsWrap, QUOTE_ADDONS, false);
+  renderAddon(monthlyAddonsWrap, QUOTE_MONTHLY_ADDONS, true);
+
+  addonsWrap.addEventListener("change", renderSummary);
+  monthlyAddonsWrap.addEventListener("change", renderSummary);
+
+  [addonsWrap, monthlyAddonsWrap].forEach(function (wrap) {
+    wrap.addEventListener("click", function (e) {
+      if (e.target.closest && e.target.closest(".quote-addon-tip")) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    });
+  });
+
+  // --- Quantity steppers ---
+  var steppers = root.querySelectorAll(".quote-stepper");
+  steppers.forEach(function (stepper) {
+    var target = stepper.getAttribute("data-target");
+    var valueEl = stepper.querySelector(".stepper-value");
+    stepper.querySelectorAll(".stepper-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var delta = parseInt(btn.getAttribute("data-step"), 10) || 0;
+        var next;
+        if (target === "pages") {
+          var tier = state.tier;
+          if (!tier || tier.quoteOnly) return;
+          next = Math.min(tier.maxPages, Math.max(tier.minPages, state.pages + delta));
+        } else {
+          next = Math.max(0, state[target] + delta);
+        }
+        state[target] = next;
+        if (valueEl) valueEl.textContent = next;
+        syncPageStepper();
+        renderSummary();
+      });
+    });
+  });
+
+  // --- Continue to enquiry (tiered sites) ---
+  continueBtn.addEventListener("click", function () {
+    var textarea = document.getElementById("contact-message");
+    if (!textarea) return;
+    textarea.value =
+      "Hi Tema, I'd like a website. Here's my estimate breakdown:\n" +
+      buildMessage() +
+      "\n\nCan you confirm this or give me the exact quote?";
+    var form = document.getElementById("contactForm");
+    if (form) {
+      form.scrollIntoView({ behavior: "smooth", block: "start" });
+      textarea.focus();
+    }
+  });
+
+  // --- E-commerce inline request form ---
+  var emailRow = requestForm.querySelector(".quote-email-row");
+  var phoneRow = requestForm.querySelector(".quote-phone-row");
+  var emailInput = requestForm.querySelector("#quote-email");
+  var phoneInput = requestForm.querySelector("#quote-phone");
+  var countrySelect = requestForm.querySelector("#quoteCountry");
+
+  populateCountrySelect(countrySelect);
+
+  requestForm.querySelectorAll(".quote-mode-btn").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      requestForm.querySelectorAll(".quote-mode-btn").forEach(function (b) {
+        b.classList.remove("active");
+        b.setAttribute("aria-pressed", "false");
+      });
+      btn.classList.add("active");
+      btn.setAttribute("aria-pressed", "true");
+
+      var mode = btn.getAttribute("data-mode");
+      var isEmail = mode === "email";
+      emailRow.classList.toggle("hidden", !isEmail);
+      phoneRow.classList.toggle("hidden", isEmail);
+      emailInput.required = isEmail;
+      phoneInput.required = !isEmail;
+    });
+  });
+
+  function applyPhoneFilter() {
+    var maxLen = phoneMaxLength(countrySelect.value);
+    var dial = countrySelect.value || "";
+    var dash = dial.indexOf("-");
+    var ccDigits = phoneDigits(dash === -1 ? dial : dial.slice(0, dash));
+    var raw = phoneInput.value.replace(/[^\d]/g, "");
+    if (ccDigits && raw.length > maxLen && raw.indexOf(ccDigits) === 0) {
+      raw = raw.slice(ccDigits.length);
+    }
+    phoneInput.value = raw.slice(0, maxLen);
+    phoneInput.placeholder =
+      "+" + phoneDigits(dial) + " (max " + maxLen + " digits)";
+  }
+  phoneInput.addEventListener("input", applyPhoneFilter);
+  countrySelect.addEventListener("change", applyPhoneFilter);
+  applyPhoneFilter();
+
+  requestForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    var mode = requestForm.querySelector(".quote-mode-btn.active").getAttribute("data-mode");
+    var email, phone, countryCode;
+
+    if (mode === "email") {
+      email = emailInput.value.trim();
+      if (!email) {
+        setStatus("Please enter your email.", "error");
+        return;
+      }
+    } else {
+      phone = phoneInput.value.trim();
+      countryCode = countrySelect.value;
+      if (!validatePhone(phone, countryCode)) {
+        setStatus(phoneLengthHint(countryCode) || "Please enter a valid phone number.", "error");
+        return;
+      }
+    }
+
+    var elapsed = Date.now() - state.startedAt;
+    if (elapsed < 3000 || elapsed > 1800000) {
+      setStatus("Submission rejected. Please try again.", "error");
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending...";
+    setStatus("", "");
+
+    var body = {
+      message: buildMessage() + "\n\nHi Tema, I'd like a custom quote for this E-commerce site.",
+      _timestamp: state.startedAt,
+      website: requestForm.querySelector('[name="website"]').value,
+    };
+    if (mode === "email") {
+      body.email = email;
+    } else {
+      body.phone = phone;
+      body.countryCode = countryCode;
+    }
+
+    try {
+      var res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      var data = await res.json();
+      if (res.ok) {
+        setStatus("Request sent — I'll get back to you with a quote.", "success");
+        submitBtn.textContent = "Request Sent";
+        emailInput.value = "";
+        phoneInput.value = "";
+        setTimeout(function () {
+          submitBtn.textContent = "Send Quote Request";
+          submitBtn.disabled = false;
+        }, 4000);
+      } else {
+        fallback(mode, email, phone, countryCode, body.message);
+      }
+    } catch (_err) {
+      fallback(mode, email, phone, countryCode, body.message);
+    }
+  });
+
+  if (window.lucide) {
+    lucide.createIcons();
+  }
+
+  syncPageStepper();
+  renderSummary();
 }
 
 // --- Expandable Web Tools Logic ---
