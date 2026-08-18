@@ -455,6 +455,7 @@ function initContactForm() {
     '    <input type="text" name="website" tabindex="-1" autocomplete="off" />',
     "  </div>",
     '  <input type="hidden" name="_timestamp" value="' + Date.now() + '" />',
+    '  <input type="hidden" name="quote" value="" />',
     '',
     '  <div class="contact-mode-toggle" role="radiogroup" aria-label="Contact method">',
     '    <button type="button" class="mode-btn active" data-mode="email" aria-pressed="true">',
@@ -574,6 +575,13 @@ function attachFormHandler() {
     status.className = "form-status";
 
     var body = { message: message, _timestamp: timestamp };
+    if (form.quote && form.quote.value) {
+      try {
+        body.quote = JSON.parse(form.quote.value);
+      } catch (_e) {
+        body.quote = undefined;
+      }
+    }
     if (mode === "email") {
       body.email = email;
     } else {
@@ -628,7 +636,7 @@ function clientSendFallback(mode, email, phone, countryCode, message, reason) {
   if (mode === "whatsapp") subject += " via WhatsApp";
 
   var href =
-    "mailto:bowntema@gmail.com?subject=" +
+    "mailto:cabscodepro@gmail.com?subject=" +
     encodeURIComponent(subject) +
     "&body=" +
     encodeURIComponent(body);
@@ -854,7 +862,6 @@ var QUOTE_ADDONS = [
 ];
 
 var QUOTE_MONTHLY_ADDONS = [
-  { id: "cms", label: "CMS — WordPress / Webflow", price: 150, per: "month", icon: "file-text" },
   {
     id: "maintenance",
     label: "Monthly maintenance & care",
@@ -878,9 +885,9 @@ function pagePrice(tier, pages) {
 }
 
 function maintenancePrice(siteCost) {
-  var pct = Math.round(siteCost * 0.2);
-  if (pct > 400) return 350;
-  return Math.ceil(pct / 50) * 50;
+  var pct = Math.round(siteCost * 0.15);
+  var price = Math.ceil(pct / 50) * 50;
+  return Math.min(price, 400);
 }
 
 function initQuoteMaker() {
@@ -969,6 +976,35 @@ function initQuoteMaker() {
       total += a.price;
     });
     return total;
+  }
+
+  function buildQuotePayload() {
+    var tier = state.tier;
+    if (!tier) return null;
+    var addons = selectedAddons().map(function (a) {
+      return { label: a.label, price: a.price };
+    });
+    if (state.copyPages > 0) {
+      addons.push({
+        label: "Professional copywriting × " + state.copyPages,
+        price: state.copyPages * QUOTE_RATES.copywriting,
+      });
+    }
+    return {
+      siteType: tier.title,
+      quoteOnly: !!tier.quoteOnly,
+      pages: state.pages,
+      extraPages: state.extraPages,
+      copyPages: state.copyPages,
+      pagePrice: tier.quoteOnly ? 0 : pagePrice(tier, state.pages),
+      addons: addons,
+      monthly: selectedMonthlyAddons().map(function (a) {
+        return { label: a.label, price: effectiveMonthlyPrice(a), per: a.per };
+      }),
+      oneTimeTotal: tier.quoteOnly ? null : computeTotal(),
+      monthlyRecurring: monthlyRecurringTotal(),
+      notes: notesEl.value.trim(),
+    };
   }
 
   function updateMaintenanceAddonPrice() {
@@ -1145,7 +1181,7 @@ function initQuoteMaker() {
     var subject = "E-commerce Quote Request";
     if (mode === "whatsapp") subject += " via WhatsApp";
     window.location.href =
-      "mailto:bowntema@gmail.com?subject=" +
+      "mailto:cabscodepro@gmail.com?subject=" +
       encodeURIComponent(subject) +
       "&body=" +
       encodeURIComponent(body);
@@ -1276,6 +1312,14 @@ function initQuoteMaker() {
           var tier = state.tier;
           if (!tier || tier.quoteOnly) return;
           next = Math.min(tier.maxPages, Math.max(tier.minPages, state.pages + delta));
+        } else if (target === "extraPages") {
+          var tier = state.tier;
+          if (delta > 0 && tier && !tier.quoteOnly && state.pages < tier.maxPages) {
+            state.pages = Math.min(tier.maxPages, state.pages + delta);
+            next = state.extraPages;
+          } else {
+            next = Math.max(0, state.extraPages + delta);
+          }
         } else {
           next = Math.max(0, state[target] + delta);
         }
@@ -1295,6 +1339,11 @@ function initQuoteMaker() {
       "Hi Tema, I'd like a website. Here's my estimate breakdown:\n" +
       buildMessage() +
       "\n\nCan you confirm this or give me the exact quote?";
+    var quoteInput = document.querySelector('#contactForm input[name="quote"]');
+    if (quoteInput) {
+      var payload = buildQuotePayload();
+      quoteInput.value = payload ? JSON.stringify(payload) : "";
+    }
     var form = document.getElementById("contactForm");
     if (form) {
       form.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1381,6 +1430,7 @@ function initQuoteMaker() {
       message: buildMessage() + "\n\nHi Tema, I'd like a custom quote for this E-commerce site.",
       _timestamp: state.startedAt,
       website: requestForm.querySelector('[name="website"]').value,
+      quote: buildQuotePayload(),
     };
     if (mode === "email") {
       body.email = email;

@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="CabsCode — paste a quote .md and view it as a styled quote summary."
+    />
+    <title>CabsCode | Quote Viewer</title>
+    <link rel="icon" href="images/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css?v=2.24" />
+    <link rel="stylesheet" href="services.css?v=2.17" />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-left">
+        <a href="/" class="logo" aria-label="Home">
+          <div class="logo">
+            <img
+              src="images/logo.svg"
+              alt="CabsCode"
+              width="48"
+              height="48"
+            /></div
+        ></a>
+      </div>
+
+      <button class="mobile-toggle" aria-label="Toggle navigation">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <div class="nav-right">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/services" class="nav-link">Services</a>
+        <a href="/studio" class="nav-link">Studio</a>
+        <a href="/journal" class="nav-link">Journal</a>
+        <button
+          class="dark-toggle"
+          id="darkToggle"
+          aria-label="Toggle dark mode"
+        ></button>
+        <a href="#contactForm" class="contact-btn">Contact</a>
+      </div>
+    </nav>
+
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <main>
+      <header class="hero">
+        <h1>Quote Viewer</h1>
+        <p>
+          Paste a quote's .md content below to preview it as a styled summary —
+          same look as the price estimator.
+        </p>
+      </header>
+
+      <section class="quote-maker" id="quoteMaker">
+        <div class="quote-layout">
+          <div class="quote-config">
+            <h3 class="quote-step"><b>1</b> · Paste the quote .md</h3>
+            <div class="quote-notes">
+              <textarea
+                id="mdInput"
+                rows="14"
+                placeholder="# CabsCode Website Quote&#10;&#10;## Site Type&#10;- Base Site · 3 pages — **P750**&#10;..."
+              ></textarea>
+            </div>
+            <div class="quote-actions" style="display: flex; gap: 10px; margin-top: 12px">
+              <button type="button" class="solid-btn" id="convertBtn">
+                Convert to Quote
+              </button>
+              <button type="button" class="stepper-btn" id="clearBtn" style="padding: 10px 14px">
+                Clear
+              </button>
+            </div>
+            <p class="quote-addon-group-note" id="viewerStatus"></p>
+          </div>
+
+          <aside class="quote-summary" id="quoteOutput">
+            <h3>Your quote</h3>
+            <ul class="quote-lines">
+              <li class="quote-line quote-line-empty">
+                Paste the .md above and press Convert to preview the quote.
+              </li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <a
+            href="https://www.linkedin.com/in/tema-bown-2441b73a3/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn Profile"
+            >LinkedIn</a
+          >
+          <a href="https://github.com/CabbageDijon" target="_blank">GitHub</a>
+          <a href="mailto:cabscodepro@gmail.com">Gmail</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="#">Terms of Use</a>
+          <a href="#">Privacy Policy</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Tema Bown. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      function parseQuote(md) {
+        var result = {
+          date: "",
+          contact: "",
+          pageLine: null,
+          addons: [],
+          monthly: [],
+          totals: [],
+          notes: "",
+        };
+        var section = "";
+        md.split(/\r?\n/).forEach(function (line) {
+          var head = line.match(/^##\s+(.+)$/);
+          if (head) {
+            section = head[1].trim().toLowerCase();
+            return;
+          }
+          var dateMatch = line.match(/\*\*Date:\*\*\s*(.+)$/);
+          if (dateMatch) {
+            result.date = dateMatch[1].trim();
+            return;
+          }
+          var contactMatch = line.match(/\*\*Contact:\*\*\s*(.+)$/);
+          if (contactMatch) {
+            result.contact = contactMatch[1].trim();
+            return;
+          }
+          if (line.indexOf("- ") !== 0) return;
+          var bullet = line.slice(2);
+          var m = bullet.match(/^(.*?)\s*—\s+\*\*(.+?)\*\*\s*$/);
+          var label = m ? m[1] : bullet;
+          var price = m ? m[2] : "";
+          if (section === "site type") result.pageLine = { label: label, price: price };
+          else if (section === "one-time add-ons") result.addons.push({ label: label, price: price });
+          else if (section === "monthly & care") result.monthly.push({ label: label, price: price });
+          else if (section === "totals") result.totals.push({ label: label, price: price });
+          else if (section === "notes") result.notes += (result.notes ? "\n" : "") + bullet;
+        });
+        return result;
+      }
+
+      function line(label, price) {
+        return (
+          '<li class="quote-line"><span>' +
+          label +
+          "</span><span class=\"quote-line-price\">" +
+          (price || "—") +
+          "</span></li>"
+        );
+      }
+
+      function render(parsed) {
+        var out = document.getElementById("quoteOutput");
+        var lines = [];
+        var recurring = "";
+        var oneTimeValue = "";
+
+        parsed.totals.forEach(function (t) {
+          var label = t.label.toLowerCase();
+          if (label.indexOf("one-time") !== -1) oneTimeValue = t.price || "Custom quote";
+          if (label.indexOf("recurring") !== -1) recurring = t.price || "";
+        });
+
+        if (parsed.pageLine) lines.push(line(parsed.pageLine.label, parsed.pageLine.price));
+        var addons = parsed.addons;
+        if (addons.length === 1 && addons[0].label === "None") addons = [];
+        addons.forEach(function (a) {
+          lines.push(line(a.label, a.price));
+        });
+
+        if (!lines.length) lines.push('<li class="quote-line quote-line-empty">No options selected.</li>');
+
+        var html = "";
+        if (parsed.date || parsed.contact) {
+          html +=
+            '<p class="quote-addon-group-note">' +
+            (parsed.date ? "Date: " + parsed.date + " · " : "") +
+            (parsed.contact ? "Contact: " + parsed.contact : "") +
+            "</p>";
+        }
+        html += "<h3>Your quote</h3>";
+        html += '<ul class="quote-lines">' + lines.join("") + "</ul>";
+        html +=
+          '<div class="quote-total"><span class="quote-total-label">Estimated price</span>' +
+          '<span class="quote-total-value">' +
+          (oneTimeValue ? "P" + oneTimeValue.replace(/^P/i, "") : "P—") +
+          "</span></div>";
+
+        var monthly = parsed.monthly;
+        if (monthly.length === 1 && monthly[0].label === "None") monthly = [];
+        if (monthly.length || recurring) {
+          html += '<div class="quote-monthly-group">';
+          html += '<p class="quote-monthly-title">Monthly &amp; care</p>';
+          if (monthly.length) {
+            html += "<ul class=\"quote-lines\">";
+            monthly.forEach(function (m) {
+              html += line(m.label, m.price);
+            });
+            html += "</ul>";
+          }
+          if (recurring) {
+            html +=
+              '<div class="quote-monthly-total">Recurring: P' +
+              recurring.replace(/^P/i, "").replace(/\/month$/, "") +
+              "/month</div>";
+          }
+          html += "</div>";
+        }
+
+        if (parsed.notes) {
+          html +=
+            '<p class="quote-addon-group-note" style="margin-top:14px"><strong>Notes:</strong><br />' +
+            parsed.notes.replace(/\n/g, "<br />") +
+            "</p>";
+        }
+
+        out.innerHTML = html;
+      }
+
+      function convert() {
+        var md = document.getElementById("mdInput").value.trim();
+        var status = document.getElementById("viewerStatus");
+        if (!md) {
+          status.textContent = "Paste the .md content first.";
+          return;
+        }
+        var parsed = parseQuote(md);
+        if (!parsed.pageLine && !parsed.addons.length && !parsed.monthly.length) {
+          status.textContent = "Couldn't find any quote options in that text.";
+          return;
+        }
+        status.textContent = "";
+        render(parsed);
+      }
+
+      document.getElementById("convertBtn").addEventListener("click", convert);
+      document.getElementById("clearBtn").addEventListener("click", function () {
+        document.getElementById("mdInput").value = "";
+        document.getElementById("viewerStatus").textContent = "";
+        document.getElementById("quoteOutput").innerHTML =
+          '<h3>Your quote</h3><ul class="quote-lines">' +
+          '<li class="quote-line quote-line-empty">Paste the .md above and press Convert to preview the quote.</li>' +
+          "</ul>";
+      });
+      document.getElementById("mdInput").addEventListener("keydown", function (e) {
+        if ((e.metaKey || e.ctrlKey) && e.key === "Enter") convert();
+      });
+    </script>
+  </body>
+</html>

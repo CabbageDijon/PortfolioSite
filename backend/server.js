@@ -3,6 +3,13 @@ const express = require("express");
 const nodemailer = require("nodemailer");
 const rateLimit = require("express-rate-limit");
 const { PHONE_LENGTHS, DIAL_TO_CODE } = require("./phone-rules");
+const {
+  todayISO,
+  buildQuoteMarkdown,
+  buildClientConfirmation,
+  buildClientConfirmationHtml,
+  buildOwnerHtml,
+} = require("./quote-doc");
 
 function isValidPhone(phone, countryCode) {
   const digits = String(phone || "").replace(/[\s\-\(\)\+]/g, "");
@@ -111,8 +118,16 @@ app.post("/api/contact", async (req, res) => {
     : "New Project Inquiry from " + email;
   const replyTo = email || undefined;
 
+  const quote = req.body.quote;
+  const hasQuote =
+    !!quote &&
+    typeof quote === "object" &&
+    !Array.isArray(quote) &&
+    typeof quote.siteType === "string";
+  const contact = { email: email || "", phone: phone || "", countryCode: countryCode || "" };
+
   try {
-    await transporter.sendMail({
+    const ownerMail = {
       from: '"CabsCode Contact Form" <' + process.env.EMAIL_USER + ">",
       to: process.env.CONTACT_EMAIL,
       replyTo: replyTo,
@@ -124,7 +139,43 @@ app.post("/api/contact", async (req, res) => {
         "<hr />",
         "<p>" + safeMessage.replace(/\n/g, "<br />") + "</p>",
       ].join(""),
-    });
+    };
+
+    if (hasQuote) {
+      const markdown = buildQuoteMarkdown(quote, contact);
+      ownerMail.subject =
+        "New Website Quote Request — " +
+        quote.siteType +
+        (email ? " from " + email : "");
+      ownerMail.text =
+        "From: " +
+        fromLabel +
+        "\n\n===== Client confirmation (forwardable) =====\n\n" +
+        buildClientConfirmation(quote, contact) +
+        "\n\n===== Full quote (.md) =====\n\n" +
+        markdown;
+      ownerMail.html = buildOwnerHtml(quote, contact);
+      ownerMail.attachments = [
+        { filename: "quote-" + todayISO() + ".md", content: markdown },
+      ];
+    }
+
+    await transporter.sendMail(ownerMail);
+
+    // Client confirmation — basic list + final price only, no per-option prices.
+    if (hasQuote && email) {
+      try {
+        await transporter.sendMail({
+          from: '"CabsCode" <' + process.env.EMAIL_USER + ">",
+          to: email,
+          subject: "Your Website Quote — " + quote.siteType + " (CabsCode)",
+          text: buildClientConfirmation(quote, contact),
+          html: buildClientConfirmationHtml(quote, contact),
+        });
+      } catch (err) {
+        console.error("Client confirmation send error:", err);
+      }
+    }
 
     res.json({ success: true, message: "Message sent successfully." });
   } catch (err) {
