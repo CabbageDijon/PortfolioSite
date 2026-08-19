@@ -51,11 +51,21 @@ const limiter = rateLimit({
 app.use("/api/contact", limiter);
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT || 465),
+  secure: process.env.SMTP_SECURE === "true",
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
   },
+});
+
+transporter.verify(function (err) {
+  if (err) {
+    console.error("SMTP connection check failed:", err);
+  } else {
+    console.log("SMTP connection verified (" + process.env.SMTP_HOST + ":" + process.env.SMTP_PORT + ")");
+  }
 });
 
 function isValidEmail(email) {
@@ -128,7 +138,7 @@ app.post("/api/contact", async (req, res) => {
 
   try {
     const ownerMail = {
-      from: '"CabsCode Contact Form" <' + process.env.EMAIL_USER + ">",
+      from: '"CabsCode Contact Form" <' + process.env.MAIL_FROM + ">",
       to: process.env.CONTACT_EMAIL,
       replyTo: replyTo,
       subject: subject,
@@ -166,7 +176,7 @@ app.post("/api/contact", async (req, res) => {
     if (hasQuote && email) {
       try {
         await transporter.sendMail({
-          from: '"CabsCode" <' + process.env.EMAIL_USER + ">",
+          from: '"CabsCode" <' + process.env.MAIL_FROM + ">",
           to: email,
           subject: "Your Website Quote — " + quote.siteType + " (CabsCode)",
           text: buildClientConfirmation(quote, contact),

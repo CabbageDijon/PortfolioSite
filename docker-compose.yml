@@ -15,8 +15,12 @@ services:
       dockerfile: Dockerfile.api
     environment:
       - PORT=3000
-      - EMAIL_USER=${EMAIL_USER}
-      - EMAIL_PASS=${EMAIL_PASS}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_SECURE=${SMTP_SECURE}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+      - MAIL_FROM=${MAIL_FROM}
       - CONTACT_EMAIL=${CONTACT_EMAIL}
 
     expose:
