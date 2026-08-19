@@ -60,6 +60,19 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+const smtpConfigured = !!(
+  process.env.SMTP_HOST &&
+  process.env.SMTP_USER &&
+  process.env.SMTP_PASS
+);
+
+if (!smtpConfigured) {
+  console.error(
+    "SMTP NOT CONFIGURED: set SMTP_HOST, SMTP_USER and SMTP_PASS in the environment " +
+      "(Dokploy -> Environment -> api). Contact form submissions will be rejected."
+  );
+}
+
 transporter.verify(function (err) {
   if (err) {
     console.error("SMTP connection check failed:", err);
@@ -135,6 +148,12 @@ app.post("/api/contact", async (req, res) => {
     !Array.isArray(quote) &&
     typeof quote.siteType === "string";
   const contact = { email: email || "", phone: phone || "", countryCode: countryCode || "" };
+
+  if (!smtpConfigured) {
+    return res
+      .status(503)
+      .json({ error: "Contact form is not set up yet. Please email services@cabscode.pro directly." });
+  }
 
   try {
     const ownerMail = {

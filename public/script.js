@@ -636,7 +636,7 @@ function clientSendFallback(mode, email, phone, countryCode, message, reason) {
   if (mode === "whatsapp") subject += " via WhatsApp";
 
   var href =
-    "mailto:cabscodepro@gmail.com?subject=" +
+    "mailto:services@cabscode.pro?subject=" +
     encodeURIComponent(subject) +
     "&body=" +
     encodeURIComponent(body);
@@ -1181,7 +1181,7 @@ function initQuoteMaker() {
     var subject = "E-commerce Quote Request";
     if (mode === "whatsapp") subject += " via WhatsApp";
     window.location.href =
-      "mailto:cabscodepro@gmail.com?subject=" +
+      "mailto:services@cabscode.pro?subject=" +
       encodeURIComponent(subject) +
       "&body=" +
       encodeURIComponent(body);
