@@ -42,7 +42,7 @@ app.use(express.json());
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 10,
+  max: 20,
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: "Too many requests. Please try again later." },
@@ -95,7 +95,7 @@ function escapeHtml(text) {
 }
 
 app.post("/api/contact", async (req, res) => {
-  const { email, phone, countryCode, message, _timestamp } = req.body;
+  const { email, phone, countryCode, message, _timestamp, service } = req.body;
 
   // 1. Honeypot check — reject silently if filled (bot)
   if (req.body.website) {
@@ -136,9 +136,16 @@ app.post("/api/contact", async (req, res) => {
   const fromLabel = isWhatsApp
     ? "WhatsApp (" + escapeHtml(countryCode || "") + " " + escapeHtml(phone) + ")"
     : escapeHtml(email);
-  const subject = isWhatsApp
-    ? "New Project Inquiry via WhatsApp from " + (countryCode || "") + " " + phone
-    : "New Project Inquiry from " + email;
+  const rawService =
+    typeof service === "string" ? service.trim().slice(0, 60) : "";
+  const escService = rawService ? escapeHtml(rawService) : "";
+  const serviceTag = rawService ? "[" + rawService + "] " : "";
+  const waDigits = isWhatsApp ? String(phone).replace(/\D/g, "") : "";
+  const subject =
+    serviceTag +
+    (isWhatsApp
+      ? "New Project Inquiry via WhatsApp from " + (countryCode || "") + " " + phone
+      : "New Project Inquiry from " + email);
   const replyTo = email || undefined;
 
   const quote = req.body.quote;
@@ -161,13 +168,27 @@ app.post("/api/contact", async (req, res) => {
       to: process.env.CONTACT_EMAIL,
       replyTo: replyTo,
       subject: subject,
-      text: "From: " + fromLabel + "\n\n" + message,
+      text:
+        "From: " +
+        fromLabel +
+        (rawService ? "\nService: " + rawService : "") +
+        (waDigits ? "\nReply on WhatsApp: https://wa.me/" + waDigits : "") +
+        "\n\n" +
+        message,
       html: [
         "<h2>New Project Inquiry</h2>",
         "<p><strong>From:</strong> " + fromLabel + "</p>",
+        escService ? "<p><strong>Service:</strong> " + escService + "</p>" : "",
+        waDigits
+          ? '<p><strong>Reply:</strong> <a href="https://wa.me/' +
+            waDigits +
+            '">WhatsApp chat</a></p>'
+          : "",
         "<hr />",
         "<p>" + safeMessage.replace(/\n/g, "<br />") + "</p>",
-      ].join(""),
+      ]
+        .filter(Boolean)
+        .join(""),
     };
 
     if (hasQuote) {

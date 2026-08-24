@@ -517,6 +517,7 @@ footer {
   gap: 48px;
   max-width: 1200px;
   margin: 0 auto;
+  align-items: start;
 }
 
 .footer-col h4 {
@@ -537,24 +538,90 @@ footer {
   color: var(--color-primary);
 }
 
+.footer-form {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  align-self: start;
+  gap: 0;
+}
+
 .footer-form form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
+  background: var(--color-bg-body);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 16px;
+  max-height: min(58vh, 520px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+  box-shadow: 0 4px 12px var(--shadow-card-hover);
+  min-width: 0;
+}
+
+.footer-form form::-webkit-scrollbar {
+  width: 6px;
+}
+
+.footer-form form::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 999px;
 }
 
 .footer-form input,
+.footer-form select,
 .footer-form textarea {
-  padding: 12px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  padding: 11px 12px;
   border: 1px solid var(--color-border);
   border-radius: 8px;
   font-family: inherit;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  line-height: 1.4;
+}
+
+.footer-form select {
+  cursor: pointer;
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--color-text-secondary) 50%),
+    linear-gradient(135deg, var(--color-text-secondary) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) calc(50% - 2px),
+    calc(100% - 13px) calc(50% - 2px);
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 30px;
+}
+
+.footer-form select:invalid {
+  color: var(--color-placeholder-text);
+}
+
+.footer-form select option {
   color: var(--color-text-primary);
 }
 
+.footer-form textarea {
+  min-height: 84px;
+  max-height: 160px;
+  resize: vertical;
+  overflow-y: auto;
+}
+
 .footer-form input:focus,
+.footer-form select:focus,
 .footer-form textarea:focus {
   outline: none;
   border-color: var(--color-primary);
@@ -593,6 +660,7 @@ footer {
   border: 1px solid var(--color-border);
   border-radius: 8px;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .mode-btn {
@@ -631,23 +699,30 @@ footer {
   display: flex;
   gap: 8px;
   align-items: center;
+  min-width: 0;
 }
 
 .contact-input-row select {
-  padding: 12px;
+  padding: 11px 12px;
   border: 1px solid var(--color-border);
   border-radius: 8px;
   font-family: inherit;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   background-color: var(--color-bg);
   color: var(--color-text-primary);
-  flex: 0 0 auto;
-  min-width: 100px;
+  flex: 0 1 140px;
+  min-width: 110px;
+  max-width: 44%;
   cursor: pointer;
 }
 
 .contact-input-row input {
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.footer-form .contact-input-row {
+  width: 100%;
 }
 
 .contact-btn.sent {
@@ -784,6 +859,15 @@ footer {
   .footer-container {
     grid-template-columns: 1fr;
     gap: 32px;
+  }
+
+  .footer-form {
+    align-self: stretch;
+  }
+
+  .footer-form form {
+    max-height: none;
+    overflow: visible;
   }
 
   footer {

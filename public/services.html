@@ -26,8 +26,8 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=2.14" />
-    <link rel="stylesheet" href="services.css?v=2.12" />
+    <link rel="stylesheet" href="styles.css?v=2.16" />
+    <link rel="stylesheet" href="services.css?v=2.26" />
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   </head>
   <body>
@@ -76,7 +76,7 @@
       </header>
 
       <section class="services-grid">
-        <article class="service-card">
+        <article class="service-card" id="webServiceCard">
           <div class="service-icon">
             <i data-lucide="code-xml"></i>
           </div>
@@ -96,6 +96,9 @@
             type="button"
             class="service-cta-btn solid-btn"
             data-service="web"
+            id="startProjectBtn"
+            aria-expanded="false"
+            aria-controls="quoteMaker"
           >
             Start a Project
             <i data-lucide="chevron-down" class="icon-inline"></i>
@@ -167,6 +170,159 @@
         </div>
       </section>
 
+      <section class="quote-maker" id="quoteMaker" hidden aria-labelledby="quoteMakerHeading">
+        <div class="quote-maker-header">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px">
+            <div>
+              <h2 id="quoteMakerHeading">Website Price Estimator</h2>
+              <p>
+                Pick a site type, add extra pages or features, and get a ballpark price in Pula. E-commerce projects get a custom quote.
+              </p>
+            </div>
+            <button
+              type="button"
+              class="picker-close"
+              id="quoteMakerClose"
+              aria-label="Close estimator"
+            >
+              <i data-lucide="x"></i>
+            </button>
+          </div>
+        </div>
+        <div class="quote-layout">
+          <div class="quote-config">
+            <div>
+              <h3 class="quote-step"><b>1</b> · Choose your site type</h3>
+              <div class="quote-tiers" id="quoteTiers"></div>
+            </div>
+
+            <div class="quote-quantities hidden" id="quoteQuantities">
+              <h3 class="quote-step"><b>2</b> · Pages &amp; copy</h3>
+              <div class="quote-qty">
+                <div class="quote-qty-label">
+                  Number of pages
+                  <small>P100 per page within your site type's range</small>
+                </div>
+                <div class="quote-page-picker">
+                  <div class="quote-stepper" data-target="pages">
+                    <button type="button" class="stepper-btn" data-step="-1" aria-label="Decrease pages">
+                      &minus;
+                    </button>
+                    <span class="stepper-value" id="pageValue">—</span>
+                    <button type="button" class="stepper-btn" data-step="1" aria-label="Increase pages">
+                      +
+                    </button>
+                  </div>
+                  <span class="quote-page-price" id="pagePrice">—</span>
+                </div>
+              </div>
+              <div class="quote-qty">
+                <div class="quote-qty-label">
+                  Extra pages beyond the range
+                  <small>P150 per page — for more pages than your site type covers</small>
+                </div>
+                <div class="quote-stepper" data-target="extraPages">
+                  <button type="button" class="stepper-btn" data-step="-1" aria-label="Remove extra page">
+                    &minus;
+                  </button>
+                  <span class="stepper-value">0</span>
+                  <button type="button" class="stepper-btn" data-step="1" aria-label="Add extra page">
+                    +
+                  </button>
+                </div>
+              </div>
+              <div class="quote-qty">
+                <div class="quote-qty-label">
+                  Professional copywriting
+                  <small>P300 per page — written from a short client interview</small>
+                </div>
+                <div class="quote-stepper" data-target="copyPages">
+                  <button type="button" class="stepper-btn" data-step="-1" aria-label="Remove copywriting page">
+                    &minus;
+                  </button>
+                  <span class="stepper-value">0</span>
+                  <button type="button" class="stepper-btn" data-step="1" aria-label="Add copywriting page">
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="quote-step"><b>3</b> · Add features</h3>
+              <p class="quote-addon-group-title">One-time add-ons</p>
+              <div class="quote-addons" id="quoteAddons"></div>
+              <p class="quote-addon-group-title quote-addon-group-monthly">
+                Monthly &amp; care
+              </p>
+              <div class="quote-addons" id="quoteMonthlyAddons"></div>
+              <p class="quote-addon-group-note">
+                Monthly maintenance includes 1 micro-revision — text
+                reformatting, image changes, contact updates. Not full page
+                redos or major new logic.
+              </p>
+            </div>
+
+            <div class="quote-notes">
+              <h3 class="quote-step"><b>4</b> · Anything else?</h3>
+              <textarea
+                id="quoteNotes"
+                rows="3"
+                placeholder="Optional — links, examples, timeline, what you're trying to achieve..."
+              ></textarea>
+            </div>
+          </div>
+
+          <aside class="quote-summary">
+            <h3>Your estimate</h3>
+            <ul class="quote-lines" id="quoteLines"></ul>
+            <div class="quote-total">
+              <span class="quote-total-label" id="quoteTotalLabel">Estimated price</span>
+              <span class="quote-total-value" id="quoteTotal">P—</span>
+            </div>
+            <div class="quote-monthly-group hidden" id="quoteMonthlyGroup">
+              <p class="quote-monthly-title">Monthly &amp; care</p>
+              <ul class="quote-lines" id="quoteMonthlyLines"></ul>
+              <div class="quote-monthly-total" id="quoteMonthlyTotal"></div>
+            </div>
+            <p class="quote-note">
+              One-off build price from my rate card — the final quote depends on
+              your exact content and scope.
+            </p>
+
+            <button type="button" class="solid-btn hidden" id="quoteContinue">
+              Continue to Enquiry
+              <i data-lucide="arrow-right" class="icon-inline"></i>
+            </button>
+
+            <form id="quoteRequestForm" class="quote-request hidden">
+              <div class="honeypot" aria-hidden="true">
+                <input type="text" name="website" tabindex="-1" autocomplete="off" />
+              </div>
+              <div class="contact-mode-toggle" role="radiogroup" aria-label="Contact method">
+                <button type="button" class="quote-mode-btn active" data-mode="email" aria-pressed="true">
+                  <i data-lucide="mail"></i>
+                  Email
+                </button>
+                <button type="button" class="quote-mode-btn" data-mode="whatsapp" aria-pressed="false">
+                  <i data-lucide="phone"></i>
+                  WhatsApp
+                </button>
+              </div>
+              <div class="quote-input-row quote-email-row">
+                <input type="email" id="quote-email" name="email" placeholder="Your Email" />
+              </div>
+              <div class="quote-input-row quote-phone-row hidden">
+                <select name="countryCode" id="quoteCountry" aria-label="Country code"></select>
+                <input type="tel" id="quote-phone" name="phone" placeholder="Phone number" />
+              </div>
+              <button type="submit" class="solid-btn quote-submit">Send Quote Request</button>
+              <div id="quoteRequestStatus" class="quote-request-status" role="alert" aria-live="polite"></div>
+            </form>
+          </aside>
+        </div>
+      </section>
+
       <section class="services-cta">
         <h2>For more custom, in-depth or general enquiries</h2>
         <p>
@@ -205,8 +361,8 @@
       </div>
     </footer>
 
-    <script src="phone-lengths.js?v=2.18"></script>
-    <script src="script.js?v=2.18"></script>
+    <script src="phone-lengths.js?v=2.26"></script>
+    <script src="script.js?v=2.28"></script>
     <script>
       lucide.createIcons();
     </script>

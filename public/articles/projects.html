@@ -3,157 +3,45 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="An overview of projects built by Tema Bown — web apps, tools, and experiments in browser-based development."
-    />
+    <meta name="description" content="RaceWeather, RepoTicket and this portfolio — the problems, tradeoffs and stacks behind each build." />
     <title>CabsCode | Projects by Tema</title>
     <link rel="icon" href="/images/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/styles.css?v=2.14" />
-    <link rel="stylesheet" href="/journal.css?v=2.13" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css?v=2.16" />
+    <link rel="stylesheet" href="/journal.css?v=2.18" />
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <link rel="canonical" href="https://cabscode.pro/articles/projects" />
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://cabscode.pro/articles/projects" />
-    <meta property="og:title" content="CabsCode | Projects by Tema" />
-    <meta
-      property="og:description"
-      content="A running log of projects built by Tema Bown — web apps, tools, and experiments in browser-based development."
-    />
-    <meta
-      property="og:image"
-      content="https://cabscode.pro/images/favicon.png"
-    />
-    <meta property="og:locale" content="en_BW" />
-
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "TechArticle",
-        "headline": "Projects by Tema",
-        "description": "A running log of the projects built by Tema Bown, covering web apps, tools, and technical experiments.",
-        "author": { "@type": "Person", "name": "Tema Bown" },
-        "publisher": {
-          "@type": "Organization",
-          "name": "CabsCode",
-          "url": "https://cabscode.pro"
-        },
-        "datePublished": "2026-07-20",
-        "inLanguage": "en"
-      }
-    </script>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
   </head>
   <body>
     <nav>
-      <div class="nav-left">
-        <a href="/" class="logo" aria-label="Home">
-          <div class="logo">
-            <img
-              src="/images/logo.svg"
-              alt="CabsCode"
-              width="48"
-              height="48"
-            /></div
-        ></a>
-      </div>
-
-      <button class="mobile-toggle" aria-label="Toggle navigation">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </button>
-
+      <div class="nav-left"><a href="/" class="logo" aria-label="Home"><div class="logo"><img src="/images/logo.svg" alt="CabsCode" width="48" height="48" /></div></a></div>
+      <button class="mobile-toggle" aria-label="Toggle navigation"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
       <div class="nav-right">
         <a href="/" class="nav-link">Home</a>
         <a href="/services" class="nav-link">Services</a>
         <a href="/studio" class="nav-link">Studio</a>
         <a href="/journal" class="nav-link active">Journal</a>
-        <button
-          class="dark-toggle"
-          id="darkToggle"
-          aria-label="Toggle dark mode"
-        ></button>
+        <button class="dark-toggle" id="darkToggle" aria-label="Toggle dark mode"></button>
         <a href="#contactForm" class="contact-btn">Contact</a>
       </div>
     </nav>
-
     <div class="nav-overlay" id="navOverlay"></div>
 
-    <!-- MOBILE SIDEBAR TOGGLE -->
-    <button id="journalSidebarToggle" class="journal-sidebar-toggle">
-      <span><i data-lucide="panel-left-open" class="icon-inline"></i></span>
-    </button>
+    <div class="jp-shell">
+      <aside class="jp-rail jp-rail--left" data-sidebar data-path="projects" data-src="/data/articles.json" aria-label="Journal navigation (auto)"></aside>
 
-    <!-- THE ACCORDION SIDEBAR -->
-    <aside class="sidebar">
-      <h3>Journal</h3>
-
-      <ul class="accordion-menu">
-        <li class="accordion-item">
-          <button class="accordion-toggle">
-            <span
-              ><i data-lucide="folder" class="accordion-icon"></i> Personal
-              Projects</span
-            >
-          </button>
-          <ul class="accordion-content">
-            <li>
-              <a href="/articles/zorin-os"
-                ><i data-lucide="laptop" class="accordion-link-icon"></i>
-                Migrating to Zorin OS</a
-              >
-            </li>
-          </ul>
-        </li>
-
-        <li class="accordion-item active">
-          <button class="accordion-toggle">
-            <span
-              ><i data-lucide="globe" class="accordion-icon"></i> Web
-              Development</span
-            >
-          </button>
-          <ul class="accordion-content">
-            <li>
-              <a href="/articles/portfolio"
-                ><i data-lucide="layout" class="accordion-link-icon"></i>
-                Portfolio Architecture</a
-              >
-            </li>
-            <li>
-              <a href="/articles/projects" class="current-article"
-                ><i data-lucide="folder-cog" class="accordion-link-icon"></i>
-                Projects by Tema</a
-              >
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </aside>
-
-    <!-- THE MAIN JOURNAL CONTENT TEMPLATE -->
-    <main class="main-content">
-      <header class="journal-header">
+      <main class="jp-article">
         <div class="journal-meta">Web Development &bull; July 20, 2026</div>
-        <h1>Projects by Tema</h1>
-        <p class="journal-lead">
-          A running log of the projects I have built, what inspired each one,
-          and the technical decisions behind them. This is where I share the
-          story behind the code.
-        </p>
-      </header>
+        <header class="journal-header" style="margin-bottom:12px">
+          <h1>Projects by Tema</h1>
+          <p class="journal-lead">A running log of the projects I have built, what inspired each one, and the technical decisions behind them. This is where I share the story behind the code.</p>
+        </header>
+        <article class="jp-prose journal-body">
 
-      <article class="journal-body">
         <p>
           Every project starts with a problem. Sometimes it is a real-world
           issue — like needing weather data for F1 race weekends. Other times it
@@ -212,45 +100,33 @@
           focused, single-purpose utility that should be quick to build and
           actually useful. I will document the development process here as I go.
         </p>
-      </article>
-    </main>
+      
+        </article>
+        <div id="jpNextPrev" class="jp-nextprev"></div>
+      </main>
+
+      <aside class="jp-rail jp-rail--right" aria-label="On this page">
+        <div class="jp-card jp-toc" data-toc></div>
+        <div id="jpRelated" class="jp-card jp-related" style="margin-top:16px"></div>
+        <div class="jp-card" style="margin-top:16px">
+          <p style="margin-top:8px"><a class="jp-read" href="/journal">Back to Journal →</a></p>
+        </div>
+      </aside>
+    </div>
 
     <footer>
       <div class="footer-container">
-        <div class="footer-col">
-          <h4>Connect</h4>
-          <a
-            href="https://www.linkedin.com/in/tema-bown-2441b73a3/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn Profile"
-            >LinkedIn</a
-          >
-          <a href="https://github.com/CabbageDijon" target="_blank">GitHub</a>
-          <a href="mailto:services@cabscode.pro">Email</a>
-        </div>
-
-        <div class="footer-col">
-          <h4>Legal</h4>
-          <a href="#">Terms of Use</a>
-          <a href="#">Privacy Policy</a>
-        </div>
-
-        <div class="footer-col footer-form">
-          <h4>Project Inquiry</h4>
-          <div id="contactFormMount"></div>
-        </div>
+        <div class="footer-col"><h4>Connect</h4><a href="https://www.linkedin.com/in/tema-bown-2441b73a3/" target="_blank" rel="noopener">LinkedIn</a><a href="https://github.com/CabbageDijon" target="_blank">GitHub</a><a href="mailto:services@cabscode.pro">Email</a></div>
+        <div class="footer-col"><h4>Legal</h4><a href="#">Terms of Use</a><a href="#">Privacy Policy</a></div>
+        <div class="footer-col footer-form"><h4>Project Inquiry</h4><div id="contactFormMount"></div></div>
       </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 Tema Bown. All rights reserved.</p>
-      </div>
+      <div class="footer-bottom"><p>&copy; 2026 Tema Bown. All rights reserved.</p></div>
     </footer>
 
     <script src="/phone-lengths.js?v=2.18"></script>
-    <script src="/script.js?v=2.18"></script>
+    <script src="/script.js?v=2.28"></script>
+    <script src="/journal.js?v=1.0"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script>
-      lucide.createIcons();
-    </script>
+    <script>lucide.createIcons();</script>
   </body>
 </html>

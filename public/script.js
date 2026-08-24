@@ -407,7 +407,7 @@ function populateCountrySelect(select) {
   COUNTRY_CODES.forEach(function (c) {
     var opt = document.createElement("option");
     opt.value = c.dial;
-    opt.textContent = c.name + " " + c.dial;
+    opt.textContent = c.code + " " + c.dial;
     if (c.code === "BW") opt.selected = true;
     select.appendChild(opt);
   });
@@ -476,6 +476,15 @@ function initContactForm() {
     '    <select name="countryCode" id="countryCode" aria-label="Country code"></select>',
     '    <input type="tel" name="phone" id="contact-phone" placeholder="Phone number" />',
     "  </div>",
+    '',
+    '  <label for="serviceSelect" class="sr-only">Service needed</label>',
+    '  <select name="service" id="serviceSelect" required>',
+    '    <option value="" disabled selected>Select a service…</option>',
+    '    <option value="Web Development">Web Development</option>',
+    '    <option value="Custom Tools">Custom Tools</option>',
+    '    <option value="Consultancy">Consultancy</option>',
+    '    <option value="UI/UX Design">UI/UX Design</option>',
+    "  </select>",
     '',
     '  <label for="contact-message" class="sr-only">Message</label>',
     '  <textarea name="message" id="contact-message" placeholder="Tell me about your project..." rows="3" required></textarea>',
@@ -561,12 +570,25 @@ function attachFormHandler() {
       return;
     }
 
+    var service = form.service.value;
+    if (!service) {
+      status.textContent = "Please select a service.";
+      status.className = "form-status error";
+      return;
+    }
+
     var timestamp = parseInt(form._timestamp.value, 10);
     var elapsed = Date.now() - timestamp;
-    if (elapsed < 3000 || elapsed > 1800000) {
+    if (elapsed < 3000) {
       status.textContent = "Submission rejected. Please try again.";
       status.className = "form-status error";
       return;
+    }
+    if (elapsed > 1800000) {
+      // Stale session (page left open >30 min) — refresh the stamp instead
+      // of rejecting; real interaction proves human presence.
+      timestamp = Date.now();
+      form._timestamp.value = String(timestamp);
     }
 
     submitBtn.disabled = true;
@@ -574,7 +596,7 @@ function attachFormHandler() {
     status.textContent = "";
     status.className = "form-status";
 
-    var body = { message: message, _timestamp: timestamp };
+    var body = { message: message, _timestamp: timestamp, service: service };
     if (form.quote && form.quote.value) {
       try {
         body.quote = JSON.parse(form.quote.value);
@@ -599,8 +621,13 @@ function attachFormHandler() {
       var data = await res.json();
 
       if (res.ok) {
-        status.textContent = "";
-        status.className = "form-status";
+        if (mode === "whatsapp") {
+          status.textContent = "Sent — I'll get back to you on WhatsApp.";
+          status.className = "form-status success";
+        } else {
+          status.textContent = "";
+          status.className = "form-status";
+        }
         submitBtn.textContent = "Request Sent";
         submitBtn.classList.add("sent");
         form.message.value = "";
@@ -652,18 +679,21 @@ function clientSendFallback(mode, email, phone, countryCode, message, reason) {
   submitBtn.disabled = false;
 }
 
+// Preselect the footer form's service dropdown from page context
+function setContactService(name) {
+  var sel = document.getElementById("serviceSelect");
+  if (!sel || !name) return;
+  for (var i = 0; i < sel.options.length; i++) {
+    if (sel.options[i].value === name) {
+      sel.value = name;
+      return;
+    }
+  }
+}
+
 // --- Service CTA Picker Menus ---
+// Note: "web" picker is removed — Start a Project now opens the quote maker
 var SERVICE_PICKERS = {
-  web: {
-    title: "Web Development",
-    icon: "code-xml",
-    options: [
-      { label: "Responsive landing pages", icon: "layout" },
-      { label: "Admin dashboards & panels", icon: "gauge" },
-      { label: "Single-page applications", icon: "zap" },
-      { label: "E-commerce solutions", icon: "shopping-cart" },
-    ],
-  },
   tools: {
     title: "Custom Tools",
     icon: "wrench",
@@ -677,11 +707,12 @@ var SERVICE_PICKERS = {
 };
 
 function initServicePickers() {
-  var buttons = document.querySelectorAll(".service-cta-btn");
+  var buttons = document.querySelectorAll('.service-cta-btn[data-service="tools"]');
   if (!buttons.length) return;
 
   var grid = document.querySelector(".services-grid");
   var picker = document.getElementById("servicePicker");
+  if (!picker) return;
   var pickerIcon = document.getElementById("pickerIcon");
   var pickerTitle = document.getElementById("pickerTitle");
   var optionsWrap = document.getElementById("pickerOptions");
@@ -784,6 +815,7 @@ function initServicePickers() {
     var textarea = document.getElementById("contact-message");
     if (textarea) {
       textarea.value = message;
+      setContactService("Custom Tools");
       var form = document.getElementById("contactForm");
       if (form) {
         form.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -894,23 +926,28 @@ function initQuoteMaker() {
   var root = document.getElementById("quoteMaker");
   if (!root) return;
 
-  var tiersWrap = document.getElementById("quoteTiers");
-  var addonsWrap = document.getElementById("quoteAddons");
-  var monthlyAddonsWrap = document.getElementById("quoteMonthlyAddons");
+  // Scope lookups to root to coexist with design-showcase if both pages share JS
+  var tiersWrap = root.querySelector("#quoteTiers") || document.getElementById("quoteTiers");
+  var addonsWrap = root.querySelector("#quoteAddons") || document.getElementById("quoteAddons");
+  var monthlyAddonsWrap = root.querySelector("#quoteMonthlyAddons") || document.getElementById("quoteMonthlyAddons");
   var qtyWrap = root.querySelector(".quote-quantities");
-  var summaryLines = document.getElementById("quoteLines");
-  var totalLabel = document.getElementById("quoteTotalLabel");
-  var totalEl = document.getElementById("quoteTotal");
-  var continueBtn = document.getElementById("quoteContinue");
-  var requestForm = document.getElementById("quoteRequestForm");
-  var statusEl = document.getElementById("quoteRequestStatus");
-  var submitBtn = requestForm.querySelector('[type="submit"]');
-  var notesEl = document.getElementById("quoteNotes");
-  var pageValueEl = document.getElementById("pageValue");
-  var pagePriceEl = document.getElementById("pagePrice");
-  var monthlyLines = document.getElementById("quoteMonthlyLines");
-  var monthlyTotalEl = document.getElementById("quoteMonthlyTotal");
-  var monthlyGroup = document.getElementById("quoteMonthlyGroup");
+  var summaryLines = root.querySelector("#quoteLines") || document.getElementById("quoteLines");
+  var totalLabel = root.querySelector("#quoteTotalLabel") || document.getElementById("quoteTotalLabel");
+  var totalEl = root.querySelector("#quoteTotal") || document.getElementById("quoteTotal");
+  var continueBtn = root.querySelector("#quoteContinue") || document.getElementById("quoteContinue");
+  var requestForm = root.querySelector("#quoteRequestForm") || document.getElementById("quoteRequestForm");
+  var statusEl = root.querySelector("#quoteRequestStatus") || document.getElementById("quoteRequestStatus");
+  var submitBtn = requestForm ? requestForm.querySelector('[type="submit"]') : null;
+  var notesEl = root.querySelector("#quoteNotes") || document.getElementById("quoteNotes");
+  var pageValueEl = root.querySelector("#pageValue") || document.getElementById("pageValue");
+  var pagePriceEl = root.querySelector("#pagePrice") || document.getElementById("pagePrice");
+  var monthlyLines = root.querySelector("#quoteMonthlyLines") || document.getElementById("quoteMonthlyLines");
+  var monthlyTotalEl = root.querySelector("#quoteMonthlyTotal") || document.getElementById("quoteMonthlyTotal");
+  var monthlyGroup = root.querySelector("#quoteMonthlyGroup") || document.getElementById("quoteMonthlyGroup");
+  // Services-page toggle elements (may be absent on design-showcase)
+  var startBtn = document.getElementById("startProjectBtn");
+  var webCard = document.getElementById("webServiceCard");
+  var quoteCloseBtn = document.getElementById("quoteMakerClose");
 
   var state = {
     tier: null,
@@ -919,6 +956,87 @@ function initQuoteMaker() {
     copyPages: 0,
     startedAt: Date.now(),
   };
+
+  function isQuoteHash() {
+    var h = (location.hash || "").toLowerCase();
+    return h === "#quote" || h === "#estimator" || h === "#quotemaker" || h === "#quoteMaker";
+  }
+
+  function setHashQuote(on) {
+    var h = (location.hash || "").toLowerCase();
+    var want = on ? "#quote" : "";
+    if (on && isQuoteHash()) return;
+    if (!on && h !== "#quote" && h !== "#estimator" && h !== "#quotemaker" && h !== "#quoteMaker") return;
+    try {
+      if (on) history.replaceState(null, "", "#quote");
+      else history.replaceState(null, "", location.pathname + location.search);
+    } catch (_e) {}
+  }
+
+  function clearQuoteState() {
+    state.tier = null;
+    state.pages = 1;
+    state.extraPages = 0;
+    state.copyPages = 0;
+    state.startedAt = Date.now();
+    if (notesEl) notesEl.value = "";
+    tiersWrap.querySelectorAll(".quote-tier").forEach(function (b) {
+      b.classList.remove("is-selected");
+      b.setAttribute("aria-pressed", "false");
+    });
+    // reset steppers visually
+    root.querySelectorAll(".quote-stepper").forEach(function (stepper) {
+      var target = stepper.getAttribute("data-target");
+      var vEl = stepper.querySelector(".stepper-value");
+      if (!vEl) return;
+      if (target === "pages") vEl.textContent = "—";
+      else vEl.textContent = "0";
+    });
+    if (addonsWrap) addonsWrap.querySelectorAll('input[type="checkbox"]').forEach(function (cb) { cb.checked = false; });
+    if (monthlyAddonsWrap) monthlyAddonsWrap.querySelectorAll('input[type="checkbox"]').forEach(function (cb) { cb.checked = false; });
+    if (statusEl) { statusEl.textContent = ""; statusEl.className = "quote-request-status"; }
+    if (requestForm) {
+      var eInput = requestForm.querySelector("#quote-email");
+      var pInput = requestForm.querySelector("#quote-phone");
+      if (eInput) eInput.value = "";
+      if (pInput) pInput.value = "";
+    }
+    renderSummary();
+    syncPageStepper();
+  }
+
+  function openQuoteMaker(opts) {
+    var noHash = opts && opts.noHash;
+    // close tool picker if open (only on services page)
+    var grid = document.querySelector(".services-grid");
+    if (grid) grid.classList.remove("is-picking");
+    var picker = document.getElementById("servicePicker");
+    if (picker) picker.setAttribute("hidden", "");
+    var activePickerCard = document.querySelector(".service-card.is-active");
+    // keep webCard active, but drop active from tools card
+    if (activePickerCard && activePickerCard !== webCard) activePickerCard.classList.remove("is-active");
+    root.removeAttribute("hidden");
+    if (webCard) webCard.classList.add("is-active");
+    if (startBtn) startBtn.setAttribute("aria-expanded", "true");
+    if (window.lucide) lucide.createIcons();
+    if (!noHash) setHashQuote(true);
+    root.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function closeQuoteMaker(opts) {
+    var noHash = opts && opts.noHash;
+    var shouldClear = !(opts && opts.clear === false);
+    if (root.hasAttribute("hidden")) return;
+    root.setAttribute("hidden", "");
+    if (webCard) webCard.classList.remove("is-active");
+    if (startBtn) {
+      startBtn.setAttribute("aria-expanded", "false");
+      // return focus to trigger for accessibility
+      try { startBtn.focus({ preventScroll: true }); } catch (_e) { try { startBtn.focus(); } catch (_e2) {} }
+    }
+    if (shouldClear) clearQuoteState();
+    if (!noHash) setHashQuote(false);
+  }
 
   function checkedIds(wrap) {
     var ids = [];
@@ -1339,6 +1457,7 @@ function initQuoteMaker() {
       "Hi Tema, I'd like a website. Here's my estimate breakdown:\n" +
       buildMessage() +
       "\n\nCan you confirm this or give me the exact quote?";
+    setContactService("Web Development");
     var quoteInput = document.querySelector('#contactForm input[name="quote"]');
     if (quoteInput) {
       var payload = buildQuotePayload();
@@ -1417,9 +1536,12 @@ function initQuoteMaker() {
     }
 
     var elapsed = Date.now() - state.startedAt;
-    if (elapsed < 3000 || elapsed > 1800000) {
+    if (elapsed < 3000) {
       setStatus("Submission rejected. Please try again.", "error");
       return;
+    }
+    if (elapsed > 1800000) {
+      state.startedAt = Date.now();
     }
 
     submitBtn.disabled = true;
@@ -1469,6 +1591,39 @@ function initQuoteMaker() {
 
   syncPageStepper();
   renderSummary();
+
+  // --- Services-page wiring for Start a Project → quote maker ---
+  if (startBtn) {
+    startBtn.addEventListener("click", function () {
+      if (root.hasAttribute("hidden")) {
+        openQuoteMaker();
+      } else {
+        closeQuoteMaker();
+      }
+    });
+  }
+  if (quoteCloseBtn) {
+    quoteCloseBtn.addEventListener("click", function () {
+      closeQuoteMaker();
+    });
+  }
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !root.hasAttribute("hidden")) {
+      // don't collide with demo preview closing — if preview is open, let it handle
+      var preview = document.getElementById("demoPreviewOverlay");
+      if (preview && preview.classList.contains("open")) return;
+      closeQuoteMaker();
+    }
+  });
+  // open on hash
+  if (isQuoteHash()) {
+    // need layout paint first
+    setTimeout(function () { openQuoteMaker({ noHash: true }); }, 80);
+  }
+  window.addEventListener("hashchange", function () {
+    if (isQuoteHash()) openQuoteMaker({ noHash: true });
+    else if (!root.hasAttribute("hidden")) closeQuoteMaker({ clear: false, noHash: true });
+  });
 }
 
 // --- Expandable Web Tools Logic ---

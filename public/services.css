@@ -965,3 +965,20 @@
 .quote-addon-tip:focus .quote-addon-tip-text {
   display: block;
 }
+
+/* --- Services-page quote maker hidden toggle & animation --- */
+.quote-maker[hidden] {
+  display: none !important;
+}
+
+#quoteMaker {
+  scroll-margin-top: calc(var(--navbar-height) + 16px);
+}
+
+#quoteMaker:not([hidden]) {
+  animation: picker-fade 0.22s ease;
+}
+
+#quoteMaker .quote-maker-header > div {
+  align-items: flex-start;
+}

@@ -8,190 +8,139 @@
       content="Technical logs, project updates, and insights on web development and programming by Tema Bown at CabsCode."
     />
     <title>CabsCode | Journal</title>
-    <link rel="icon" href="images/favicon.png" />
+    <link rel="icon" href="/images/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css?v=2.14" />
-    <link rel="stylesheet" href="journal.css?v=2.13" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css?v=2.16" />
+    <link rel="stylesheet" href="/journal.css?v=2.18" />
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-    <link rel="canonical" href="https://cabscode.pro/journal" />
-    <meta property="og:type" content="blog" />
-    <meta property="og:url" content="https://cabscode.pro/journal" />
-    <meta property="og:title" content="CabsCode | Journal & Technical Logs" />
-    <meta
-      property="og:description"
-      content="Technical logs, software experiments, and personal insights on web development."
-    />
-    <meta
-      property="og:image"
-      content="https://cabscode.pro/images/favicon.png"
-    />
-    <meta property="og:locale" content="en_BW" />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css"
-      rel="stylesheet"
-    />
   </head>
   <body>
     <nav>
       <div class="nav-left">
-        <a href="/" class="logo" aria-label="Home">
-          <div class="logo">
-            <img
-              src="images/logo.svg"
-              alt="CabsCode"
-              width="48"
-              height="48"
-            /></div
-        ></a>
+        <a href="/" class="logo" aria-label="Home"><div class="logo"><img src="/images/logo.svg" alt="CabsCode" width="48" height="48" /></div></a>
       </div>
-
-      <button class="mobile-toggle" aria-label="Toggle navigation">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </button>
-
+      <button class="mobile-toggle" aria-label="Toggle navigation"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
       <div class="nav-right">
         <a href="/" class="nav-link">Home</a>
         <a href="/services" class="nav-link">Services</a>
         <a href="/studio" class="nav-link">Studio</a>
-        <a href="#" class="nav-link active">Journal</a>
-        <button
-          class="dark-toggle"
-          id="darkToggle"
-          aria-label="Toggle dark mode"
-        ></button>
+        <a href="/journal" class="nav-link active">Journal</a>
+        <button class="dark-toggle" id="darkToggle" aria-label="Toggle dark mode"></button>
         <a href="#contactForm" class="contact-btn">Contact</a>
       </div>
     </nav>
-
     <div class="nav-overlay" id="navOverlay"></div>
 
-    <!-- MOBILE SIDEBAR TOGGLE -->
-    <button id="journalSidebarToggle" class="journal-sidebar-toggle">
-      <span><i data-lucide="panel-left-open" class="icon-inline"></i></span>
-    </button>
-
-    <!-- THE ACCORDION SIDEBAR -->
-    <aside class="sidebar">
-      <h3>Journal</h3>
-
-      <ul class="accordion-menu">
-        <li class="accordion-item">
-          <button class="accordion-toggle">
-            <span
-              ><i data-lucide="folder" class="accordion-icon"></i> Personal
-              Projects</span
-            >
-          </button>
-          <ul class="accordion-content">
-            <li>
-              <a href="/articles/zorin-os"
-                ><i data-lucide="laptop" class="accordion-link-icon"></i>
-                Migrating to Zorin OS</a
-              >
+    <div class="jp-shell">
+      <!-- LEFT: redesigned manual accordion -->
+      <aside class="jp-rail jp-rail--left" aria-label="Journal navigation (manual)">
+        <div class="jp-card">
+          <div class="jp-manual-head">
+            <h3>Journal</h3>
+            <span class="jp-manual-count">3</span>
+          </div>
+          <ul class="jp-accordion" role="list">
+            <li class="jp-accordion-item is-open">
+              <button class="jp-accordion-toggle" aria-expanded="true">
+                <span class="jp-accordion-toggle-left"><i data-lucide="folder" style="width:14px;height:14px"></i> Personal Projects</span>
+                <span class="jp-manual-count">1</span>
+              </button>
+              <ul class="jp-accordion-panel" aria-hidden="false">
+                <li><a class="jp-accordion-link" href="/articles/zorin-os"><i data-lucide="laptop" style="width:12px;height:12px;flex-shrink:0"></i> Migrating to Zorin OS</a></li>
+              </ul>
+            </li>
+            <li class="jp-accordion-item is-open">
+              <button class="jp-accordion-toggle" aria-expanded="true">
+                <span class="jp-accordion-toggle-left"><i data-lucide="globe" style="width:14px;height:14px"></i> Web Development</span>
+                <span class="jp-manual-count">2</span>
+              </button>
+              <ul class="jp-accordion-panel" aria-hidden="false">
+                <li><a class="jp-accordion-link" href="/articles/portfolio"><i data-lucide="layout" style="width:12px;height:12px;flex-shrink:0"></i> Portfolio Architecture</a></li>
+                <li><a class="jp-accordion-link" href="/articles/projects"><i data-lucide="folder-cog" style="width:12px;height:12px;flex-shrink:0"></i> Projects by Tema</a></li>
+              </ul>
             </li>
           </ul>
-        </li>
+          <p style="margin-top:14px;font-size:0.78rem;color:var(--color-text-secondary);line-height:1.5">Browse by topic.</p>
+        </div>
+      </aside>
 
-        <li class="accordion-item">
-          <button class="accordion-toggle">
-            <span
-              ><i data-lucide="globe" class="accordion-icon"></i> Web
-              Development</span
-            >
-          </button>
-          <ul class="accordion-content">
-            <li>
-              <a href="/articles/portfolio"
-                ><i data-lucide="layout" class="accordion-link-icon"></i>
-                Portfolio Architecture</a
-              >
-            </li>
-            <li>
-              <a href="/articles/projects"
-                ><i data-lucide="folder-cog" class="accordion-link-icon"></i>
-                Projects by Tema</a
-              >
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </aside>
+      <!-- CENTER: true post feed -->
+      <main>
+        <div class="jp-feed-head">
+          <div>
+            <h1>Journal</h1>
+            <p>Technical logs, project updates and notes — filter by topic or open an article.</p>
+          </div>
+          <button id="jpSheetToggle" class="jp-sheet-toggle" aria-label="Open navigation"><i data-lucide="panel-left-open" style="width:14px;height:14px"></i> Browse</button>
+        </div>
 
-    <!-- THE MAIN JOURNAL CONTENT TEMPLATE -->
-    <main class="main-content">
-      <header class="journal-header">
-        <div class="journal-meta">About Me • July 3, 2026</div>
-        <h1>My Digital Newsletter</h1>
-        <p class="journal-lead">
-          I designed my site with a section for me to share my thoughts,
-          experiences, and insights. This is where I can connect with people on
-          a more personal level, providing updates on my projects, industry
-          trends, and other topics that interest me.
-        </p>
-      </header>
+        <div class="jp-filters" role="tablist" aria-label="Filter posts">
+          <button type="button" class="jp-chip is-active" data-filter="all" role="tab" aria-selected="true">All (3)</button>
+          <button type="button" class="jp-chip" data-filter="personal" role="tab" aria-selected="false">Personal Projects (1)</button>
+          <button type="button" class="jp-chip" data-filter="webdev" role="tab" aria-selected="false">Web Development (2)</button>
+        </div>
 
-      <article class="journal-body">
-        <p>
-          Here you find detailed technical logs, personal reflections, and
-          insights into my projects. I aim to provide a transparent view of my
-          work and the challenges I face along the way. To hopefully inspire
-          others who come across similar issues or just want to see my
-          approaches to fix bugs.
-        </p>
+        <div class="jp-grid" style="margin-top:16px">
+          <article class="jp-post" data-category="personal">
+            <div class="jp-post-kicker">Personal Projects • 9 min • 2026-07-07</div>
+            <h3><a href="/articles/zorin-os">Migrating to Zorin OS on an Acer Laptop</a></h3>
+            <p class="jp-post-excerpt">Cold-boot SATA detection on InsydeH2O — the rtcwake / initramfs hook that makes an Acer Aspire 3 A315-56 boot Linux reliably.</p>
+            <div class="jp-post-foot">
+              <span class="jp-tag">Linux</span><span class="jp-tag">Zorin OS</span><span class="jp-tag">Acer</span>
+              <a class="jp-read" href="/articles/zorin-os">Read →</a>
+            </div>
+          </article>
 
-        <h3>Why do I do this all?</h3>
-        <p>
-          This all started as a hobby, which grew into a passion for programming
-          and web development. Pushing to learn to be a better and more
-          efficient programmer. To build products for any clients as well as
-          build tools that interest me deeply.
-        </p>
-      </article>
-    </main>
+          <article class="jp-post" data-category="webdev">
+            <div class="jp-post-kicker">Web Development • 2 min • 2026-07-04</div>
+            <h3><a href="/articles/portfolio">Portfolio Architecture</a></h3>
+            <p class="jp-post-excerpt">Why a green-and-stone, no-framework portfolio — vanilla HTML/CSS/JS, Docker + Nginx, and an editorial journal layout.</p>
+            <div class="jp-post-foot">
+              <span class="jp-tag">Portfolio</span><span class="jp-tag">CSS</span>
+              <a class="jp-read" href="/articles/portfolio">Read →</a>
+            </div>
+          </article>
+
+          <article class="jp-post" data-category="webdev">
+            <div class="jp-post-kicker">Web Development • 4 min • 2026-07-20</div>
+            <h3><a href="/articles/projects">Projects by Tema</a></h3>
+            <p class="jp-post-excerpt">RaceWeather, RepoTicket and this portfolio — the problems, tradeoffs and stacks behind each build.</p>
+            <div class="jp-post-foot">
+              <span class="jp-tag">RaceWeather</span><span class="jp-tag">RepoTicket</span>
+              <a class="jp-read" href="/articles/projects">Read →</a>
+            </div>
+          </article>
+        </div>
+        <p id="jpEmpty" class="jp-empty" hidden>No posts in this topic.</p>
+
+
+      </main>
+
+      <!-- RIGHT: meta / info rail -->
+      <aside class="jp-rail jp-rail--right" aria-label="About">
+        <div class="jp-card">
+          <h4 style="font-size:0.85rem;margin-bottom:6px">About this journal</h4>
+          <p style="font-size:0.86rem;line-height:1.6;color:var(--color-text-secondary)">Technical logs, personal reflections, and build notes from Tema — a Botswana-based solo developer documenting the process behind each project.</p>
+          <p style="margin-top:12px"><a class="jp-read" href="/services">Explore services →</a></p>
+
+        </div>
+      </aside>
+    </div>
 
     <footer>
       <div class="footer-container">
-        <div class="footer-col">
-          <h4>Connect</h4>
-          <a
-            href="https://www.linkedin.com/in/tema-bown-2441b73a3/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn Profile"
-            >LinkedIn</a
-          >
-          <a href="https://github.com/CabbageDijon" target="_blank">GitHub</a>
-          <a href="mailto:services@cabscode.pro">Email</a>
-        </div>
-
-        <div class="footer-col">
-          <h4>Legal</h4>
-          <a href="#">Terms of Use</a>
-          <a href="#">Privacy Policy</a>
-        </div>
-
-        <div class="footer-col footer-form">
-          <h4>Project Inquiry</h4>
-          <div id="contactFormMount"></div>
-        </div>
+        <div class="footer-col"><h4>Connect</h4><a href="https://www.linkedin.com/in/tema-bown-2441b73a3/" target="_blank" rel="noopener">LinkedIn</a><a href="https://github.com/CabbageDijon" target="_blank">GitHub</a><a href="mailto:services@cabscode.pro">Email</a></div>
+        <div class="footer-col"><h4>Legal</h4><a href="#">Terms of Use</a><a href="#">Privacy Policy</a></div>
+        <div class="footer-col footer-form"><h4>Project Inquiry</h4><div id="contactFormMount"></div></div>
       </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 Tema Bown. All rights reserved.</p>
-      </div>
+      <div class="footer-bottom"><p>&copy; 2026 Tema Bown. All rights reserved.</p></div>
     </footer>
 
-    <script src="phone-lengths.js?v=2.18"></script>
-    <script src="script.js?v=2.18"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script>
-      lucide.createIcons();
-    </script>
+    <script src="/phone-lengths.js?v=2.18"></script>
+    <script src="/script.js?v=2.28"></script>
+    <script src="/journal.js?v=1.0"></script>
+    <script>lucide.createIcons();</script>
   </body>
 </html>

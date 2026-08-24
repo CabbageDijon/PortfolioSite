@@ -1,0 +1,47 @@
+[
+  {
+    "slug": "zorin-os",
+    "title": "Migrating to Zorin OS on an Acer Laptop",
+    "kicker": "Personal Projects",
+    "category": "personal",
+    "date": "2026-07-07",
+    "excerpt": "Cold-boot SATA detection on InsydeH2O \u2014 the rtcwake / initramfs hook that makes an Acer Aspire 3 A315-56 boot Linux reliably.",
+    "tags": [
+      "Linux",
+      "Zorin OS",
+      "Acer"
+    ],
+    "words": 1850,
+    "href": "/articles/zorin-os"
+  },
+  {
+    "slug": "portfolio",
+    "title": "Portfolio Architecture",
+    "kicker": "Web Development",
+    "category": "webdev",
+    "date": "2026-07-04",
+    "excerpt": "Why a green-and-stone, no-framework portfolio \u2014 vanilla HTML/CSS/JS, Docker + Nginx, and an editorial journal layout.",
+    "tags": [
+      "Portfolio",
+      "CSS",
+      "Architecture"
+    ],
+    "words": 420,
+    "href": "/articles/portfolio"
+  },
+  {
+    "slug": "projects",
+    "title": "Projects by Tema",
+    "kicker": "Web Development",
+    "category": "webdev",
+    "date": "2026-07-20",
+    "excerpt": "RaceWeather, RepoTicket and this portfolio \u2014 the problems, tradeoffs and stacks behind each build.",
+    "tags": [
+      "RaceWeather",
+      "RepoTicket",
+      "Portfolio"
+    ],
+    "words": 650,
+    "href": "/articles/projects"
+  }
+]
