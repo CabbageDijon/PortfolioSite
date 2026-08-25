@@ -834,36 +834,36 @@ var QUOTE_TIERS = [
     title: "Base Site",
     icon: "layout",
     minPrice: 600,
-    maxPrice: 750,
+    maxPrice: 800,
     minPages: 1,
     maxPages: 3,
     revisions: "1 round of revisions",
     blurb:
-      "Micro / info site for side hustlers & sole traders. Fast, simple online presence with WhatsApp & contact form included.",
+      "Get Found Fast — micro/info site for side hustlers & sole traders. Fast 3-page max, WhatsApp & contact form included. Extra pages stay at P100 (same as inside).",
   },
   {
     id: "standard",
     title: "Standard Site",
     icon: "building-2",
-    minPrice: 1300,
-    maxPrice: 1700,
+    minPrice: 1150,
+    maxPrice: 1350,
     minPages: 4,
     maxPages: 6,
     revisions: "2 rounds of revisions",
     blurb:
-      "Small business site for SMEs. Full layout, Google Maps integration & social media linking.",
+      "Look Established — full SME layout with Google Maps pin + Social proof bar. Not buyable on Base at any price; that trust is the jump (vs. piling +P100 pages).",
   },
   {
     id: "advanced",
     title: "Advanced Site",
     icon: "sparkles",
-    minPrice: 2200,
-    maxPrice: 2800,
+    minPrice: 1650,
+    maxPrice: 2150,
     minPages: 7,
     maxPages: 12,
     revisions: "2 rounds of revisions",
     blurb:
-      "Corporate & dynamic sites for established firms, schools & NGOs. Portfolio, blog, advanced lead forms & Analytics.",
+      "Grow Without Rebuild — corporate/dynamic with self-serve Blog/Portfolio upload, Advanced lead forms & GA4/Search Console plumbing. The CMS is the jump.",
   },
   {
     id: "ecommerce",
@@ -876,12 +876,11 @@ var QUOTE_TIERS = [
 ];
 
 var QUOTE_ADDONS = [
-  { id: "logo", label: "Logo & brand starter", price: 400, icon: "palette" },
-  { id: "booking", label: "Online booking / scheduling", price: 700, icon: "calendar-check" },
-  // TODO (future update): split Orange / MyZaka Money out as a separate P600 add-on — see docs/SiteQuoter/specifics.md
-  { id: "gateway", label: "Payment gateway setup (DPO / cards / mobile money)", price: 1000, icon: "credit-card" },
+  { id: "logo", label: "Logo & brand starter", price: 400, icon: "palette", tip: "Starter mark + wordmark, favicon and social avatar. AI-drafted, human-refined — no full brand manual." },
+  { id: "booking", label: "Online booking / scheduling", price: 700, icon: "calendar-check", tip: "Calendly (free tier) or AI-built slot picker — no paid SaaS. You own the calendar." },
+  { id: "gateway", label: "Card Gateway Setup (DPO / PayGate)", price: 800, icon: "credit-card", tip: "DPO Pay / PayGate sandbox (free) + AI-generated checkout snippet. Client pays gateway fees, not you." },
+  { id: "momo", label: "Mobile Money (Orange Money / MyZaka)", price: 600, icon: "smartphone", tip: "Orange Money API + MyZaka merchant portal (free test) + AI callback handler. Keep card gateway separate." },
   { id: "multilang", label: "Multi-language switcher (English / Setswana)", price: 600, icon: "languages" },
-  { id: "emails", label: "Custom business emails", price: 300, icon: "mail" },
   {
     id: "domain",
     label: "Domain & hosting setup",
@@ -889,8 +888,15 @@ var QUOTE_ADDONS = [
     icon: "globe",
     tip: "Hosting provider is provided by the client. This add-on is the 12-month domain + help moving files to the host and tying the domain to the website.",
   },
-  { id: "seo-basic", label: "Basic SEO — meta tag optimizations", price: 250, icon: "tag" },
-  { id: "seo", label: "SEO expansion package", price: 700, icon: "search" },
+  { id: "seo-basic", label: "Basic SEO — meta tag optimizations", price: 250, icon: "tag", tip: "Titles + descriptions for up to 5 pages. Free check with Google Search Console." },
+  { id: "seo", label: "SEO Foundations + AI Listing Pack", price: 700, icon: "search", tip: "Foundational search visibility for up to 8 pages — meta titles/descriptions, sitemap.xml, Search Console submit, AI listing SEO (llms.txt + structured data for ChatGPT/Perplexity) + 1-page speed pass. No instant rankings; off-page link building & copy excluded." },
+  { id: "google-business", label: "Google Business Profile + Maps Pin", price: 300, icon: "map-pin", tip: "Claim & verify on Google (free) + tuned Maps embed. Best first win for BW side-hustles on ‘near me’ searches." },
+  { id: "whatsapp", label: "WhatsApp Click-to-Chat Widget", price: 250, icon: "message-circle", tip: "Floating wa.me widget + pre-filled message + call button. Free JS snippet, AI-generated — no SaaS." },
+  { id: "blog", label: "Blog / News Upload (Self-Serve)", price: 500, icon: "file-text", tip: "Client can publish posts without you. Free: Decap CMS (admin/ folder) or AI-made markdown parser reading /content/blog.json — static, no DB." },
+  { id: "analytics", label: "Analytics + Search Console Setup", price: 300, icon: "bar-chart-3", tip: "GA4 + GSC verified + sitemap submit. Free Google tools — I wire, you own the account." },
+  { id: "images", label: "Stock Image Pack + Compression", price: 250, icon: "image", tip: "10 curated Pexels/Unsplash (free) images, WebP + srcset via Squoosh/sharp (free) — unblocks handover fast." },
+  { id: "speed", label: "Speed Pass", price: 400, icon: "zap", tip: "Lighthouse pass, lazy-load, image CDN hints. Checked with PageSpeed Insights (free)." },
+  { id: "social", label: "Social Feed Embed", price: 300, icon: "share-2", tip: "FB Page / IG grid embed (free) — static embed code, no API keys to maintain." },
 ];
 
 var QUOTE_MONTHLY_ADDONS = [
@@ -904,22 +910,21 @@ var QUOTE_MONTHLY_ADDONS = [
   { id: "support", label: "Hourly technical support", price: 200, per: "hour", icon: "wrench" },
 ];
 
-var QUOTE_RATES = { inRangePage: 100, extraPage: 150, copywriting: 300 };
+var QUOTE_RATES = { inRangePage: 100, extraPage: 100, copywriting: 200 };
 
 function pagePrice(tier, pages) {
   if (!tier || tier.quoteOnly) return 0;
   if (tier.id === "base") {
-    if (pages <= 1) return 600;
-    if (pages === 2) return 650;
-    return 750;
+    return 600 + (pages - 1) * QUOTE_RATES.inRangePage;
   }
   return tier.minPrice + (pages - tier.minPages) * QUOTE_RATES.inRangePage;
 }
 
-function maintenancePrice(siteCost) {
+function maintenancePrice(siteCost, tierId) {
   var pct = Math.round(siteCost * 0.15);
   var price = Math.ceil(pct / 50) * 50;
-  return Math.min(price, 400);
+  var cap = tierId === "base" ? 250 : tierId === "standard" ? 350 : 400;
+  return Math.min(price, cap);
 }
 
 function initQuoteMaker() {
@@ -1073,7 +1078,8 @@ function initQuoteMaker() {
   }
 
   function effectiveMonthlyPrice(a) {
-    return a.price === null ? maintenancePrice(maintenanceSiteCost()) : a.price;
+    var tierId = state.tier ? state.tier.id : null;
+    return a.price === null ? maintenancePrice(maintenanceSiteCost(), tierId) : a.price;
   }
 
   function monthlyRecurringTotal() {
@@ -1135,7 +1141,7 @@ function initQuoteMaker() {
       return;
     }
     label.textContent =
-      "P" + maintenancePrice(maintenanceSiteCost()).toLocaleString() + "/month";
+      "P" + maintenancePrice(maintenanceSiteCost(), state.tier ? state.tier.id : null).toLocaleString() + "/month";
   }
 
   function renderMonthlySummary() {
