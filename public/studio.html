@@ -33,8 +33,53 @@
       content="https://cabscode.pro/images/demos/webapps/raceweather.png"
     />
     <meta property="og:locale" content="en_BW" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="CabsCode | Studio & Projects Portfolio" />
+    <meta name="twitter:description" content="A curated gallery of live web apps, developer tools, and client design concepts by Tema Bown." />
+    <meta name="twitter:image" content="https://cabscode.pro/images/demos/webapps/raceweather.png" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "CabsCode Studio — Projects Portfolio",
+        "description": "Curated gallery of web apps, developer tools, and website concepts by Tema Bown.",
+        "url": "https://cabscode.pro/studio",
+        "isPartOf": { "@type": "WebSite", "name": "CabsCode", "url": "https://cabscode.pro" },
+        "author": { "@type": "Person", "name": "Tema Bown", "url": "https://cabscode.pro" },
+        "mainEntity": {
+          "@type": "ItemList",
+          "itemListElement": [
+            {
+              "@type": "SoftwareApplication",
+              "name": "RaceWeather",
+              "description": "F1 weekend weather dashboard with real-time forecasts and track conditions",
+              "url": "https://raceweather.cabscode.pro/",
+              "applicationCategory": "WebApplication",
+              "operatingSystem": "Web",
+              "author": { "@type": "Person", "name": "Tema Bown" },
+              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BWP" }
+            },
+            {
+              "@type": "SoftwareApplication",
+              "name": "RepoTicket",
+              "description": "IT ticket report system built with React, TypeScript and PocketBase",
+              "applicationCategory": "WebApplication",
+              "author": { "@type": "Person", "name": "Tema Bown" }
+            },
+            {
+              "@type": "SoftwareApplication",
+              "name": "QR Code Generator",
+              "description": "Browser-based QR code generator with adjustable size and PNG download",
+              "applicationCategory": "WebApplication",
+              "author": { "@type": "Person", "name": "Tema Bown" }
+            }
+          ]
+        }
+      }
+    </script>
   </head>
   <body>
     <nav>

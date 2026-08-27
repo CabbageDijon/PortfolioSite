@@ -19,6 +19,16 @@
       property="og:image"
       content="https://cabscode.pro/images/favicon.png"
     />
+    <meta property="og:locale" content="en_BW" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="CabsCode | Services" />
+    <meta
+      name="twitter:description"
+      content="Web development and custom tool services by Tema Bown in Botswana — custom websites, web apps and browser tools."
+    />
+    <meta name="twitter:image" content="https://cabscode.pro/images/favicon.png" />
+    <link rel="canonical" href="https://cabscode.pro/services" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="icon" href="images/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -29,6 +39,48 @@
     <link rel="stylesheet" href="styles.css?v=2.16" />
     <link rel="stylesheet" href="services.css?v=2.26" />
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "CabsCode Web Development Services",
+        "serviceType": "Web Development and Custom Tools",
+        "provider": {
+          "@type": "Person",
+          "name": "Tema Bown",
+          "url": "https://cabscode.pro",
+          "sameAs": ["https://github.com/CabbageDijon"]
+        },
+        "areaServed": [
+          { "@type": "Country", "name": "Botswana" },
+          { "@type": "AdministrativeArea", "name": "Worldwide" }
+        ],
+        "url": "https://cabscode.pro/services",
+        "description": "Custom websites, web applications, front-end engineering, and browser-based tools for Botswana businesses and international clients by solo developer Tema Bown.",
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Web Services",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Web Development",
+                "description": "Responsive landing pages, admin dashboards, SPAs and e-commerce solutions"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Custom Tools",
+                "description": "Bespoke workflow automation, data visualisation and API integrations"
+              }
+            }
+          ]
+        }
+      }
+    </script>
   </head>
   <body>
     <nav>

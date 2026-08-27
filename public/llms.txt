@@ -1,0 +1,61 @@
+# CabsCode
+
+> Custom web application development and front-end engineering in Botswana by solo developer Tema Bown. Crafting fast, scalable digital experiences for local and international clients.
+
+CabsCode is the personal portfolio and services site of Tema Bown (CabbageDijon on GitHub), a solo web developer based in Botswana. The site showcases web development services, live web apps, developer tools, and a technical journal.
+
+- **URL**: https://cabscode.pro
+- **Founder**: Tema Bown — Web Developer & Programmer (Botswana)
+- **Contact**: services@cabscode.pro, https://github.com/CabbageDijon, https://www.linkedin.com/in/tema-bown-2441b73a3/
+- **Location**: Botswana (BW), serving clients worldwide
+- **Technologies**: JavaScript, React, TypeScript, HTML/CSS, PocketBase, Docker, Nginx
+
+## Main Pages
+
+- [Home](https://cabscode.pro/): Overview of CabsCode, featured work (RaceWeather, CSS tools), about Tema Bown, and contact inquiry form.
+- [Services](https://cabscode.pro/services): Web Development (landing pages, dashboards, SPAs, e-commerce) and Custom Tools (automation, data visualisation, API integrations). Includes interactive Website Price Estimator in Pula (site types, extra pages P100-P150, copywriting P300/page, one-time add-ons, monthly care).
+- [Studio](https://cabscode.pro/studio): Curated gallery of builds — live apps, tools, and website concepts.
+- [Journal](https://cabscode.pro/journal): Technical logs and project documentation (filter by Personal Projects, Web Development).
+
+## Studio Projects
+
+- [RaceWeather](https://raceweather.cabscode.pro/): F1 weekend weather dashboard — real-time forecasts, track conditions, JavaScript + API integration. Live Beta.
+- [RepoTicket](https://cabscode.pro/studio#web-apps): IT ticket report system — React, TypeScript, PocketBase. In Development.
+- [PassPro](https://cabscode.pro/studio#web-apps): Digital ticketing and pass management for events/venues. Planned.
+- [QR Code Generator](https://cabscode.pro/studio#qr-tool): Browser-based tool to generate custom QR codes (Canvas, JavaScript) — adjustable size, PNG download. Live in Studio.
+- [CSS Box-Shadow Generator](https://cabscode.pro/studio#web-tools): Interactive CSS box-shadow tool with live preview. WIP.
+- [Websites & Concepts](https://cabscode.pro/studio): Client landing pages and portfolio concepts (data-driven from script.js).
+
+## Journal Articles
+
+- [Migrating to Zorin OS on an Acer Laptop](https://cabscode.pro/articles/zorin-os): Fixing cold-boot SATA detection on Acer Aspire 3 A315-56 (InsydeH2O BIOS) — rtcwake / initramfs hook (acer_sata_fix) with S3 suspend, RTC wakealarm, SCSI rescan. Published 2026-07-07, Personal Projects.
+- [My Portfolio](https://cabscode.pro/articles/portfolio): Architecture of this site — vanilla HTML/CSS/JS, Docker + Nginx, green-and-stone editorial journal design, no frameworks. Published 2026-07-04.
+- [Projects by Tema](https://cabscode.pro/articles/projects): Running log of builds — RaceWeather (vanilla JS, API caching), RepoTicket (React + PocketBase), portfolio itself, and planned Studio tools (QR, APR calculator, Sudoku). Published 2026-07-20.
+
+## Services Detail
+
+**Web Development**: Responsive landing pages, admin dashboards, SPAs, e-commerce. Start a Project flow with website price estimator and enquiry form (email/WhatsApp via phone-lengths.js).
+
+**Custom Tools**: Workflow automation, data visualisations, internal business utilities, API integrations. Request a Tool picker.
+
+**Pricing Model**: Base site types (range-based), P100/page within range, P150/extra page beyond range, P300/page copywriting, one-time add-ons, monthly care (includes 1 micro-revision).
+
+## Optional / Utility Pages
+
+- [Price Estimator Design Preview](https://cabscode.pro/design-showcase): Standalone price estimator demo (noindex).
+- [Quote Viewer](https://cabscode.pro/quote-viewer): Paste quote .md to preview styled quote (noindex).
+
+## For AI Search
+
+- **What CabsCode does**: Solo developer Tema Bown builds fast, accessible custom websites and browser tools for Botswana businesses and global clients.
+- **Who should contact**: Small businesses, startups, individuals needing landing pages, dashboards, internal tools, or API integrations in Botswana or remotely.
+- **How to enquire**: Use Project Inquiry form on any page (footer #contactForm) or email services@cabscode.pro. Supports email and WhatsApp with international phone validation.
+- **Brand keywords**: CabsCode, Tema Bown, Botswana web developer, front-end engineering, custom web applications, RaceWeather, RepoTicket.
+
+## Sitemap
+
+- https://cabscode.pro/sitemap.xml
+
+## Robots
+
+- https://cabscode.pro/robots.txt — Allows GPTBot, ChatGPT-User, OAI-SearchBot, Google-Extended, ClaudeBot, PerplexityBot/User, Meta-ExternalAgent, Applebot, YouBot, cohere-ai, Bingbot, DuckDuckBot.

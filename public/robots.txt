@@ -10,26 +10,84 @@ User-agent: *
 Allow: /
 
 # ------------------------------------------
+# EXPLICIT ALLOW - BING & DUCKDUCKGO
+# DuckDuckGo sources results from Bing index
+# ------------------------------------------
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# ------------------------------------------
 # ALLOW AI SEARCH CRAWLERS
 # ------------------------------------------
 
-# OpenAI (GPTBot for training, ChatGPT-User for search)
+# OpenAI (GPTBot for training, ChatGPT-User + OAI-SearchBot for SearchGPT)
 User-agent: GPTBot
 Allow: /
 
 User-agent: ChatGPT-User
 Allow: /
 
-# Google (Google-Extended is specifically for Gemini/AI training)
+User-agent: OAI-SearchBot
+Allow: /
+
+# Google (Google-Extended for Gemini/AI training)
 User-agent: Google-Extended
+Allow: /
+
+User-agent: Storebot-Google
 Allow: /
 
 # Anthropic (Claude)
 User-agent: ClaudeBot
 Allow: /
 
-# Perplexity AI
+User-agent: Claude-User
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Perplexity AI (Bot + User for Perplexity Search)
 User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Meta AI (Meta-ExternalAgent for AI search, Meta-ExternalFetcher for link previews)
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Meta-ExternalFetcher
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+# Apple (Applebot-Extended for Apple Intelligence)
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Other AI crawlers
+User-agent: YouBot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Bytespider
 Allow: /
 
 # Sitemap
