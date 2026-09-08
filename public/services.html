@@ -37,26 +37,27 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css?v=2.16" />
-    <link rel="stylesheet" href="services.css?v=2.26" />
+    <link rel="stylesheet" href="services.css?v=2.27" />
+    <link rel="stylesheet" href="icons/social.css?v=1.0" />
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="icons/cc-icons.js?v=1.0" defer></script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Service",
         "name": "CabsCode Web Development Services",
         "serviceType": "Web Development and Custom Tools",
-        "provider": {
-          "@type": "Person",
-          "name": "Tema Bown",
-          "url": "https://cabscode.pro",
-          "sameAs": ["https://github.com/CabbageDijon"]
-        },
+        "provider": { "@id": "https://cabscode.pro/#organization" },
         "areaServed": [
+          { "@type": "City", "name": "Gaborone" },
+          { "@type": "City", "name": "Francistown" },
           { "@type": "Country", "name": "Botswana" },
           { "@type": "AdministrativeArea", "name": "Worldwide" }
         ],
         "url": "https://cabscode.pro/services",
         "description": "Custom websites, web applications, front-end engineering, and browser-based tools for Botswana businesses and international clients by solo developer Tema Bown.",
+        "inLanguage": "en-BW",
+        "isPartOf": { "@id": "https://cabscode.pro/#website" },
         "hasOfferCatalog": {
           "@type": "OfferCatalog",
           "name": "Web Services",
@@ -81,6 +82,16 @@
         }
       }
     </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cabscode.pro/" },
+          { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://cabscode.pro/services" }
+        ]
+      }
+    </script>
   </head>
   <body>
     <nav>
@@ -88,7 +99,7 @@
         <a href="/" class="logo" aria-label="Home">
           <div class="logo">
             <img
-              src="images/logo.svg"
+              src="images/favicon.png"
               alt="CabsCode"
               width="48"
               height="48"
@@ -157,28 +168,30 @@
           </button>
         </article>
 
-        <article class="service-card">
+        <article class="service-card" id="seoAuditCard">
           <div class="service-icon">
-            <i data-lucide="wrench"></i>
+            <i data-lucide="search"></i>
           </div>
-          <h3>Custom Tools</h3>
+          <h3>SEO Audit</h3>
           <p>
-            Bespoke web tools and automations tailored to your workflow. From QR
-            code generators to data dashboards, I build utilities that save you
-            time and effort.
+            See how your business shows up on Google — business name, website,
+            or Facebook Page. Free tier checks page 1 for 3 terms; paid tiers go
+            deeper with AI recommendations.
           </p>
           <ul class="service-details">
-            <li>Workflow automation</li>
-            <li>Data visualisation tools</li>
-            <li>Internal business utilities</li>
-            <li>API integrations</li>
+            <li>Google presence check (website vs social-only)</li>
+            <li>On-page basics + Google Business hints</li>
+            <li>PDF-ready report with minimal fixes</li>
           </ul>
           <button
             type="button"
             class="service-cta-btn solid-btn"
-            data-service="tools"
+            data-service="audit"
+            id="startAuditBtn"
+            aria-expanded="false"
+            aria-controls="seoAudit"
           >
-            Request a Tool
+            Run Free Audit
             <i data-lucide="chevron-down" class="icon-inline"></i>
           </button>
         </article>
@@ -219,6 +232,150 @@
               <i data-lucide="arrow-right" class="icon-inline"></i>
             </button>
           </div>
+        </div>
+      </section>
+
+      <section class="seo-audit" id="seoAudit" hidden aria-labelledby="seoAuditHeading">
+        <div class="quote-maker-header">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px">
+            <div>
+              <h2 id="seoAuditHeading">Google Search Audit</h2>
+              <p>
+                Enter your business details. Free tier needs an email and runs
+                once per week — 3 terms on page 1. P50 runs 6 terms across 3
+                pages with an AI lowdown; P100 runs 10 terms with a full AI
+                recommendation.
+              </p>
+            </div>
+            <button
+              type="button"
+              class="picker-close"
+              id="seoAuditClose"
+              aria-label="Close audit"
+            >
+              <i data-lucide="x"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="seo-audit-grid">
+          <div class="seo-audit-form">
+            <div class="honeypot" aria-hidden="true">
+              <input type="text" id="seo-website" tabindex="-1" autocomplete="off" />
+            </div>
+            <input type="hidden" id="seo-timestamp" value="" />
+
+            <h3 class="quote-step"><b>1</b> · Your business</h3>
+            <label class="seo-label" for="seoName">Business name</label>
+            <input type="text" id="seoName" placeholder="Exactly as on Google / Facebook, e.g. Kwena Water Works" autocomplete="organization" />
+
+            <div class="seo-row">
+              <div>
+                <label class="seo-label" for="seoType">Business type</label>
+                <select id="seoType">
+                  <option value="" disabled selected>Select type…</option>
+                  <option>Retail / Shop</option>
+                  <option>Food &amp; Hospitality</option>
+                  <option>Trades &amp; Home Services</option>
+                  <option>Tourism &amp; Safari</option>
+                  <option>Professional Services</option>
+                  <option>Health &amp; Medical</option>
+                  <option>Beauty &amp; Wellness</option>
+                  <option>Auto &amp; Transport</option>
+                  <option>Education &amp; Training</option>
+                  <option>Real Estate</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div>
+                <label class="seo-label" for="seoLocation">Location</label>
+                <input type="text" id="seoLocation" list="seoLocationList" placeholder="e.g. Gaborone, Maun, or Nationwide / Online" autocomplete="address-level2" />
+                <datalist id="seoLocationList">
+                  <option value="Gaborone"></option>
+                  <option value="Francistown"></option>
+                  <option value="Maun"></option>
+                  <option value="Kasane"></option>
+                  <option value="Serowe"></option>
+                  <option value="Palapye"></option>
+                  <option value="Jwaneng"></option>
+                  <option value="Molepolole"></option>
+                  <option value="Kanye"></option>
+                  <option value="Selebi-Phikwe"></option>
+                  <option value="Nationwide / Online"></option>
+                </datalist>
+              </div>
+            </div>
+
+            <h3 class="quote-step"><b>2</b> · What should Google find?</h3>
+            <div class="seo-targets" role="radiogroup" aria-label="Search target">
+              <label class="seo-target"><input type="radio" name="seoTarget" value="name" checked /> <i data-lucide="search"></i> Business name as-is</label>
+              <label class="seo-target"><input type="radio" name="seoTarget" value="website" /> <i data-cc-icon="globe"></i> Website URL</label>
+              <label class="seo-target"><input type="radio" name="seoTarget" value="facebook" /> <i data-cc-icon="facebook"></i> Facebook Page URL</label>
+            </div>
+            <input type="url" id="seoUrl" class="hidden" placeholder="https://… (website or facebook.com/…)" inputmode="url" />
+            <p class="seo-hint">Name = as listed on any platform you use. URL = full link starting with https://</p>
+
+            <h3 class="quote-step"><b>3</b> · Audit tier</h3>
+            <div class="seo-tiers" role="radiogroup" aria-label="Audit tier">
+              <label class="seo-tier-card"><input type="radio" name="seoTier" value="free" checked />
+                <span class="seo-tier-name">Free</span>
+                <span class="seo-tier-desc">3 terms · page 1 · preset fixes</span>
+              </label>
+              <label class="seo-tier-card"><input type="radio" name="seoTier" value="p50" />
+                <span class="seo-tier-name">P50</span>
+                <span class="seo-tier-desc">6 terms · 3 pages · AI lowdown</span>
+              </label>
+              <label class="seo-tier-card"><input type="radio" name="seoTier" value="p100" />
+                <span class="seo-tier-name">P100</span>
+                <span class="seo-tier-desc">10 terms · 3 pages · full AI rec.</span>
+              </label>
+            </div>
+
+            <div id="seoTermsWrap" class="hidden">
+              <h3 class="quote-step"><b>4</b> · Search terms <small id="seoTermsNote"></small></h3>
+              <div id="seoTerms" class="seo-terms"></div>
+              <button type="button" class="picker-cancel" id="seoRegen">Regenerate terms</button>
+            </div>
+
+            <h3 class="quote-step"><b>5</b> · Where to send it</h3>
+            <label class="seo-label" for="seoEmail">Email (required — free = 1 per week)</label>
+            <input type="email" id="seoEmail" placeholder="you@example.com" autocomplete="email" />
+            <div id="seoCodeRow" class="hidden">
+              <label class="seo-label" for="seoCode">Email code (check inbox / spam)</label>
+              <div class="seo-row">
+                <input type="text" id="seoCode" inputmode="numeric" placeholder="6-digit code" maxlength="6" />
+                <button type="button" class="picker-cancel" id="seoSendCode">Send code</button>
+              </div>
+            </div>
+            <div id="seoPayRow" class="hidden">
+              <label class="seo-label" for="seoPayToken">Paid unlock token (P50 / P100)</label>
+              <input type="text" id="seoPayToken" placeholder="Paste token from WhatsApp / email" />
+              <p class="seo-hint">No token yet? Choose P50/P100 then <a href="#contactForm" id="seoRequestPaid">request it here</a> — pay via Orange Money / MyZaka / card and I’ll send your token.</p>
+            </div>
+            <label class="seo-consent"><input type="checkbox" id="seoConsent" /> Email me the report and one follow-up. Required.</label>
+
+            <div class="picker-actions">
+              <button type="button" class="picker-cancel" id="seoCancel">Cancel</button>
+              <button type="button" class="solid-btn" id="seoGenTerms">
+                Generate terms
+                <i data-lucide="arrow-right" class="icon-inline"></i>
+              </button>
+              <button type="button" class="solid-btn hidden" id="seoRun">
+                Run audit
+                <i data-lucide="search" class="icon-inline"></i>
+              </button>
+            </div>
+            <div id="seoStatus" class="quote-request-status" role="alert" aria-live="polite"></div>
+          </div>
+
+          <aside class="quote-summary" id="seoReportWrap">
+            <h3>Your audit report</h3>
+            <div id="seoReport"><p class="quote-line-empty">Run an audit to see your Google presence score, per-term table, and fixes here. You can print / save as PDF.</p></div>
+            <div class="picker-actions">
+              <button type="button" class="picker-cancel hidden" id="seoPrint">Download PDF (print)</button>
+              <button type="button" class="solid-btn hidden" id="seoFix">Request fix <i data-lucide="arrow-right" class="icon-inline"></i></button>
+            </div>
+          </aside>
         </div>
       </section>
 
@@ -392,7 +549,7 @@
       <div class="footer-container">
         <div class="footer-col">
           <h4>Connect</h4>
-          <a href="#">LinkedIn</a>
+          <a href="https://www.linkedin.com/in/tema-bown-2441b73a3/" target="_blank" rel="noopener">LinkedIn</a>
           <a href="https://github.com/CabbageDijon" target="_blank">GitHub</a>
           <a href="mailto:services@cabscode.pro">Email</a>
         </div>
@@ -414,9 +571,10 @@
     </footer>
 
     <script src="phone-lengths.js?v=2.26"></script>
-    <script src="script.js?v=2.30"></script>
+    <script src="script.js?v=2.31"></script>
     <script>
       lucide.createIcons();
+      if (window.CcIcons) CcIcons.createIcons();
     </script>
   </body>
 </html>

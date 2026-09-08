@@ -982,3 +982,176 @@
 #quoteMaker .quote-maker-header > div {
   align-items: flex-start;
 }
+
+/* ==========================================================================
+   SEO Audit (replaces Custom Tools picker)
+   ========================================================================== */
+.seo-audit {
+  margin-bottom: 80px;
+  scroll-margin-top: calc(var(--navbar-height) + 16px);
+}
+.seo-audit[hidden] { display: none !important; }
+.seo-audit:not([hidden]) { animation: picker-fade 0.22s ease; }
+
+.seo-audit-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+.seo-audit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 24px;
+}
+.seo-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.seo-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.seo-audit-form input[type="text"],
+.seo-audit-form input[type="email"],
+.seo-audit-form input[type="url"],
+.seo-audit-form select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+}
+.seo-audit-form input:focus,
+.seo-audit-form select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+.seo-targets {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.seo-target {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.seo-target input { accent-color: var(--color-primary-dark); }
+.seo-hint {
+  font-size: 0.78rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+.seo-hint a, #seoReport a, .seo-preset a {
+  color: var(--color-link-active);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.seo-hint a:hover, #seoReport a:hover, .seo-preset a:hover {
+  color: var(--color-primary-dark);
+}
+[data-theme="dark"] .seo-hint a, [data-theme="dark"] #seoReport a, [data-theme="dark"] .seo-preset a {
+  color: var(--color-primary);
+}
+.seo-tiers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.seo-tier-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  cursor: pointer;
+  background: var(--color-bg);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.seo-tier-card:hover { border-color: var(--color-primary); }
+.seo-tier-card:has(input:checked) {
+  border-color: var(--color-primary);
+  box-shadow: 0 8px 18px var(--shadow-card-hover);
+  background: #f2f7f0;
+}
+[data-theme="dark"] .seo-tier-card:has(input:checked) { background: rgba(169,187,162,0.12); }
+.seo-tier-card input { accent-color: var(--color-primary-dark); }
+.seo-tier-name { font-weight: 700; font-size: 0.95rem; }
+.seo-tier-desc { font-size: 0.78rem; color: var(--color-text-secondary); line-height: 1.3; }
+.seo-terms {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.seo-term-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.seo-term-row input {
+  flex: 1;
+}
+.seo-consent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  margin-top: 8px;
+}
+.seo-consent input { accent-color: var(--color-primary-dark); }
+
+#seoReportWrap .quote-summary { position: sticky; top: calc(var(--navbar-height) + 24px); }
+.seo-score {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--color-link-active, #077d4a);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+.seo-preset, .seo-lowdown {
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 16px;
+  background: var(--color-bg);
+}
+.seo-preset h4, .seo-lowdown h4 {
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+.seo-preset ul { margin: 8px 0 0 18px; font-size: 0.88rem; line-height: 1.5; }
+.seo-preset.is-active { border-color: var(--color-primary); box-shadow: 0 8px 18px var(--shadow-card-hover); }
+.seo-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.seo-table th, .seo-table td { text-align: left; padding: 8px; border-bottom: 1px solid var(--color-border); }
+.seo-table th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text-secondary); }
+
+@media (max-width: 900px) {
+  .seo-audit-grid { grid-template-columns: 1fr; }
+  .seo-row { grid-template-columns: 1fr; }
+  .seo-tiers { grid-template-columns: 1fr; }
+}
+
+@media print {
+  nav, .nav-overlay, .services-grid, #seoAudit .seo-audit-form, .footer-container, .services-cta, #quoteMaker, .picker-actions { display: none !important; }
+  #seoReportWrap { display: block !important; position: static !important; box-shadow: none !important; border: none !important; }
+  #seoReportWrap h3::after { content: " — CabsCode SEO Audit"; }
+}

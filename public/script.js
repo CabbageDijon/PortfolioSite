@@ -132,6 +132,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // 2aa. Website price estimator (services / design showcase)
   initQuoteMaker();
 
+  // 2ab. SEO Audit (services page)
+  initSeoAudit();
+
   // 2b. View Transitions API
   if (document.startViewTransition) {
     var internalLinks = document.querySelectorAll(
@@ -482,6 +485,7 @@ function initContactForm() {
     '    <option value="" disabled selected>Select a service…</option>',
     '    <option value="Web Development">Web Development</option>',
     '    <option value="Custom Tools">Custom Tools</option>',
+    '    <option value="SEO Audit">SEO Audit</option>',
     '    <option value="Consultancy">Consultancy</option>',
     '    <option value="UI/UX Design">UI/UX Design</option>',
     "  </select>",
@@ -825,6 +829,409 @@ function initServicePickers() {
 
     closePicker();
   });
+}
+
+// --- SEO Audit (Services page) ---
+function initSeoAudit() {
+  var root = document.getElementById("seoAudit");
+  if (!root) return;
+  var grid = document.querySelector(".services-grid");
+  var card = document.getElementById("seoAuditCard");
+  var startBtn = document.getElementById("startAuditBtn");
+  var closeBtn = document.getElementById("seoAuditClose");
+  var cancelBtn = document.getElementById("seoCancel");
+  var nameEl = document.getElementById("seoName");
+  var typeEl = document.getElementById("seoType");
+  var locEl = document.getElementById("seoLocation");
+  var urlEl = document.getElementById("seoUrl");
+  var emailEl = document.getElementById("seoEmail");
+  var codeEl = document.getElementById("seoCode");
+  var payTokenEl = document.getElementById("seoPayToken");
+  var consentEl = document.getElementById("seoConsent");
+  var honeypot = document.getElementById("seo-website");
+  var tsEl = document.getElementById("seo-timestamp");
+  var termsWrap = document.getElementById("seoTermsWrap");
+  var termsEl = document.getElementById("seoTerms");
+  var termsNote = document.getElementById("seoTermsNote");
+  var genBtn = document.getElementById("seoGenTerms");
+  var runBtn = document.getElementById("seoRun");
+  var sendCodeBtn = document.getElementById("seoSendCode");
+  var codeRow = document.getElementById("seoCodeRow");
+  var payRow = document.getElementById("seoPayRow");
+  var statusEl = document.getElementById("seoStatus");
+  var reportEl = document.getElementById("seoReport");
+  var reportWrap = document.getElementById("seoReportWrap");
+  var printBtn = document.getElementById("seoPrint");
+  var fixBtn = document.getElementById("seoFix");
+  var regenBtn = document.getElementById("seoRegen");
+  var requestPaid = document.getElementById("seoRequestPaid");
+
+  if (tsEl) tsEl.value = String(Date.now());
+  var generatedTerms = [];
+  var lastAuditPayload = null;
+
+  function getTarget() {
+    var v = document.querySelector('input[name="seoTarget"]:checked');
+    return v ? v.value : "name";
+  }
+  function getTier() {
+    var v = document.querySelector('input[name="seoTier"]:checked');
+    return v ? v.value : "free";
+  }
+  function getLocation() {
+    return (locEl.value || "").trim();
+  }
+  function openAudit() {
+    if (grid) grid.classList.add("is-picking");
+    if (card) card.classList.add("is-active");
+    root.removeAttribute("hidden");
+    if (startBtn) startBtn.setAttribute("aria-expanded", "true");
+    root.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    if (window.lucide) lucide.createIcons();
+    if (window.CcIcons) CcIcons.createIcons();
+  }
+  function closeAudit() {
+    root.setAttribute("hidden", "");
+    if (grid) grid.classList.remove("is-picking");
+    if (card) card.classList.remove("is-active");
+    if (startBtn) startBtn.setAttribute("aria-expanded", "false");
+  }
+  function setStatus(msg, isError) {
+    if (!statusEl) return;
+    statusEl.textContent = msg || "";
+    statusEl.className = "quote-request-status" + (isError ? " error" : msg ? " success" : "");
+  }
+  function tierConfig(tier) {
+    if (tier === "p100") return { n: 10, pages: 3, label: "P100 — 10 terms × 3 pages + full AI recommendation" };
+    if (tier === "p50") return { n: 6, pages: 3, label: "P50 — 6 terms × 3 pages + AI lowdown" };
+    return { n: 3, pages: 1, label: "Free — 3 terms × page 1" };
+  }
+
+  function renderTerms(terms, tier) {
+    generatedTerms = terms.slice();
+    var cfg = tierConfig(tier);
+    if (termsNote) termsNote.textContent = "(" + cfg.label + ")";
+    termsEl.innerHTML = terms
+      .map(function (t, i) {
+        return (
+          '<div class="seo-term-row"><input type="text" value="' +
+          t.replace(/"/g, "&quot;") +
+          '" data-i="' +
+          i +
+          '" /><button type="button" class="picker-cancel" data-del="' +
+          i +
+          '">×</button></div>'
+        );
+      })
+      .join("");
+    termsWrap.classList.remove("hidden");
+    if (runBtn) runBtn.classList.remove("hidden");
+  }
+
+  function collectTerms() {
+    var inputs = termsEl.querySelectorAll("input");
+    var out = [];
+    for (var i = 0; i < inputs.length; i++) {
+      var v = inputs[i].value.trim();
+      if (v) out.push(v);
+    }
+    return out;
+  }
+
+  function onTargetChange() {
+    var t = getTarget();
+    if (t === "name") urlEl.classList.add("hidden");
+    else {
+      urlEl.classList.remove("hidden");
+      urlEl.placeholder = t === "facebook" ? "https://facebook.com/your-page" : "https://your-website.co.bw";
+    }
+    if (window.CcIcons) CcIcons.createIcons();
+  }
+
+  function onTierChange() {
+    var tier = getTier();
+    if (tier === "free") {
+      if (payRow) payRow.classList.add("hidden");
+      if (codeRow) codeRow.classList.remove("hidden");
+    } else {
+      if (payRow) payRow.classList.remove("hidden");
+      if (codeRow) codeRow.classList.add("hidden");
+    }
+  }
+
+  document.querySelectorAll('input[name="seoTarget"]').forEach(function (r) {
+    r.addEventListener("change", onTargetChange);
+  });
+  document.querySelectorAll('input[name="seoTier"]').forEach(function (r) {
+    r.addEventListener("change", onTierChange);
+  });
+  onTargetChange();
+  onTierChange();
+
+  if (startBtn) {
+    startBtn.addEventListener("click", function () {
+      if (root.hasAttribute("hidden")) openAudit();
+      else closeAudit();
+    });
+  }
+  if (closeBtn) closeBtn.addEventListener("click", closeAudit);
+  if (cancelBtn) cancelBtn.addEventListener("click", closeAudit);
+
+  if (sendCodeBtn) {
+    sendCodeBtn.addEventListener("click", async function () {
+      var email = (emailEl.value || "").trim();
+      if (!email) { setStatus("Enter your email first.", true); return; }
+      if (honeypot && honeypot.value) { setStatus("Sent — check your email.", false); return; }
+      setStatus("Sending code…");
+      try {
+        var res = await fetch("/api/seo-audit/request-code", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: email, _timestamp: tsEl.value }),
+        });
+        var data = await res.json();
+        if (!res.ok) { setStatus(data.error || "Could not send code.", true); return; }
+        setStatus(data.message || "Code sent — check your inbox / spam.", false);
+      } catch (e) {
+        setStatus("Network error. Try again.", true);
+      }
+    });
+  }
+
+  function validForTerms() {
+    var name = (nameEl.value || "").trim();
+    var type = (typeEl.value || "").trim();
+    var loc = getLocation();
+    if (!name) { setStatus("Enter business name.", true); return false; }
+    if (!type) { setStatus("Select business type.", true); return false; }
+    if (!loc) { setStatus("Enter location.", true); return false; }
+    return true;
+  }
+
+  if (genBtn) {
+    genBtn.addEventListener("click", async function () {
+      if (!validForTerms()) return;
+      if (honeypot && honeypot.value) { setStatus("Done.", false); return; }
+      var tier = getTier();
+      var cfg = tierConfig(tier);
+      genBtn.disabled = true;
+      genBtn.textContent = "Generating…";
+      setStatus("Generating search terms with Gemini 3.5 Flash Lite…");
+      try {
+        var res = await fetch("/api/seo-audit/terms", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            businessName: (nameEl.value || "").trim(),
+            businessType: (typeEl.value || "").trim(),
+            location: getLocation(),
+            tier: tier,
+            _timestamp: tsEl.value,
+            website: honeypot ? honeypot.value : "",
+          }),
+        });
+        var data = await res.json();
+        if (!res.ok) { setStatus(data.error || "Could not generate terms.", true); return; }
+        renderTerms(data.terms || [], tier);
+        setStatus("Terms ready — edit if needed, then Run audit.", false);
+      } catch (e) {
+        setStatus("Network error.", true);
+      } finally {
+        genBtn.disabled = false;
+        genBtn.textContent = "Generate terms";
+        if (window.lucide) lucide.createIcons();
+      }
+    });
+  }
+
+  if (regenBtn) {
+    regenBtn.addEventListener("click", function () {
+      if (genBtn) genBtn.click();
+    });
+  }
+
+  if (termsEl) {
+    termsEl.addEventListener("click", function (e) {
+      var del = e.target.closest("[data-del]");
+      if (!del) return;
+      var idx = parseInt(del.getAttribute("data-del"), 10);
+      generatedTerms.splice(idx, 1);
+      renderTerms(generatedTerms, getTier());
+    });
+  }
+
+  if (runBtn) {
+    runBtn.addEventListener("click", async function () {
+      var tier = getTier();
+      var terms = collectTerms();
+      if (!terms.length) { setStatus("Generate or enter at least 1 term.", true); return; }
+      var email = (emailEl.value || "").trim();
+      if (!email) { setStatus("Email is required for all audits.", true); return; }
+      if (!consentEl.checked) { setStatus("Please consent to receive the report.", true); return; }
+      var target = getTarget();
+      var url = (urlEl.value || "").trim();
+      if (target !== "name" && !url) { setStatus("Enter the " + (target === "facebook" ? "Facebook" : "website") + " URL.", true); return; }
+      if (honeypot && honeypot.value) { setStatus("Audit complete — check email.", false); return; }
+      runBtn.disabled = true;
+      runBtn.textContent = "Running…";
+      setStatus("Running audit — checking Google (up to " + tierConfig(tier).n + " terms, " + tierConfig(tier).pages + " page(s) each)…");
+      reportEl.innerHTML = '<p class="quote-line-empty">Auditing… this can take 10–20 seconds.</p>';
+      try {
+        var body = {
+          businessName: (nameEl.value || "").trim(),
+          businessType: (typeEl.value || "").trim(),
+          location: getLocation(),
+          target: target,
+          url: url,
+          tier: tier,
+          terms: terms,
+          email: email,
+          code: (codeEl.value || "").trim(),
+          payToken: (payTokenEl.value || "").trim(),
+          _timestamp: tsEl.value,
+          website: honeypot ? honeypot.value : "",
+        };
+        var res = await fetch("/api/seo-audit/run", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        var data = await res.json();
+        if (!res.ok) { setStatus(data.error || "Audit failed.", true); return; }
+        lastAuditPayload = data;
+        renderReport(data);
+        setStatus("Audit complete.", false);
+        if (printBtn) printBtn.classList.remove("hidden");
+        if (fixBtn) fixBtn.classList.remove("hidden");
+        reportWrap.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      } catch (e) {
+        setStatus("Network error.", true);
+      } finally {
+        runBtn.disabled = false;
+        runBtn.textContent = "Run audit";
+        if (window.lucide) lucide.createIcons();
+        if (window.CcIcons) CcIcons.createIcons();
+      }
+    });
+  }
+
+  function renderReport(data) {
+    var html = "";
+    if (typeof data.score === "number") {
+      html += '<p><span class="seo-score">Score ' + data.score + '/100</span> <small style="color:var(--color-text-secondary)"> ' + (data.verdict || "") + '</small></p>';
+    }
+    if (data.presence) {
+      html += '<div class="seo-preset' + (data.presence.isSocialOnly ? ' is-active' : '') + '" style="margin:12px 0"><strong>Google presence:</strong> ' + data.presence.label + '<br/><small>' + (data.presence.hint || "") + '</small></div>';
+    }
+    if (data.results && data.results.length) {
+      html += '<table class="seo-table"><thead><tr><th>Term</th><th>Page</th><th>Rank</th><th>Found</th></tr></thead><tbody>';
+      for (var i = 0; i < data.results.length; i++) {
+        var r = data.results[i];
+        html += '<tr><td>' + esc(r.term) + '</td><td>' + r.page + '</td><td>' + (r.rank != null ? r.rank : "—") + '</td><td>' + esc(r.found || "Not found") + '</td></tr>';
+      }
+      html += "</tbody></table>";
+    }
+    if (data.onPage) {
+      html += '<div style="margin:12px 0"><strong>On-page basics' + (data.onPage.url ? ' — ' + esc(data.onPage.url) : '') + '</strong>';
+      html += '<ul style="margin:8px 0 0 18px;font-size:0.88rem">';
+      var checks = data.onPage.checks || [];
+      for (var j = 0; j < checks.length; j++) {
+        html += '<li>' + (checks[j].pass ? "✓ " : "✗ ") + esc(checks[j].label) + (checks[j].detail ? ' — ' + esc(checks[j].detail) : "") + '</li>';
+      }
+      html += "</ul></div>";
+    }
+    if (data.preset) {
+      html += '<div class="seo-preset is-active" style="margin:12px 0"><h4>' + esc(data.preset.title) + '</h4><p style="font-size:0.88rem">' + esc(data.preset.why) + '</p><ul>';
+      for (var k = 0; k < data.preset.items.length; k++) html += '<li>' + esc(data.preset.items[k]) + '</li>';
+      html += '</ul><div class="picker-actions" style="justify-content:flex-start"><button type="button" class="solid-btn" data-open-quote>See website prices — from P600</button> <button type="button" class="picker-cancel" data-ask-fix>Ask about this fix</button></div></div>';
+    }
+    if (data.lowdown) {
+      html += '<div class="seo-lowdown" style="margin:12px 0"><h4><i data-cc-icon="gemini" class="cc-icon icon-inline"></i> AI lowdown (P50)</h4><p style="font-size:0.88rem;line-height:1.6">' + esc(data.lowdown) + '</p>';
+      if (data.fixes && data.fixes.length) {
+        html += '<ul>';
+        for (var f = 0; f < data.fixes.length; f++) html += '<li>' + esc(data.fixes[f]) + '</li>';
+        html += '</ul>';
+      }
+      html += '</div>';
+    }
+    if (data.recommendation) {
+      html += '<div class="seo-lowdown" style="margin:12px 0"><h4><i data-cc-icon="gemini" class="cc-icon icon-inline"></i> Full AI recommendation (P100)</h4><div style="font-size:0.88rem;line-height:1.6;white-space:pre-wrap">' + esc(data.recommendation) + '</div>';
+      if (data.fixes && data.fixes.length) {
+        html += '<ul>';
+        for (var g = 0; g < data.fixes.length; g++) html += '<li>' + esc(data.fixes[g]) + '</li>';
+        html += '</ul>';
+      }
+      html += '</div>';
+    }
+    if (!html) html = '<p class="quote-line-empty">No results.</p>';
+    reportEl.innerHTML = html;
+    if (window.CcIcons) CcIcons.createIcons();
+    reportEl.querySelectorAll("[data-open-quote]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var qm = document.getElementById("quoteMaker");
+        if (qm && typeof openQuoteMaker === "function") openQuoteMaker();
+        else if (qm) { qm.removeAttribute("hidden"); qm.scrollIntoView({ behavior: "smooth" }); }
+        else document.getElementById("contactForm")?.scrollIntoView({ behavior: "smooth" });
+      });
+    });
+    reportEl.querySelectorAll("[data-ask-fix]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var service = "SEO Audit";
+        var summary = "Hi Tema, I ran the SEO Audit";
+        if (data.businessName) summary += " for " + data.businessName;
+        if (data.preset) summary += " — interested in: " + data.preset.title;
+        summary += ". Please advise next steps.";
+        var ta = document.getElementById("contact-message");
+        if (ta) {
+          ta.value = summary;
+          try { setContactService(service); } catch (e) {}
+          var form = document.getElementById("contactForm");
+          if (form) { form.scrollIntoView({ behavior: "smooth", block: "start" }); ta.focus(); }
+        }
+      });
+    });
+  }
+
+  function esc(s) {
+    return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  if (printBtn) {
+    printBtn.addEventListener("click", function () { window.print(); });
+  }
+  if (fixBtn) {
+    fixBtn.addEventListener("click", function () {
+      var ta = document.getElementById("contact-message");
+      var service = "SEO Audit";
+      var msg = "Hi Tema, I ran the SEO Audit";
+      if (lastAuditPayload && lastAuditPayload.businessName) msg += " for " + lastAuditPayload.businessName;
+      msg += ". I'd like to request a fix — please advise.";
+      if (ta) {
+        ta.value = msg;
+        try { setContactService(service); } catch (e) {}
+        var form = document.getElementById("contactForm");
+        if (form) { form.scrollIntoView({ behavior: "smooth", block: "start" }); ta.focus(); }
+      }
+    });
+  }
+  if (requestPaid) {
+    requestPaid.addEventListener("click", function (e) {
+      e.preventDefault();
+      var tier = getTier();
+      var name = (nameEl.value || "").trim() || "SEO Audit";
+      var msg = "Hi Tema, I'd like to request the " + tier.toUpperCase() + " SEO Audit";
+      if (name !== "SEO Audit") msg += " for " + name;
+      msg += ". Please send payment details (Orange Money / MyZaka / card) and unlock token.";
+      var ta = document.getElementById("contact-message");
+      if (ta) {
+        ta.value = msg;
+        try { setContactService("SEO Audit"); } catch (e2) {}
+        var form = document.getElementById("contactForm");
+        if (form) form.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (ta) ta.focus();
+      }
+    });
+  }
 }
 
 // --- Website Price Estimator ---

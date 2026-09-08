@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="/styles.css?v=2.16" />
     <link rel="stylesheet" href="/journal.css?v=2.18" />
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="../icons/social.css?v=1.0" />
+    <script src="../icons/cc-icons.js?v=1.0" defer></script>
     <link rel="canonical" href="https://cabscode.pro/articles/zorin-os" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta property="og:type" content="article" />
@@ -33,21 +35,33 @@
         "@type": "TechArticle",
         "headline": "Migrating to Zorin OS on an Acer Laptop",
         "description": "Cold-boot SATA detection on InsydeH2O — the rtcwake / initramfs hook that makes an Acer Aspire 3 A315-56 boot Linux reliably.",
-        "author": { "@type": "Person", "name": "Tema Bown", "url": "https://cabscode.pro" },
-        "publisher": { "@type": "Person", "name": "Tema Bown" },
+        "author": { "@id": "https://cabscode.pro/#person" },
+        "publisher": { "@id": "https://cabscode.pro/#organization" },
         "datePublished": "2026-07-07",
         "dateModified": "2026-07-07",
         "mainEntityOfPage": { "@type": "WebPage", "@id": "https://cabscode.pro/articles/zorin-os" },
         "url": "https://cabscode.pro/articles/zorin-os",
-        "isPartOf": { "@type": "Blog", "name": "CabsCode Journal", "url": "https://cabscode.pro/journal" },
+        "isPartOf": { "@id": "https://cabscode.pro/journal#blog" },
+        "inLanguage": "en-BW",
         "keywords": "Zorin OS, Acer Aspire 3, InsydeH2O, Linux, SATA, rtcwake, initramfs",
         "articleSection": "Personal Projects"
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cabscode.pro/" },
+          { "@type": "ListItem", "position": 2, "name": "Journal", "item": "https://cabscode.pro/journal" },
+          { "@type": "ListItem", "position": 3, "name": "Migrating to Zorin OS on an Acer Laptop", "item": "https://cabscode.pro/articles/zorin-os" }
+        ]
       }
     </script>
   </head>
   <body>
     <nav>
-      <div class="nav-left"><a href="/" class="logo" aria-label="Home"><div class="logo"><img src="/images/logo.svg" alt="CabsCode" width="48" height="48" /></div></a></div>
+      <div class="nav-left"><a href="/" class="logo" aria-label="Home"><div class="logo"><img src="/images/favicon.png" alt="CabsCode" width="48" height="48" /></div></a></div>
       <button class="mobile-toggle" aria-label="Toggle navigation"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
       <div class="nav-right">
         <a href="/" class="nav-link">Home</a>
@@ -386,6 +400,7 @@ exit 0</code></pre>
     <script src="/script.js?v=2.30"></script>
     <script src="/journal.js?v=1.0"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script>lucide.createIcons();</script>
+    <script>lucide.createIcons();
+      if (window.CcIcons) CcIcons.createIcons();</script>
   </body>
 </html>

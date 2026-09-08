@@ -8,6 +8,7 @@ RUN npm ci --omit=dev
 COPY server.js .
 COPY phone-rules.js .
 COPY quote-doc.js .
+COPY seo-audit.js .
 
 EXPOSE 3000
 CMD ["node", "server.js"]

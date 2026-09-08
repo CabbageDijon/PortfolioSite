@@ -1,0 +1,31 @@
+/* CabsCode custom icons — sizing matches Lucide usage across the site. */
+.cc-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cc-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.service-icon .cc-icon svg,
+.picker-icon .cc-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.picker-option .cc-icon svg,
+.seo-tier-card .cc-icon svg,
+.seo-check .cc-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.icon-inline.cc-icon svg,
+.cc-icon.icon-inline svg {
+  width: 16px;
+  height: 16px;
+}

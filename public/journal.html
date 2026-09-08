@@ -27,23 +27,37 @@
     <link rel="stylesheet" href="/styles.css?v=2.16" />
     <link rel="stylesheet" href="/journal.css?v=2.18" />
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="icons/social.css?v=1.0" />
+    <script src="icons/cc-icons.js?v=1.0" defer></script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Blog",
+        "@id": "https://cabscode.pro/journal#blog",
         "name": "CabsCode Journal",
         "description": "Technical logs, project updates and insights on web development by Tema Bown",
         "url": "https://cabscode.pro/journal",
-        "author": { "@type": "Person", "name": "Tema Bown", "url": "https://cabscode.pro" },
-        "publisher": { "@type": "Person", "name": "Tema Bown" },
-        "isPartOf": { "@type": "WebSite", "name": "CabsCode", "url": "https://cabscode.pro" }
+        "author": { "@id": "https://cabscode.pro/#person" },
+        "publisher": { "@id": "https://cabscode.pro/#organization" },
+        "isPartOf": { "@id": "https://cabscode.pro/#website" },
+        "inLanguage": "en-BW"
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cabscode.pro/" },
+          { "@type": "ListItem", "position": 2, "name": "Journal", "item": "https://cabscode.pro/journal" }
+        ]
       }
     </script>
   </head>
   <body>
     <nav>
       <div class="nav-left">
-        <a href="/" class="logo" aria-label="Home"><div class="logo"><img src="/images/logo.svg" alt="CabsCode" width="48" height="48" /></div></a>
+        <a href="/" class="logo" aria-label="Home"><div class="logo"><img src="/images/favicon.png" alt="CabsCode" width="48" height="48" /></div></a>
       </div>
       <button class="mobile-toggle" aria-label="Toggle navigation"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
       <div class="nav-right">
@@ -165,6 +179,7 @@
     <script src="/phone-lengths.js?v=2.18"></script>
     <script src="/script.js?v=2.30"></script>
     <script src="/journal.js?v=1.0"></script>
-    <script>lucide.createIcons();</script>
+    <script>lucide.createIcons();
+      if (window.CcIcons) CcIcons.createIcons();</script>
   </body>
 </html>

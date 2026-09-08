@@ -156,6 +156,11 @@ nav {
   transform: scale(1.05);
 }
 
+.logo img {
+  border-radius: 8px;
+  object-fit: cover;
+}
+
 .company-name {
   font-size: 1.2rem;
   font-weight: 600;
@@ -526,7 +531,9 @@ footer {
 }
 
 .footer-col a {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   color: var(--color-text-secondary);
   text-decoration: none;
   margin-bottom: 8px;

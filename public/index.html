@@ -21,6 +21,8 @@
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="bingbot" content="index, follow" />
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="icons/social.css?v=1.0" />
+    <script src="icons/cc-icons.js?v=1.0" defer></script>
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://cabscode.pro/" />
     <meta
@@ -55,6 +57,7 @@
       {
         "@context": "https://schema.org",
         "@type": "ProfessionalService",
+        "@id": "https://cabscode.pro/#organization",
         "name": "CabsCode",
         "url": "https://cabscode.pro",
         "logo": "https://cabscode.pro/images/favicon.png",
@@ -62,15 +65,26 @@
         "description": "CabsCode is the personal web development site of solo developer Tema Bown, offering front-end engineering, custom web applications, and browser-based tools from Botswana.",
         "founder": {
           "@type": "Person",
+          "@id": "https://cabscode.pro/#person",
           "name": "Tema Bown",
           "jobTitle": "Web Developer & Programmer",
-          "sameAs": ["https://github.com/CabbageDijon"]
+          "url": "https://cabscode.pro",
+          "sameAs": ["https://github.com/CabbageDijon", "https://www.linkedin.com/in/tema-bown-2441b73a3/"]
         },
         "address": {
           "@type": "PostalAddress",
+          "addressLocality": "Gaborone",
+          "addressRegion": "South-East",
           "addressCountry": "BW"
         },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -24.6282,
+          "longitude": 25.9231
+        },
         "areaServed": [
+          { "@type": "City", "name": "Gaborone" },
+          { "@type": "City", "name": "Francistown" },
           { "@type": "Country", "name": "Botswana" },
           { "@type": "AdministrativeArea", "name": "Worldwide" }
         ],
@@ -81,7 +95,20 @@
           "JavaScript",
           "UI/UX Design"
         ],
-        "priceRange": "$$"
+        "priceRange": "$$",
+        "sameAs": ["https://github.com/CabbageDijon", "https://www.linkedin.com/in/tema-bown-2441b73a3/"],
+        "inLanguage": "en-BW"
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": "https://cabscode.pro/#website",
+        "url": "https://cabscode.pro",
+        "name": "CabsCode",
+        "publisher": { "@id": "https://cabscode.pro/#organization" },
+        "inLanguage": "en-BW"
       }
     </script>
   </head>
@@ -91,7 +118,7 @@
         <a href="/" class="logo" aria-label="Home">
           <div class="logo">
             <img
-              src="images/logo.svg"
+              src="images/favicon.png"
               alt="CabsCode"
               width="48"
               height="48"
@@ -244,6 +271,7 @@
     <script src="script.js?v=2.30"></script>
     <script>
       lucide.createIcons();
+      if (window.CcIcons) CcIcons.createIcons();
     </script>
   </body>
 </html>
