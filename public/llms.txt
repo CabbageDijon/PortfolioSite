@@ -1,19 +1,19 @@
 # CabsCode
 
-> Custom web application development and front-end engineering in Botswana by solo developer Tema Bown. Crafting fast, scalable digital experiences for local and international clients.
+> Custom web application development, front-end engineering and Google Search (SEO) audits in Botswana — Gaborone, Francistown, Molepolole and nationwide — by solo developer Tema Bown. Fast, scalable sites and browser tools.
 
-CabsCode is the personal portfolio and services site of Tema Bown (CabbageDijon on GitHub), a solo web developer based in Botswana. The site showcases web development services, live web apps, developer tools, and a technical journal.
+CabsCode is the personal portfolio and services site of Tema Bown (CabbageDijon on GitHub), a solo web developer based in Botswana (Gaborone/Francistown/Molepolole hub coverage, serving nationwide and worldwide). The site showcases web development services, Google Search audits, live web apps, developer tools, and a technical journal.
 
 - **URL**: https://cabscode.pro
 - **Founder**: Tema Bown — Web Developer & Programmer (Botswana)
 - **Contact**: services@cabscode.pro, https://github.com/CabbageDijon, https://www.linkedin.com/in/tema-bown-2441b73a3/
-- **Location**: Botswana (BW), serving clients worldwide
+- **Location**: Botswana (BW) — Gaborone (capital/tech hub), Francistown (north), Molepolole (Kweneng), serving nationwide and worldwide
 - **Technologies**: JavaScript, React, TypeScript, HTML/CSS, PocketBase, Docker, Nginx
 
 ## Main Pages
 
 - [Home](https://cabscode.pro/): Overview of CabsCode, featured work (RaceWeather, CSS tools), about Tema Bown, and contact inquiry form.
-- [Services](https://cabscode.pro/services): Web Development (landing pages, dashboards, SPAs, e-commerce) and Custom Tools (automation, data visualisation, API integrations). Includes interactive Website Price Estimator in Pula (site types, extra pages P100-P150, copywriting P300/page, one-time add-ons, monthly care).
+- [Services](https://cabscode.pro/services): Web Development (landing pages, dashboards, SPAs, e-commerce), SEO Audit (Google Search audit — business name/website/Facebook URL, 3–30 queries, Gemini 3.5 Flash Lite), and Price Estimator in Pula (site types, extra pages P100-P150, copywriting P300/page). Gaborone/Francistown/Molepolole focused.
 - [Studio](https://cabscode.pro/studio): Curated gallery of builds — live apps, tools, and website concepts.
 - [Journal](https://cabscode.pro/journal): Technical logs and project documentation (filter by Personal Projects, Web Development).
 
@@ -36,7 +36,9 @@ CabsCode is the personal portfolio and services site of Tema Bown (CabbageDijon 
 
 **Web Development**: Responsive landing pages, admin dashboards, SPAs, e-commerce. Start a Project flow with website price estimator and enquiry form (email/WhatsApp via phone-lengths.js).
 
-**Custom Tools**: Workflow automation, data visualisations, internal business utilities, API integrations. Request a Tool picker.
+**SEO Audit**: Google Search audit for business name/website/Facebook — free tier 3 terms×page 1, P50 6×3 + AI lowdown, P100 10×3 + full AI recommendation (Gemini 3.5 Flash Lite, 1 call/action). Location-aware (Gaborone/Francistown/Molepolole datalist).
+
+**Custom Tools**: Workflow automation, data visualisations, internal business utilities, API integrations.
 
 **Pricing Model**: Base site types (range-based), P100/page within range, P150/extra page beyond range, P300/page copywriting, one-time add-ons, monthly care (includes 1 micro-revision).
 
@@ -47,10 +49,10 @@ CabsCode is the personal portfolio and services site of Tema Bown (CabbageDijon 
 
 ## For AI Search
 
-- **What CabsCode does**: Solo developer Tema Bown builds fast, accessible custom websites and browser tools for Botswana businesses and global clients.
-- **Who should contact**: Small businesses, startups, individuals needing landing pages, dashboards, internal tools, or API integrations in Botswana or remotely.
+- **What CabsCode does**: Solo developer Tema Bown builds fast, accessible custom websites, Google Search (SEO) audits and browser tools for Botswana businesses (Gaborone, Francistown, Molepolole) and global clients.
+- **Who should contact**: Small businesses in Gaborone/Francistown/Molepolole and Botswana-wide needing landing pages, dashboards, SEO audits, or internal tools.
 - **How to enquire**: Use Project Inquiry form on any page (footer #contactForm) or email services@cabscode.pro. Supports email and WhatsApp with international phone validation.
-- **Brand keywords**: CabsCode, Tema Bown, Botswana web developer, front-end engineering, custom web applications, RaceWeather, RepoTicket.
+- **Brand keywords**: CabsCode, Tema Bown, Botswana web developer Molepolole, Gaborone web development, Francistown web developer, front-end engineering, custom web applications, SEO audit Botswana, RaceWeather, RepoTicket.
 
 ## Sitemap
 
