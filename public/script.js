@@ -526,7 +526,12 @@ var EMAIL_CONTACTS = [
 function renderEmailList() {
   var mount = document.getElementById("emailListMount");
   if (!mount) return;
-  var html = '<ul class="email-list">';
+  var listId = "emailList";
+  var html =
+    '<button class="email-toggle" aria-expanded="false" aria-controls="' +
+    listId +
+    '">Email<span class="email-toggle-chevron" aria-hidden="true"></span></button>';
+  html += '<ul class="email-list" id="' + listId + '" hidden>';
   for (var i = 0; i < EMAIL_CONTACTS.length; i++) {
     var c = EMAIL_CONTACTS[i];
     var href = "mailto:" + c.email;
@@ -546,6 +551,22 @@ function renderEmailList() {
   }
   html += "</ul>";
   mount.innerHTML = html;
+  var toggle = mount.querySelector(".email-toggle");
+  var list = mount.querySelector("#" + listId);
+  if (!toggle || !list) return;
+  toggle.addEventListener("click", function () {
+    var open = list.hasAttribute("hidden");
+    if (open) list.removeAttribute("hidden");
+    else list.setAttribute("hidden", "");
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  toggle.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
+      list.setAttribute("hidden", "");
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.focus();
+    }
+  });
 }
 
 function initPhoneFilter() {

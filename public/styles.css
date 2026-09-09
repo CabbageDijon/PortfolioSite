@@ -548,11 +548,88 @@ footer {
 /* Footer email mini list: shortname link + Message button + purpose "?" */
 .email-list {
   list-style: none;
-  margin: 0;
+  margin: 8px 0 0;
   padding: 0;
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.email-list[hidden] {
+  display: none;
+}
+
+/* Collapsed "Email" toggle — looks like the footer links around it */
+.email-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+.email-toggle:hover {
+  color: var(--color-primary);
+}
+
+.email-toggle:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.email-toggle-chevron {
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.2s ease;
+}
+
+.email-toggle[aria-expanded="true"] .email-toggle-chevron {
+  transform: translateY(1px) rotate(225deg);
+}
+
+/* Native collapsible variant (pages without script.js, e.g. quote-viewer) */
+.email-details summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  list-style: none;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+}
+
+.email-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.email-details summary::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.2s ease;
+}
+
+.email-details summary:hover {
+  color: var(--color-primary);
+}
+
+.email-details[open] summary::after {
+  transform: translateY(1px) rotate(225deg);
+}
+
+.email-details .email-list {
+  margin-top: 8px;
 }
 
 .email-row {
