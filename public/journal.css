@@ -554,6 +554,14 @@ pre .copy-btn.copied {
   isolation: isolate;
 }
 .jp-article .journal-meta { margin-bottom: 10px; }
+/* Centered single-column legal pages (privacy, piracy, terms) — same
+   overall width as the article shell so the card matches article pages */
+.jp-article--legal {
+  grid-column: 1 / -1;
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+}
 .jp-article .journal-header h1 { font-size: 2rem; }
 .jp-prose {
   margin-top: 18px;
@@ -562,6 +570,12 @@ pre .copy-btn.copied {
   overflow-wrap: anywhere;
 }
 .jp-prose p { font-size: 1.02rem; line-height: 1.78; margin-bottom: 18px; }
+.jp-prose ul, .jp-prose ol { margin: 0 0 18px; padding-left: 1.4rem; }
+.jp-prose li { margin-bottom: 8px; }
+/* Body links use the site accent, never browser-default blue */
+.jp-prose a { color: var(--color-link-active); text-decoration: underline; text-underline-offset: 2px; }
+.jp-prose a:hover { color: var(--color-primary-dark); }
+[data-theme="dark"] .jp-prose a { color: var(--color-primary); }
 .jp-prose h2 { font-size: 1.45rem; margin: 28px 0 12px; }
 .jp-prose h3 { font-size: 1.18rem; margin: 22px 0 10px; }
 .jp-prose blockquote { border-left: 3px solid var(--color-primary); padding: 8px 14px; background: var(--color-bg-body); border-radius: 0 8px 8px 0; color: var(--color-text-secondary); }
