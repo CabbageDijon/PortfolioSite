@@ -2207,6 +2207,23 @@ var WEBSITE_DEMOS = [
     demoUrl: "/demos/kwena/",
     sourceUrl: "https://github.com/CabbageDijon/KwenaWaterWorks",
   },
+  {
+    id: "realestate",
+    title: "Estately Botswana",
+    description:
+      "A full real-estate platform for Botswana — filterable houses, apartments and commercial listings, property detail pages, agents, mortgage calculator and blog. Built with Next.js, React and Tailwind.",
+    tags: [
+      { label: "Next.js", cls: "" },
+      { label: "React", cls: "" },
+      { label: "Tailwind", cls: "" },
+    ],
+    badge: "Live",
+    badgeClass: "badge-live",
+    screenshot: "images/demos/websites/realestate-home.png",
+    screenshotAlt: "Estately Botswana homepage",
+    demoUrl: "https://realestate.cabscode.pro/",
+    sourceUrl: "https://github.com/CabbageDijon/RealEstAte",
+  },
 ];
 
 var websitesGrid = document.getElementById("websitesGrid");
