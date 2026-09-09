@@ -5,8 +5,7 @@ const path = require("path");
 const USAGE_PATH = process.env.AUDIT_USAGE_PATH || path.join(__dirname, "audit-usage.json");
 const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-3.5-flash-lite";
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
-const CSE_KEY = process.env.GOOGLE_CSE_KEY || "";
-const CSE_CX = process.env.GOOGLE_CSE_CX || "";
+const SERPER_API_KEY = process.env.SERPER_API_KEY || "";
 
 function shaEmail(email) {
   return crypto.createHash("sha256").update(String(email).toLowerCase().trim()).digest("hex");
@@ -82,7 +81,7 @@ async function geminiGenerate(promptObj, tier) {
   // Single call per action enforced by caller; this helper does exactly one fetch.
   var body = {
     contents: [{ role: "user", parts: [{ text: prompt }] }],
-    generationConfig: { temperature: 0.6, maxOutputTokens: tier === "p100" ? 1200 : tier === "p50" ? 700 : 500, responseMimeType: "application/json" }
+    generationConfig: { temperature: 0.4, maxOutputTokens: tier === "p100" ? 1200 : tier === "p50" ? 700 : 500, responseMimeType: "application/json" }
   };
   var controller = new AbortController();
   var t = setTimeout(function () { controller.abort(); }, 25000);
@@ -101,45 +100,67 @@ async function geminiGenerate(promptObj, tier) {
 function buildTermsPrompt(businessName, businessType, location, tier) {
   var n = tier === "p100" ? 10 : tier === "p50" ? 6 : 3;
   return {
-    task: "Generate Google search terms for a Botswana SEO audit. Must include: 1) exact business name as-is, 2) business type + location (e.g. 'plumber Gaborone'), and variations for customers looking for this service. Location: " + location + ". Business type: " + businessType + ".",
+    task: "Generate Google search terms for a Botswana SEO audit.",
+    instruction: "You generate local-intent Google search terms for a Botswana business. First term MUST be the exact business name as-is. Second term MUST be '{businessType} {location}'. Remaining terms are variations a real customer would type: 'near me', 'best {type} {location}', '{type} prices Botswana', Setswana synonym if natural, service-specific synonyms. Never emit generic words alone (Other, business, services). Ban 'Other' entirely. Botswana context: Gaborone/Francistown/Molepolole/Maun etc.",
     businessName: businessName,
     businessType: businessType,
     location: location,
     count: n,
-    constraints: "Terms must be local-intent. Include 'near me' and 'best X location' variants. No duplicates. Output JSON { terms: [string] } with exactly " + n + " terms, first term is business name as-is.",
+    examples: [
+      { input: { businessName: "Kwena Water Works", businessType: "water purification", location: "Gaborone" }, output: { terms: ["Kwena Water Works","water purification Gaborone","best water filters Gaborone","borehole water testing near me"] } },
+      { input: { businessName: "Maitse Bakery", businessType: "bakery", location: "Maun" }, output: { terms: ["Maitse Bakery","bakery Maun","best bakery Maun","cakes near me Maun","bread prices Botswana"] } }
+    ],
+    constraints: "Exactly " + n + " terms. First term is business name as-is. No duplicates, no 'Other'. Output JSON { terms: [string] } only.",
     output: "JSON only"
   };
 }
 
 function ensureMandatoryTerms(terms, businessName, businessType, location, n) {
-  var out = terms.slice();
+  // sanitize businessType: reject literal "Other"
+  if (String(businessType).toLowerCase().trim() === "other") businessType = "";
+  var out = terms.filter(function (t) { var l = String(t).toLowerCase().trim(); return l !== "other" && l !== ("other " + String(location).toLowerCase().trim()); }).slice();
   var low = out.map(function (t) { return String(t).toLowerCase().trim(); });
   if (low.indexOf(String(businessName).toLowerCase().trim()) === -1) out.unshift(businessName);
-  var combo = (businessType + " " + location).trim().toLowerCase();
-  if (low.indexOf(combo) === -1 && out.length < n + 2) {
-    if (out.length >= n) out.splice(1, 0, businessType + " " + location);
-    else out.push(businessType + " " + location);
+  if (businessType) {
+    var combo = (businessType + " " + location).trim().toLowerCase();
+    if (low.indexOf(combo) === -1 && out.length < n + 2) {
+      if (out.length >= n) out.splice(1, 0, businessType + " " + location);
+      else out.push(businessType + " " + location);
+    }
   }
   // dedupe
   var seen = {};
   var dedup = [];
   for (var i = 0; i < out.length; i++) { var k = String(out[i]).toLowerCase().trim(); if (!seen[k]) { seen[k] = 1; dedup.push(out[i]); } }
+  // final enrichment if still short and type available
+  while (dedup.length < n && businessType) {
+    var filler = [businessType + " near me", "best " + businessType + " " + location, businessType + " prices Botswana"];
+    var cand = filler[dedup.length % filler.length];
+    if (dedup.map(function(x){return x.toLowerCase()}).indexOf(cand.toLowerCase())===-1) dedup.push(cand);
+    else break;
+  }
   return dedup.slice(0, n);
 }
 
-async function cseSearch(term, pages) {
-  if (!CSE_KEY || !CSE_CX) return null; // no key -> mock
+async function serperSearch(term, pages) {
+  if (!SERPER_API_KEY) return null; // no key -> mock (dev)
   var all = [];
   for (var p = 0; p < pages; p++) {
-    var start = p * 10 + 1;
-    var url = "https://www.googleapis.com/customsearch/v1?key=" + encodeURIComponent(CSE_KEY) + "&cx=" + encodeURIComponent(CSE_CX) + "&q=" + encodeURIComponent(term) + "&num=10&start=" + start;
     var controller = new AbortController();
-    var t = setTimeout(function () { controller.abort(); }, 8000);
+    var t = setTimeout(function () { controller.abort(); }, 9000);
     try {
-      var res = await fetch(url, { signal: controller.signal });
+      var res = await fetch("https://google.serper.dev/search", {
+        method: "POST",
+        headers: { "X-API-KEY": SERPER_API_KEY, "Content-Type": "application/json" },
+        body: JSON.stringify({ q: term, num: 10, page: p + 1, gl: "bw", hl: "en" }),
+        signal: controller.signal
+      });
       var data = await res.json();
-      if (!res.ok) { all.push({ error: data.error && data.error.message }); continue; }
-      var items = (data.items || []).map(function (it, idx) { return { title: it.title, link: it.link, displayLink: it.displayLink, rank: start + idx }; });
+      if (!res.ok) { all.push({ page: p + 1, error: data.message || data.error || ("HTTP " + res.status) }); continue; }
+      var organic = data.organic || [];
+      var items = organic.map(function (it) { return { title: it.title, link: it.link, displayLink: (it.link ? (new URL(it.link).hostname) : ""), rank: it.position }; });
+      // Fallback rank if missing
+      items = items.map(function (it, idx) { if (!it.rank) it.rank = p * 10 + idx + 1; return it; });
       all.push({ page: p + 1, items: items });
     } catch (e) {
       all.push({ page: p + 1, error: String(e.message || e) });
@@ -147,6 +168,8 @@ async function cseSearch(term, pages) {
   }
   return all;
 }
+// keep cseSearch alias for backward compat
+var cseSearch = serperSearch;
 
 function inferPresence(cseResults, targetUrl) {
   var hasWebsite = false; var hasSocial = false; var sites = [];
@@ -220,10 +243,10 @@ function pickPreset(onPage, presence) {
 function buildAuditPrompt(payload, cseResults, onPage) {
   var compact = JSON.stringify({ business: payload, cse: cseResults, onPage: onPage }).slice(0, 6000);
   if (payload.tier === "p100") {
-    return { task: "You are an SEO analyst. Given Google Custom Search results (3 pages, up to 10 terms) and on-page checks, produce a full Google AI SEO recommendation. Be concise, Botswana-local, no fluff. Output JSON { score: number 0-100, verdict: string (one line), recommendation: string (markdown, prioritized steps), fixes: string[5-8] }. Score weights: presence + titles/desc + H1 + GBP. Recommendation must be actionable.", context: compact };
+    return { task: "You are an SEO analyst. Given Serper Google results (3 pages, up to 10 terms, gl=bw) and on-page checks, produce a full Google AI SEO recommendation. Be concise, Botswana-local, no fluff. Output JSON { score: number 0-100, verdict: string (one line), recommendation: string (markdown, prioritized steps), fixes: string[5-8] }. Score weights: presence + titles/desc + H1 + GBP. Recommendation must be actionable.", context: compact };
   }
   if (payload.tier === "p50") {
-    return { task: "You are an SEO analyst. Given CSE results (3 pages, 6 terms) and on-page checks, produce a lowdown: 4-6 sentences + 3 prioritized fixes. Output JSON { score: number 0-100, verdict: string, lowdown: string, fixes: string[3] }. Keep it minimal, local (Botswana).", context: compact };
+    return { task: "You are an SEO analyst. Given Serper Google results (3 pages, 6 terms, gl=bw) and on-page checks, produce a lowdown: 4-6 sentences + 3 prioritized fixes. Output JSON { score: number 0-100, verdict: string, lowdown: string, fixes: string[3] }. Keep it minimal, local (Botswana).", context: compact };
   }
   return null; // free = no Gemini audit
 }
@@ -241,6 +264,7 @@ module.exports = {
   buildTermsPrompt: buildTermsPrompt,
   ensureMandatoryTerms: ensureMandatoryTerms,
   cseSearch: cseSearch,
+  serperSearch: serperSearch,
   inferPresence: inferPresence,
   fetchOnPage: fetchOnPage,
   pickPreset: pickPreset,

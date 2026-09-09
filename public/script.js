@@ -126,6 +126,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // 2. Contact Form — JS Component Injection
   initContactForm();
 
+  // 2a-i. Footer email mini list
+  renderEmailList();
+
   // 2a. Service CTA pickers
   initServicePickers();
 
@@ -508,6 +511,43 @@ function initContactForm() {
   }
 }
 
+// --- Footer email mini list (single source of truth) ---
+// Shortnames render as real mailto: anchors, so right-click -> "Copy Email
+// Address" still yields the full address, exactly like the old Email link.
+var EMAIL_CONTACTS = [
+  {
+    short: "Services",
+    email: "services@cabscode.pro",
+    subject: "Project inquiry",
+    purpose: "Project inquiries and quotes — use this address for new work.",
+  },
+];
+
+function renderEmailList() {
+  var mount = document.getElementById("emailListMount");
+  if (!mount) return;
+  var html = '<ul class="email-list">';
+  for (var i = 0; i < EMAIL_CONTACTS.length; i++) {
+    var c = EMAIL_CONTACTS[i];
+    var href = "mailto:" + c.email;
+    var msgHref = href + "?subject=" + encodeURIComponent(c.subject || "Hello");
+    html += '<li class="email-row">';
+    html += '<a class="email-name" href="' + href + '">' + c.short + "</a>";
+    html += '<a class="email-msg" href="' + msgHref + '">Message</a>';
+    html +=
+      '<span class="email-tip" tabindex="0" role="note" aria-label="' +
+      c.short +
+      ": " +
+      c.purpose +
+      '">';
+    html += '<span class="email-tip-q" aria-hidden="true">?</span>';
+    html += '<span class="email-tip-text">' + c.purpose + "</span>";
+    html += "</span></li>";
+  }
+  html += "</ul>";
+  mount.innerHTML = html;
+}
+
 function initPhoneFilter() {
   var phoneInput = document.getElementById("contact-phone");
   var countrySelect = document.getElementById("countryCode");
@@ -842,6 +882,7 @@ function initSeoAudit() {
   var cancelBtn = document.getElementById("seoCancel");
   var nameEl = document.getElementById("seoName");
   var typeEl = document.getElementById("seoType");
+  var typeOtherEl = document.getElementById("seoTypeOther");
   var locEl = document.getElementById("seoLocation");
   var urlEl = document.getElementById("seoUrl");
   var emailEl = document.getElementById("seoEmail");
@@ -880,6 +921,11 @@ function initSeoAudit() {
   }
   function getLocation() {
     return (locEl.value || "").trim();
+  }
+  function getBusinessType() {
+    var v = (typeEl.value || "").trim();
+    if (v === "Other") return (typeOtherEl.value || "").trim();
+    return v;
   }
   function openAudit() {
     if (grid) grid.classList.add("is-picking");
@@ -959,6 +1005,12 @@ function initSeoAudit() {
     }
   }
 
+  if (typeEl && typeOtherEl) {
+    typeEl.addEventListener("change", function () {
+      if (typeEl.value === "Other") typeOtherEl.classList.remove("hidden");
+      else typeOtherEl.classList.add("hidden");
+    });
+  }
   document.querySelectorAll('input[name="seoTarget"]').forEach(function (r) {
     r.addEventListener("change", onTargetChange);
   });
@@ -1000,10 +1052,11 @@ function initSeoAudit() {
 
   function validForTerms() {
     var name = (nameEl.value || "").trim();
-    var type = (typeEl.value || "").trim();
+    var type = getBusinessType();
     var loc = getLocation();
     if (!name) { setStatus("Enter business name.", true); return false; }
-    if (!type) { setStatus("Select business type.", true); return false; }
+    if (!type) { setStatus("Select business type — choose one or describe your business.", true); return false; }
+    if (type.toLowerCase() === "other" && !(typeOtherEl.value || "").trim()) { setStatus("Describe your business type for Other.", true); return false; }
     if (!loc) { setStatus("Enter location.", true); return false; }
     return true;
   }
@@ -1023,7 +1076,7 @@ function initSeoAudit() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             businessName: (nameEl.value || "").trim(),
-            businessType: (typeEl.value || "").trim(),
+            businessType: getBusinessType(),
             location: getLocation(),
             tier: tier,
             _timestamp: tsEl.value,
@@ -1079,7 +1132,7 @@ function initSeoAudit() {
       try {
         var body = {
           businessName: (nameEl.value || "").trim(),
-          businessType: (typeEl.value || "").trim(),
+          businessType: getBusinessType(),
           location: getLocation(),
           target: target,
           url: url,

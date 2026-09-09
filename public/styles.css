@@ -545,6 +545,93 @@ footer {
   color: var(--color-primary);
 }
 
+/* Footer email mini list: shortname link + Message button + purpose "?" */
+.email-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.email-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-col .email-list a {
+  margin-bottom: 0;
+}
+
+.email-msg {
+  font-size: 0.78rem;
+  line-height: 1;
+  padding: 5px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.email-msg:hover {
+  border-color: var(--color-primary);
+}
+
+.email-tip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  cursor: help;
+}
+
+.email-tip-q {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  border: 1px solid var(--color-text-secondary);
+  border-radius: 50%;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.email-tip:focus {
+  outline: none;
+}
+
+.email-tip:focus-visible .email-tip-q {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.email-tip-text {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: -8px;
+  width: 220px;
+  padding: 10px 12px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 0 8px 20px var(--shadow-card-hover);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  text-align: left;
+  z-index: 20;
+}
+
+.email-tip:hover .email-tip-text,
+.email-tip:focus .email-tip-text {
+  display: block;
+}
+
 .footer-form {
   display: flex;
   flex-direction: column;

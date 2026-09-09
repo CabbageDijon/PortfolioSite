@@ -280,6 +280,7 @@ app.post("/api/seo-audit/terms", async (req, res) => {
   var tier = req.body.tier === "p100" ? "p100" : req.body.tier === "p50" ? "p50" : "free";
   if (!businessName) return res.status(400).json({ error: "Business name required." });
   if (!businessType) return res.status(400).json({ error: "Business type required." });
+  if (businessType.toLowerCase() === "other") return res.status(400).json({ error: "Please describe your business type for Other." });
   if (!location) return res.status(400).json({ error: "Location required." });
   var n = tier === "p100" ? 10 : tier === "p50" ? 6 : 3;
   if (!process.env.GEMINI_API_KEY) {
@@ -316,6 +317,7 @@ app.post("/api/seo-audit/run", async (req, res) => {
   var target = req.body.target === "facebook" ? "facebook" : req.body.target === "website" ? "website" : "name";
   var url = String(req.body.url || "").trim();
   if (!businessName || !businessType || !location) return res.status(400).json({ error: "Business name, type and location required." });
+  if (businessType.toLowerCase() === "other") return res.status(400).json({ error: "Please describe your business type for Other." });
   if (!terms.length) return res.status(400).json({ error: "At least one search term required." });
   if (target !== "name" && !url) return res.status(400).json({ error: "URL required for website / Facebook target." });
   if (url) {
@@ -417,7 +419,47 @@ app.post("/api/seo-audit/run", async (req, res) => {
     seoAudit.clearCode(email);
   }
 
+  // Owner notification — fire-and-forget to cabscode@gmail.com (CONTACT_EMAIL)
+  if (smtpConfigured) {
+    var ownerSubject = "[SEO Audit " + tier.toUpperCase() + "] " + businessName + " (" + email + ") — " + payload.verdict;
+    var ownerText = "New SEO Audit\n\nBusiness: " + businessName + "\nType: " + businessType + "\nLocation: " + location + "\nEmail: " + email + "\nTier: " + tier + "\nTarget: " + target + (url ? " (" + url + ")" : "") + "\nScore: " + payload.score + "/100 — " + payload.verdict + "\nPresence: " + (presence ? presence.label : "") + "\nPreset: " + (preset ? preset.title : "") + "\nTerms: " + terms.join(" | ") + "\n" + (payload.lowdown ? "\nLowdown: " + payload.lowdown : "") + (payload.recommendation ? "\nRecommendation: " + payload.recommendation.slice(0,800) : "") + "\n\nFull JSON:\n" + JSON.stringify(payload,null,2).slice(0,8000);
+    transporter.sendMail({
+      from: '"CabsCode SEO Audit" <' + process.env.MAIL_FROM + ">",
+      to: process.env.CONTACT_EMAIL,
+      replyTo: email || undefined,
+      subject: ownerSubject,
+      text: ownerText,
+      html: "<h2>New SEO Audit — " + escapeHtml(tier.toUpperCase()) + "</h2><p><strong>Business:</strong> " + escapeHtml(businessName) + "</p><p><strong>Type:</strong> " + escapeHtml(businessType) + "</p><p><strong>Location:</strong> " + escapeHtml(location) + "</p><p><strong>Email:</strong> " + escapeHtml(email) + "</p><p><strong>Tier:</strong> " + escapeHtml(tier) + "</p><p><strong>Target:</strong> " + escapeHtml(target) + (url ? " (" + escapeHtml(url) + ")" : "") + "</p><p><strong>Score:</strong> " + payload.score + "/100 — " + escapeHtml(payload.verdict) + "</p><p><strong>Presence:</strong> " + escapeHtml(presence ? presence.label : "") + "</p><p><strong>Preset:</strong> " + escapeHtml(preset ? preset.title : "") + "</p><p><strong>Terms:</strong> " + escapeHtml(terms.join(" | ")) + "</p>" + (payload.lowdown ? "<p><strong>Lowdown:</strong> " + escapeHtml(payload.lowdown) + "</p>" : "") + (payload.recommendation ? "<div><strong>Recommendation:</strong><br/>" + escapeHtml(payload.recommendation.slice(0,1000)).replace(/\n/g,"<br/>") + "</div>" : "")
+    }).catch(function(e){ console.error("SEO owner mail fail", e); });
+  }
+
   res.json(payload);
+});
+
+app.post("/api/seo-audit/mint-token", async (req, res) => {
+  const adminToken = process.env.ADMIN_TOKEN || process.env.PAID_AUDIT_SECRET || "";
+  const provided = String(req.headers["x-admin-token"] || req.body.adminToken || "").trim();
+  if (!adminToken || provided !== adminToken) {
+    return res.status(401).json({ error: "Unauthorized. Provide x-admin-token header matching ADMIN_TOKEN (or PAID_AUDIT_SECRET if ADMIN_TOKEN not set)." });
+  }
+  const email = String(req.body.email || "").trim();
+  const tier = String(req.body.tier || "").toLowerCase().trim();
+  if (!email || !isValidEmail(email)) return res.status(400).json({ error: "Valid email required." });
+  if (tier !== "p50" && tier !== "p100") return res.status(400).json({ error: "tier must be p50 or p100." });
+  const crypto = require("crypto");
+  const h = crypto.createHash("sha256").update(email.toLowerCase().trim()).digest("hex");
+  const sig = crypto.createHmac("sha256", process.env.PAID_AUDIT_SECRET || adminToken).update(tier + ":" + h).digest("hex").slice(0,16);
+  const token = `${tier}.${h}.${sig}`;
+  if (smtpConfigured) {
+    transporter.sendMail({
+      from: '"CabsCode SEO Audit" <' + process.env.MAIL_FROM + ">",
+      to: process.env.CONTACT_EMAIL,
+      subject: "[Token issued " + tier.toUpperCase() + "] " + email,
+      text: "Token issued for " + email + " (" + tier + "):\n" + token + "\n\nSend this to customer via WhatsApp/email.",
+      html: "<p>Token issued for <strong>" + escapeHtml(email) + "</strong> (" + escapeHtml(tier) + "):</p><p style='font-family:monospace;word-break:break-all;background:#f4f7f5;padding:10px;border-radius:6px'>" + escapeHtml(token) + "</p>"
+    }).catch(function(e){ console.error("mint-token owner mail fail", e); });
+  }
+  res.json({ email, tier, token, note: "Send this token to the customer — they paste it into Paid unlock token." });
 });
 
 app.get("/api/health", (_req, res) => {

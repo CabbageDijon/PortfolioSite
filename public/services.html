@@ -29,14 +29,15 @@
     <meta name="twitter:image" content="https://cabscode.pro/images/favicon.png" />
     <link rel="canonical" href="https://cabscode.pro/services" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
-    <link rel="icon" href="images/favicon.png" />
+    <link rel="icon" href="images/favicon.png?v=20260909" />
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png?v=20260909" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=2.16" />
+    <link rel="stylesheet" href="styles.css?v=2.17" />
     <link rel="stylesheet" href="services.css?v=2.27" />
     <link rel="stylesheet" href="icons/social.css?v=1.0" />
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
@@ -287,6 +288,20 @@
                   <option>Real Estate</option>
                   <option>Other</option>
                 </select>
+                <input type="text" id="seoTypeOther" class="hidden" placeholder="Describe your business, e.g. Plumber, Bakery, Safari lodge" list="seoTypeList" autocomplete="organization-title" />
+                <datalist id="seoTypeList">
+                  <option value="Plumber"></option>
+                  <option value="Electrician"></option>
+                  <option value="Bakery"></option>
+                  <option value="Restaurant"></option>
+                  <option value="Guesthouse"></option>
+                  <option value="Safari operator"></option>
+                  <option value="Salon"></option>
+                  <option value="Car wash"></option>
+                  <option value="Tutor"></option>
+                  <option value="Law firm"></option>
+                  <option value="Clinic"></option>
+                </datalist>
               </div>
               <div>
                 <label class="seo-label" for="seoLocation">Location</label>
@@ -552,7 +567,9 @@
           <h4>Connect</h4>
           <a href="https://www.linkedin.com/in/tema-bown-2441b73a3/" target="_blank" rel="noopener">LinkedIn</a>
           <a href="https://github.com/CabbageDijon" target="_blank">GitHub</a>
-          <a href="mailto:services@cabscode.pro">Email</a>
+          <div id="emailListMount">
+            <a href="mailto:services@cabscode.pro">Email</a>
+          </div>
         </div>
 
         <div class="footer-col">
@@ -572,7 +589,7 @@
     </footer>
 
     <script src="phone-lengths.js?v=2.26"></script>
-    <script src="script.js?v=2.31"></script>
+    <script src="script.js?v=2.32"></script>
     <script>
       lucide.createIcons();
       if (window.CcIcons) CcIcons.createIcons();
