@@ -1318,67 +1318,123 @@ var QUOTE_TIERS = [
     maxPrice: 800,
     minPages: 1,
     maxPages: 3,
+    pagesLabel: "1–3 Pages",
     revisions: "1 round of revisions",
+    promise: "Get Found Fast — live in 7 days, gets you on Google + WhatsApp.",
     blurb:
-      "Get Found Fast — micro/info site for side hustlers & sole traders. Fast 3-page max, WhatsApp & contact form included. Extra pages stay at P100 (same as inside).",
+      "Get Found Fast — 1–3 page micro/info site for side hustlers, sole traders & Main Mall shops. Live in 7 days, gets you on Google + WhatsApp. Extra pages P100, copywriting P200/page.",
+    includes: [
+      "Mobile bar: tap-to-call, WhatsApp, directions",
+      "Rich link previews on WhatsApp & Facebook",
+      "Automatic Open/Closed badge",
+      "Google setup: sitemap + business details",
+      "QR code pack for counter & flyers",
+      "\u201cSave my contact\u201d button",
+    ],
+    upgradeHint:
+      "Most clients upgrade to Standard to get Google Reviews + Gallery + Booking Lite — included free, worth P800+",
   },
   {
     id: "standard",
     title: "Standard Site",
     icon: "building-2",
-    minPrice: 1150,
-    maxPrice: 1350,
+    minPrice: 2000,
+    maxPrice: 2200,
     minPages: 4,
     maxPages: 6,
+    pagesLabel: "4–6 Pages",
+    badge: "MOST POPULAR",
     revisions: "2 rounds of revisions",
+    promise: "Look Established — looks credible, stops DM chaos.",
     blurb:
-      "Look Established — full SME layout with Google Maps pin + Social proof bar. Not buyable on Base at any price; that trust is the jump (vs. piling +P100 pages).",
+      "Look Established — 4–6 page site for salons, barbers, gyms, bakeries & driving schools (Block 6/8/Broadhurst). Looks credible, stops DM chaos. Extra pages P100, copywriting P200/page.",
+    includes: [
+      "Google Reviews + star rating",
+      "FAQ section that shows on Google",
+      "Photo gallery (before/after)",
+      "Lite speed boost for images",
+      "Simple booking calendar (free)",
+      "Instagram feed lite",
+      "WhatsApp chat widget (free)",
+      "Google titles & descriptions (free)",
+    ],
+    upgradeHint:
+      "Upgrade to Advanced to edit your own blog/portfolio, get Form\u2192WhatsApp CRM, and get GA4/Search Console connected — so you can grow without rebuilding. Includes Newsletter + Site Search.",
   },
   {
     id: "advanced",
     title: "Advanced Site",
     icon: "sparkles",
-    minPrice: 1650,
-    maxPrice: 2150,
+    minPrice: 3400,
+    maxPrice: 3900,
     minPages: 7,
     maxPages: 12,
+    pagesLabel: "7–12 Pages",
     revisions: "2 rounds of revisions",
+    promise: "Grow Without Rebuild — tender-ready, you can update it yourself.",
     blurb:
-      "Grow Without Rebuild — corporate/dynamic with self-serve Blog/Portfolio upload, Advanced lead forms & GA4/Search Console plumbing. The CMS is the jump.",
+      "Grow Without Rebuild — 7–12 page site for law firms, accountants, construction, NGOs & hardware (Fairgrounds/CBD/Industrial). Tender-ready, you can update it yourself. Extra pages P100, copywriting P200/page.",
+    includes: [
+      "Edit your blog & portfolio yourself",
+      "Enquiry form sends leads to your WhatsApp",
+      "\u201cDumela / Hello\u201d greeting switch",
+      "Site search + newsletter signup",
+      "Announcement bar you control",
+      "Google visitor stats connected (free)",
+      "Publish news posts yourself (free)",
+    ],
+    upgradeHint:
+      "Upgrade to E-commerce when you want to take payment and bookings directly and stop paying 15% commission to Booking.com / middlemen. Includes Store + Data Saver Mode + Add to Home Screen app feel.",
   },
   {
     id: "ecommerce",
     title: "E-commerce Site",
     icon: "shopping-cart",
     quoteOnly: true,
+    pagesLabel: "Store",
+    promise: "Sell While You Sleep — direct sales, less commission.",
     blurb:
-      "Full online store with cart, checkout & stock management. Custom quote.",
+      "Sell While You Sleep — full online store for guest houses, lodges & retail shops. Cart, checkout & stock management. Custom quote. Extra pages P100, copywriting P200/page.",
+    includes: [
+      "Store with cart, checkout & stock alerts",
+      "Mobile-money how-to-pay page (lite)",
+      "WhatsApp reminder for abandoned carts",
+      "Add-to-Home-Screen app feel (Android)",
+      "Data-saver mode for buyers on mobile data",
+    ],
+    upgradeHint: "",
   },
 ];
 
 var QUOTE_ADDONS = [
-  { id: "logo", label: "Logo & brand starter", price: 400, icon: "palette", tip: "Starter mark + wordmark, favicon and social avatar. AI-drafted, human-refined — no full brand manual." },
-  { id: "booking", label: "Online booking / scheduling", price: 700, icon: "calendar-check", tip: "Calendly (free tier) or AI-built slot picker — no paid SaaS. You own the calendar." },
-  { id: "gateway", label: "Card Gateway Setup (DPO / PayGate)", price: 800, icon: "credit-card", tip: "DPO Pay / PayGate sandbox (free) + AI-generated checkout snippet. Client pays gateway fees, not you." },
-  { id: "momo", label: "Mobile Money (Orange Money / MyZaka)", price: 600, icon: "smartphone", tip: "Orange Money API + MyZaka merchant portal (free test) + AI callback handler. Keep card gateway separate." },
-  { id: "multilang", label: "Multi-language switcher (English / Setswana)", price: 600, icon: "languages" },
+  { id: "logo", label: "Logo & brand starter", price: 400, icon: "palette", freeIn: [], tip: "Starter mark + wordmark, favicon and social avatar. AI-drafted, human-refined — no full brand manual." },
+  { id: "booking", label: "Online booking / scheduling", price: 700, icon: "calendar-check", freeIn: [], tip: "Full booking build. Calendly Lite embed is already included free in Standard+ — this is the deeper custom scheduling setup." },
+  { id: "gateway", label: "Card Gateway Setup (DPO / PayGate)", price: 800, icon: "credit-card", freeIn: [], tip: "DPO Pay / PayGate sandbox (free) + AI-generated checkout snippet. Client pays gateway fees, not you." },
+  { id: "momo", label: "Mobile Money (Orange Money / MyZaka)", price: 600, icon: "smartphone", freeIn: [], tip: "Full API integration. E-commerce already includes the lite instructions page — this is the live API callback handler." },
+  { id: "multilang", label: "Multi-language switcher (English / Setswana)", price: 600, icon: "languages", freeIn: [], tip: "Full-site switcher. Advanced already includes the lite EN/TN hero greeting toggle." },
   {
     id: "domain",
     label: "Domain & hosting setup",
     price: 400,
     icon: "globe",
+    freeIn: [],
     tip: "Hosting provider is provided by the client. This add-on is the 12-month domain + help moving files to the host and tying the domain to the website.",
   },
-  { id: "seo-basic", label: "Basic SEO — meta tag optimizations", price: 250, icon: "tag", tip: "Titles + descriptions for up to 5 pages. Free check with Google Search Console." },
-  { id: "seo", label: "SEO Foundations + AI Listing Pack", price: 700, icon: "search", tip: "Foundational search visibility for up to 8 pages — meta titles/descriptions, sitemap.xml, Search Console submit, AI listing SEO (llms.txt + structured data for ChatGPT/Perplexity) + 1-page speed pass. No instant rankings; off-page link building & copy excluded." },
-  { id: "google-business", label: "Google Business Profile + Maps Pin", price: 300, icon: "map-pin", tip: "Claim & verify on Google (free) + tuned Maps embed. Best first win for BW side-hustles on ‘near me’ searches." },
-  { id: "whatsapp", label: "WhatsApp Click-to-Chat Widget", price: 250, icon: "message-circle", tip: "Floating wa.me widget + pre-filled message + call button. Free JS snippet, AI-generated — no SaaS." },
-  { id: "blog", label: "Blog / News Upload (Self-Serve)", price: 500, icon: "file-text", tip: "Client can publish posts without you. Free: Decap CMS (admin/ folder) or AI-made markdown parser reading /content/blog.json — static, no DB." },
-  { id: "analytics", label: "Analytics + Search Console Setup", price: 300, icon: "bar-chart-3", tip: "GA4 + GSC verified + sitemap submit. Free Google tools — I wire, you own the account." },
-  { id: "images", label: "Stock Image Pack + Compression", price: 250, icon: "image", tip: "10 curated Pexels/Unsplash (free) images, WebP + srcset via Squoosh/sharp (free) — unblocks handover fast." },
-  { id: "speed", label: "Speed Pass", price: 400, icon: "zap", tip: "Lighthouse pass, lazy-load, image CDN hints. Checked with PageSpeed Insights (free)." },
-  { id: "social", label: "Social Feed Embed", price: 300, icon: "share-2", tip: "FB Page / IG grid embed (free) — static embed code, no API keys to maintain." },
+  { id: "seo-basic", label: "Basic SEO — meta tag optimizations", price: 250, icon: "tag", freeIn: ["standard", "advanced", "ecommerce"], tip: "Titles + descriptions for up to 5 pages. Free check with Google Search Console. Included free lite in Standard+." },
+  { id: "seo", label: "SEO Foundations + AI Listing Pack", price: 700, icon: "search", freeIn: [], tip: "Foundational search visibility for up to 8 pages — meta titles/descriptions, sitemap.xml, Search Console submit, AI listing SEO (llms.txt + structured data for ChatGPT/Perplexity) + 1-page speed pass. No instant rankings; off-page link building & copy excluded." },
+  { id: "google-business", label: "Google Business Profile + Maps Pin", price: 300, icon: "map-pin", freeIn: [], tip: "Claim & verify on Google (free) + tuned Maps embed. Best first win for BW side-hustles on ‘near me’ searches." },
+  { id: "whatsapp", label: "WhatsApp Click-to-Chat Widget", price: 250, icon: "message-circle", freeIn: ["standard", "advanced", "ecommerce"], tip: "Floating wa.me widget + pre-filled message + call button. Free JS snippet, AI-generated — no SaaS. Included free in Standard+." },
+  { id: "blog", label: "Blog / News Upload (Self-Serve)", price: 500, icon: "file-text", freeIn: ["advanced", "ecommerce"], tip: "Full self-serve build. Advanced+ already includes the basic self-serve version — this is the deeper custom setup. Free: Decap CMS (admin/ folder) or AI-made markdown parser reading /content/blog.json — static, no DB." },
+  { id: "analytics", label: "Analytics + Search Console Setup", price: 300, icon: "bar-chart-3", freeIn: ["advanced", "ecommerce"], tip: "GA4 + GSC verified + sitemap submit. Free Google tools — I wire, you own the account. Included free basic in Advanced+." },
+  { id: "images", label: "Stock Image Pack + Compression", price: 250, icon: "image", freeIn: [], tip: "10 curated Pexels/Unsplash (free) images, WebP + srcset via Squoosh/sharp (free) — unblocks handover fast. Speed Lite lazy-load/compression is already free in Standard+." },
+  { id: "speed", label: "Speed Pass", price: 400, icon: "zap", freeIn: [], tip: "Full Lighthouse pass, image CDN hints. Checked with PageSpeed Insights (free). Speed Lite (lazy-load + compression) is already free in Standard+." },
+  { id: "social", label: "Social Feed Embed", price: 300, icon: "share-2", freeIn: [], tip: "FB Page / IG grid embed (free) — static embed code, no API keys to maintain. Instagram feed lite is already free in Standard+." },
 ];
+
+function isAddonIncluded(addon, tierId) {
+  if (!addon || !tierId) return false;
+  return (addon.freeIn || []).indexOf(tierId) !== -1;
+}
 
 var QUOTE_MONTHLY_ADDONS = [
   {
@@ -1480,6 +1536,7 @@ function initQuoteMaker() {
     });
     if (addonsWrap) addonsWrap.querySelectorAll('input[type="checkbox"]').forEach(function (cb) { cb.checked = false; });
     if (monthlyAddonsWrap) monthlyAddonsWrap.querySelectorAll('input[type="checkbox"]').forEach(function (cb) { cb.checked = false; });
+    refreshAddonIncludedState();
     if (statusEl) { statusEl.textContent = ""; statusEl.className = "quote-request-status"; }
     if (requestForm) {
       var eInput = requestForm.querySelector("#quote-email");
@@ -1534,9 +1591,22 @@ function initQuoteMaker() {
 
   function selectedAddons() {
     var list = [];
+    var tierId = state.tier ? state.tier.id : null;
     checkedIds(addonsWrap).forEach(function (id) {
       QUOTE_ADDONS.forEach(function (a) {
-        if (a.id === id) list.push(a);
+        if (a.id === id && !isAddonIncluded(a, tierId)) list.push(a);
+      });
+    });
+    return list;
+  }
+
+  function includedAddons() {
+    var list = [];
+    var tierId = state.tier ? state.tier.id : null;
+    if (!tierId) return list;
+    checkedIds(addonsWrap).forEach(function (id) {
+      QUOTE_ADDONS.forEach(function (a) {
+        if (a.id === id && isAddonIncluded(a, tierId)) list.push(a);
       });
     });
     return list;
@@ -1588,6 +1658,9 @@ function initQuoteMaker() {
     if (!tier) return null;
     var addons = selectedAddons().map(function (a) {
       return { label: a.label, price: a.price };
+    });
+    includedAddons().forEach(function (a) {
+      addons.push({ label: a.label + " (Included)", price: 0 });
     });
     if (state.copyPages > 0) {
       addons.push({
@@ -1709,6 +1782,9 @@ function initQuoteMaker() {
     selectedAddons().forEach(function (a) {
       rows.push({ label: a.label, price: a.price });
     });
+    includedAddons().forEach(function (a) {
+      rows.push({ label: a.label, price: 0, included: true });
+    });
 
     if (rows.length === 1) {
       summaryLines.innerHTML =
@@ -1717,10 +1793,10 @@ function initQuoteMaker() {
       summaryLines.innerHTML = rows
         .map(function (r) {
           return (
-            '<li class="quote-line"><span>' +
+            '<li class="quote-line' + (r.included ? " quote-line-included" : "") + '"><span>' +
             r.label +
-            '</span><span class="quote-line-price">P' +
-            r.price.toLocaleString() +
+            '</span><span class="quote-line-price">' +
+            (r.included ? "Included" : "P" + r.price.toLocaleString()) +
             "</span></li>"
           );
         })
@@ -1763,6 +1839,10 @@ function initQuoteMaker() {
       return a.label;
     });
     if (adds.length) lines.push("One-time add-ons: " + adds.join(", "));
+    var included = includedAddons().map(function (a) {
+      return a.label;
+    });
+    if (included.length) lines.push("Included free in " + tier.title + ": " + included.join(", "));
     var monthly = selectedMonthlyAddons().map(function (a) {
       return a.label + " (P" + effectiveMonthlyPrice(a).toLocaleString() + "/" + a.per + ")";
     });
@@ -1794,15 +1874,29 @@ function initQuoteMaker() {
   }
 
   // --- Render tiers ---
+  function tierIncludesPrefix(id) {
+    if (id === "standard") return "Everything in Base, plus:";
+    if (id === "advanced") return "Everything in Standard, plus:";
+    if (id === "ecommerce") return "Everything in Advanced, plus:";
+    return "";
+  }
   tiersWrap.innerHTML = QUOTE_TIERS.map(function (t) {
+    var includes = (t.includes || [])
+      .map(function (item) {
+        return '<li>' + item + "</li>";
+      })
+      .join("");
+    var prefix = tierIncludesPrefix(t.id);
     return (
-      '<button type="button" class="quote-tier" data-tier="' +
+      '<button type="button" class="quote-tier' + (t.badge ? " quote-tier-featured" : "") + '" data-tier="' +
       t.id +
       '" aria-pressed="false">' +
+      (t.badge ? '<span class="quote-tier-badge">' + t.badge + "</span>" : "") +
       '<span class="quote-tier-icon"><i data-lucide="' +
       t.icon +
       '"></i></span>' +
       '<span class="quote-tier-name">' + t.title + "</span>" +
+      (t.pagesLabel ? '<span class="quote-tier-range">' + t.pagesLabel + "</span>" : "") +
       '<span class="quote-tier-price">' +
       (t.quoteOnly
         ? "Custom quote"
@@ -1811,7 +1905,23 @@ function initQuoteMaker() {
       (t.revisions
         ? '<span class="quote-tier-revisions">' + t.revisions + "</span>"
         : "") +
-      '<span class="quote-tier-blurb">' + t.blurb + "</span>" +
+      (includes
+        ? '<span class="quote-tier-includes-title">' +
+          (prefix || "Included free:") +
+          '</span><ul class="quote-tier-includes">' +
+          includes +
+          "</ul>"
+        : "") +
+      (t.upgradeHint
+        ? '<span class="quote-tier-why">Why upgrade' +
+          '<span class="quote-addon-tip" tabindex="0" role="note" aria-label="Why upgrade ' +
+          t.title +
+          '">' +
+          '<span class="quote-tier-why-q">?</span>' +
+          '<span class="quote-addon-tip-text">' +
+          t.upgradeHint +
+          "</span></span></span>"
+        : "") +
       "</button>"
     );
   }).join("");
@@ -1831,7 +1941,9 @@ function initQuoteMaker() {
   }
 
   tiersWrap.querySelectorAll(".quote-tier").forEach(function (btn) {
-    btn.addEventListener("click", function () {
+    btn.addEventListener("click", function (e) {
+      // Tooltip "?" handles its own interaction — don't (de)select the tier.
+      if (e.target && e.target.closest && e.target.closest(".quote-addon-tip")) return;
       var id = btn.getAttribute("data-tier");
       var tier = null;
       QUOTE_TIERS.forEach(function (t) {
@@ -1854,11 +1966,28 @@ function initQuoteMaker() {
         qtyWrap.classList.toggle("hidden", !!tier.quoteOnly);
       }
       syncPageStepper();
+      refreshAddonIncludedState();
       renderSummary();
     });
   });
 
   // --- Render add-ons ---
+  function refreshAddonIncludedState() {
+    var tierId = state.tier ? state.tier.id : null;
+    QUOTE_ADDONS.forEach(function (a) {
+      var label = addonsWrap.querySelector('.quote-addon[data-addon-wrap="' + a.id + '"]');
+      if (!label) return;
+      var box = label.querySelector('input[type="checkbox"]');
+      var priceEl = label.querySelector(".quote-addon-price");
+      var included = isAddonIncluded(a, tierId);
+      label.classList.toggle("is-included", included);
+      // Included features are part of the tier — not selectable, never charged.
+      if (box) box.disabled = included;
+      if (priceEl) {
+        priceEl.textContent = included ? "Included" : "P" + a.price;
+      }
+    });
+  }
   function renderAddon(wrap, list, withPer) {
     wrap.innerHTML = list
       .map(function (a) {
@@ -1875,6 +2004,7 @@ function initQuoteMaker() {
           : "";
         return (
           '<label class="quote-addon" data-addon-wrap="' + a.id + '">' +
+          '<span class="quote-addon-top">' +
           '<input type="checkbox" data-addon="' + a.id + '" />' +
           '<span class="quote-addon-icon"><i data-lucide="' +
           a.icon +
@@ -1882,6 +2012,7 @@ function initQuoteMaker() {
           '<span class="quote-addon-label">' +
           a.label +
           tip +
+          "</span>" +
           "</span>" +
           '<span class="quote-addon-price">' + price + "</span>" +
           "</label>"
@@ -1891,6 +2022,7 @@ function initQuoteMaker() {
   }
   renderAddon(addonsWrap, QUOTE_ADDONS, false);
   renderAddon(monthlyAddonsWrap, QUOTE_MONTHLY_ADDONS, true);
+  refreshAddonIncludedState();
 
   addonsWrap.addEventListener("change", renderSummary);
   monthlyAddonsWrap.addEventListener("change", renderSummary);
@@ -2188,7 +2320,9 @@ codeBlocks.forEach(function (code) {
 });
 
 // --- Websites & Concepts: data-driven demo cards ---
-// Add a new demo here (one entry + one screenshot in images/demos/websites/).
+// Add a new demo here (one entry + screenshots in images/demos/websites/).
+// `showcase` lists the main pages only — no property-detail or footer/legal
+// pages. Missing image files are skipped automatically (see openDemoPreview).
 var WEBSITE_DEMOS = [
   {
     id: "kwena",
@@ -2196,9 +2330,9 @@ var WEBSITE_DEMOS = [
     description:
       "A full business site for a Botswana water & filtration company — hero, stats, featured products, services, contact and Google Maps. Built with plain HTML, CSS and JavaScript.",
     tags: [
-      { label: "HTML/CSS", cls: "" },
+      { label: "HTML/CSS", cls: "htmlcss" },
       { label: "JavaScript", cls: "js" },
-      { label: "Responsive", cls: "" },
+      { label: "Responsive", cls: "responsive" },
     ],
     badge: "Live",
     badgeClass: "badge-live",
@@ -2206,6 +2340,12 @@ var WEBSITE_DEMOS = [
     screenshotAlt: "Kwena Water Works homepage",
     demoUrl: "/demos/kwena/",
     sourceUrl: "https://github.com/CabbageDijon/KwenaWaterWorks",
+    showcase: [
+      { label: "Home", img: "images/demos/websites/kwena-home.png", alt: "Kwena Water Works — Home page" },
+      { label: "Products", img: "images/demos/websites/kwena-products.png", alt: "Kwena Water Works — Products page" },
+      { label: "Services", img: "images/demos/websites/kwena-services.png", alt: "Kwena Water Works — Services page" },
+      { label: "Contact", img: "images/demos/websites/kwena-contact.png", alt: "Kwena Water Works — Contact page" },
+    ],
   },
   {
     id: "realestate",
@@ -2213,16 +2353,22 @@ var WEBSITE_DEMOS = [
     description:
       "A full real-estate platform for Botswana — filterable houses, apartments and commercial listings, property detail pages, agents, mortgage calculator and blog. Built with Next.js, React and Tailwind.",
     tags: [
-      { label: "Next.js", cls: "" },
-      { label: "React", cls: "" },
-      { label: "Tailwind", cls: "" },
+      { label: "Next.js", cls: "next" },
+      { label: "React", cls: "react" },
+      { label: "Tailwind", cls: "tailwind" },
     ],
     badge: "Live",
     badgeClass: "badge-live",
-    screenshot: "images/demos/websites/realestate-home.png",
+    screenshot: "images/demos/websites/realestate-home.png?v=2",
     screenshotAlt: "Estately Botswana homepage",
-    demoUrl: "https://realestate.cabscode.pro/",
+    demoUrl: "https://estately.cabscode.pro/",
     sourceUrl: "https://github.com/CabbageDijon/RealEstAte",
+    showcase: [
+      { label: "Home", img: "images/demos/websites/realestate-home.png?v=2", alt: "Estately Botswana — Home page" },
+      { label: "About", img: "images/demos/websites/realestate-about.png", alt: "Estately Botswana — About page" },
+      { label: "Houses", img: "images/demos/websites/realestate-houses.png", alt: "Estately Botswana — Houses for sale page" },
+      { label: "Contact", img: "images/demos/websites/realestate-contact.png", alt: "Estately Botswana — Contact page" },
+    ],
   },
 ];
 
@@ -2266,11 +2412,10 @@ if (websitesGrid) {
       '" target="_blank" rel="noopener" class="solid-btn">Visit Site ' +
       '<i data-lucide="external-link" class="icon-inline"></i></a>' +
       '<button type="button" class="solid-btn demo-preview-btn" ' +
-      'data-preview-title="' +
-      demo.title +
-      '" data-preview-url="' +
-      demo.demoUrl +
-      '">Preview Site</button>' +
+      'data-preview-id="' +
+      demo.id +
+      '">Preview Site ' +
+      '<i data-lucide="images" class="icon-inline"></i></button>' +
       "</div>" +
       "</div>";
 
@@ -2282,21 +2427,101 @@ if (websitesGrid) {
   }
 }
 
-// --- Embedded demo preview modal ---
+// --- Screenshot carousel modal (direct entry, dots + arrows) ---
 var previewOverlay = document.getElementById("demoPreviewOverlay");
-var previewFrame = document.getElementById("demoPreviewFrame");
+var previewStage = document.getElementById("demoPreviewStage");
 var previewTitle = document.getElementById("demoPreviewTitle");
+var previewVisit = document.getElementById("demoPreviewVisit");
 var previewClose = document.getElementById("demoPreviewClose");
+var previewEmpty = document.getElementById("demoPreviewEmpty");
+var previewPrev = document.getElementById("demoPreviewPrev");
+var previewNext = document.getElementById("demoPreviewNext");
+var previewDots = document.getElementById("demoPreviewDots");
+var previewShots = [];
+var previewIndex = 0;
 
-function openDemoPreview(title, url) {
-  if (!previewOverlay || !previewFrame) return;
-  previewTitle.textContent = title;
-  if (previewFrame.getAttribute("src") !== url) {
-    previewFrame.setAttribute("src", url);
+function getDemoById(id) {
+  for (var i = 0; i < WEBSITE_DEMOS.length; i++) {
+    if (WEBSITE_DEMOS[i].id === id) return WEBSITE_DEMOS[i];
   }
+  return null;
+}
+
+function renderPreviewDots() {
+  if (!previewDots) return;
+  previewDots.innerHTML = previewShots
+    .map(function (s, i) {
+      return (
+        '<button type="button" class="carousel-dot' +
+        (i === previewIndex ? " active" : "") +
+        '" data-slide="' +
+        i +
+        '" aria-label="Go to screenshot: ' +
+        s.label +
+        '"' +
+        (i === previewIndex ? ' aria-current="true"' : "") +
+        "></button>"
+      );
+    })
+    .join("");
+}
+
+function renderPreviewSlide() {
+  if (!previewStage || !previewShots.length) return;
+  var s = previewShots[previewIndex];
+  previewStage.innerHTML =
+    "<figure class=\"carousel-slide\">" +
+    '<img src="' +
+    s.img +
+    '" alt="' +
+    s.alt +
+    '" loading="lazy" data-shot-index="' +
+    previewIndex +
+    '" />' +
+    "<figcaption class=\"carousel-pill\">" +
+    s.label +
+    "</figcaption>" +
+    "</figure>";
+  renderPreviewDots();
+}
+
+function showPreviewSlide(i) {
+  if (!previewShots.length) return;
+  previewIndex = (i + previewShots.length) % previewShots.length;
+  renderPreviewSlide();
+}
+
+function handlePreviewImgError(img) {
+  var idx = Number(img.getAttribute("data-shot-index"));
+  if (!isNaN(idx) && previewShots.length > 1) {
+    previewShots.splice(idx, 1);
+    if (previewIndex >= previewShots.length) previewIndex = 0;
+    renderPreviewSlide();
+  } else if (previewShots.length <= 1) {
+    previewShots = [];
+    if (previewStage) previewStage.innerHTML = "";
+    if (previewDots) previewDots.innerHTML = "";
+    if (previewEmpty) previewEmpty.hidden = false;
+  }
+}
+
+function openDemoPreview(id) {
+  var demo = getDemoById(id);
+  if (!previewOverlay || !previewStage || !demo) return;
+  previewTitle.textContent = demo.title + " — Page Showcase";
+  if (previewVisit) {
+    previewVisit.setAttribute("href", demo.demoUrl);
+  }
+  previewShots = (demo.showcase || []).slice();
+  previewIndex = 0;
+  if (previewEmpty) {
+    previewEmpty.hidden = previewShots.length > 0;
+  }
+  renderPreviewSlide();
   previewOverlay.classList.add("open");
   previewOverlay.setAttribute("aria-hidden", "false");
   document.body.classList.add("preview-open");
+  if (previewClose) previewClose.focus();
 }
 
 function closeDemoPreview() {
@@ -2304,7 +2529,10 @@ function closeDemoPreview() {
   previewOverlay.classList.remove("open");
   previewOverlay.setAttribute("aria-hidden", "true");
   document.body.classList.remove("preview-open");
-  previewFrame.setAttribute("src", "about:blank");
+  if (previewStage) previewStage.innerHTML = "";
+  if (previewDots) previewDots.innerHTML = "";
+  previewShots = [];
+  previewIndex = 0;
 }
 
 if (websitesGrid) {
@@ -2312,16 +2540,48 @@ if (websitesGrid) {
     var btn = e.target.closest(".demo-preview-btn");
     if (btn) {
       e.preventDefault();
-      openDemoPreview(
-        btn.getAttribute("data-preview-title"),
-        btn.getAttribute("data-preview-url")
-      );
+      openDemoPreview(btn.getAttribute("data-preview-id"));
     }
   });
 }
 
 if (previewClose) {
   previewClose.addEventListener("click", closeDemoPreview);
+}
+
+if (previewPrev) {
+  previewPrev.addEventListener("click", function (e) {
+    e.stopPropagation();
+    showPreviewSlide(previewIndex - 1);
+  });
+}
+
+if (previewNext) {
+  previewNext.addEventListener("click", function (e) {
+    e.stopPropagation();
+    showPreviewSlide(previewIndex + 1);
+  });
+}
+
+if (previewDots) {
+  previewDots.addEventListener("click", function (e) {
+    var dot = e.target.closest(".carousel-dot");
+    if (dot) {
+      showPreviewSlide(Number(dot.getAttribute("data-slide")));
+    }
+  });
+}
+
+if (previewStage) {
+  previewStage.addEventListener(
+    "error",
+    function (e) {
+      if (e.target && e.target.tagName === "IMG") {
+        handlePreviewImgError(e.target);
+      }
+    },
+    true
+  );
 }
 
 if (previewOverlay) {

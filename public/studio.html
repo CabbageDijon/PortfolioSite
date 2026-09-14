@@ -17,7 +17,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css?v=2.17" />
-    <link rel="stylesheet" href="studio.css?v=2.15" />
+    <link rel="stylesheet" href="studio.css?v=2.18" />
     <link rel="canonical" href="https://cabscode.pro/studio" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://cabscode.pro/studio" />
@@ -274,7 +274,7 @@
             <span class="card-badge badge-dev">WIP</span>
             <div class="demo-content">
               <div class="tech-tags">
-                <span class="tech-tag">HTML/CSS</span>
+                <span class="tech-tag htmlcss">HTML/CSS</span>
               </div>
               <h3>CSS Box-Shadow Generator</h3>
               <p>
@@ -295,8 +295,8 @@
               <span class="card-badge badge-dev">New</span>
               <div class="demo-content">
                 <div class="tech-tags">
-                  <span class="tech-tag">JavaScript</span>
-                  <span class="tech-tag">Canvas</span>
+                  <span class="tech-tag js">JavaScript</span>
+                  <span class="tech-tag canvas">Canvas</span>
                 </div>
                 <h3>QR Code Generator</h3>
                 <p>
@@ -419,17 +419,33 @@
       </section>
     </main>
 
-    <!-- Embedded demo preview modal -->
+    <!-- Screenshot showcase modal (no live iframe) -->
     <div class="demo-preview-overlay" id="demoPreviewOverlay" aria-hidden="true">
-      <div class="demo-preview-modal" role="dialog" aria-modal="true" aria-label="Site preview">
+      <div class="demo-preview-modal" role="dialog" aria-modal="true" aria-label="Site screenshot showcase">
         <div class="demo-preview-header">
-          <h3 id="demoPreviewTitle">Preview</h3>
-          <button class="demo-preview-close" id="demoPreviewClose" aria-label="Close preview">
+          <h3 id="demoPreviewTitle">Showcase</h3>
+          <button class="demo-preview-close" id="demoPreviewClose" aria-label="Close showcase">
             <i data-lucide="x" class="icon-inline"></i>
           </button>
         </div>
         <div class="demo-preview-body">
-          <iframe id="demoPreviewFrame" title="Site preview" loading="lazy"></iframe>
+          <p class="demo-preview-empty" id="demoPreviewEmpty" hidden>
+            Screenshots coming soon.
+          </p>
+          <div class="demo-preview-carousel">
+            <button type="button" class="carousel-arrow carousel-prev" id="demoPreviewPrev" aria-label="Previous screenshot">
+              <i data-lucide="chevron-left" class="icon-inline"></i>
+            </button>
+            <div class="demo-preview-stage" id="demoPreviewStage"></div>
+            <button type="button" class="carousel-arrow carousel-next" id="demoPreviewNext" aria-label="Next screenshot">
+              <i data-lucide="chevron-right" class="icon-inline"></i>
+            </button>
+          </div>
+          <div class="carousel-dots" id="demoPreviewDots" role="tablist" aria-label="Screenshots"></div>
+        </div>
+        <div class="demo-preview-footer">
+          <a class="solid-btn" id="demoPreviewVisit" href="#" target="_blank" rel="noopener">Visit Site
+            <i data-lucide="external-link" class="icon-inline"></i></a>
         </div>
       </div>
     </div>
@@ -469,7 +485,7 @@
     </footer>
 
     <script src="phone-lengths.js?v=2.18"></script>
-    <script src="script.js?v=2.35"></script>
+    <script src="script.js?v=2.42"></script>
     <script>
       lucide.createIcons();
       if (window.CcIcons) CcIcons.createIcons();

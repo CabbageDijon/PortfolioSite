@@ -13,13 +13,14 @@ CabsCode is the personal portfolio and services site of Tema Bown (CabbageDijon 
 ## Main Pages
 
 - [Home](https://cabscode.pro/): Overview of CabsCode, featured work (RaceWeather, CSS tools), about Tema Bown, and contact inquiry form.
-- [Services](https://cabscode.pro/services): Web Development (landing pages, dashboards, SPAs, e-commerce), SEO Audit (Google Search audit — business name/website/Facebook URL, 3–30 queries, Gemini 3.5 Flash Lite), and Price Estimator in Pula (site types, extra pages P100-P150, copywriting P300/page). Gaborone/Francistown/Molepolole focused.
+- [Services](https://cabscode.pro/services): Web Development (landing pages, dashboards, SPAs, e-commerce), SEO Audit (Google Search audit — business name/website/Facebook URL, 3–30 queries, Gemini 3.5 Flash Lite), and Price Estimator in Pula (Base 600-800, Standard 2000-2200, Advanced 3400-3900, E-commerce custom; extra pages P100, copywriting P200/page). Gaborone/Francistown/Molepolole focused.
 - [Studio](https://cabscode.pro/studio): Curated gallery of builds — live apps, tools, and website concepts.
 - [Journal](https://cabscode.pro/journal): Technical logs and project documentation (filter by Personal Projects, Web Development).
 
 ## Studio Projects
 
 - [RaceWeather](https://raceweather.cabscode.pro/): F1 weekend weather dashboard — real-time forecasts, track conditions, JavaScript + API integration. Live Beta.
+- [Estately Botswana](https://estately.cabscode.pro/): Real-estate platform for Botswana — filterable houses, apartments and commercial listings, property detail pages, agents, mortgage calculator and blog. Next.js, React, Tailwind. Live.
 - [RepoTicket](https://cabscode.pro/studio#web-apps): IT ticket report system — React, TypeScript, PocketBase. In Development.
 - [PassPro](https://cabscode.pro/studio#web-apps): Digital ticketing and pass management for events/venues. Planned.
 - [QR Code Generator](https://cabscode.pro/studio#qr-tool): Browser-based tool to generate custom QR codes (Canvas, JavaScript) — adjustable size, PNG download. Live in Studio.
@@ -40,7 +41,7 @@ CabsCode is the personal portfolio and services site of Tema Bown (CabbageDijon 
 
 **Custom Tools**: Workflow automation, data visualisations, internal business utilities, API integrations.
 
-**Pricing Model**: Base site types (range-based), P100/page within range, P150/extra page beyond range, P300/page copywriting, one-time add-ons, monthly care (includes 1 micro-revision).
+**Pricing Model**: Base 600-800 (1-3 pages), Standard 2000-2200 (4-6 pages), Advanced 3400-3900 (7-12 pages), E-commerce custom quote. P100/page within range, P100/extra page beyond range, P200/page copywriting, one-time add-ons (WhatsApp + Basic SEO free in Standard+, Analytics + Blog free in Advanced+), monthly care 15% capped (Base P250, Standard P350, Advanced/E-commerce P400; includes 1 micro-revision).
 
 ## Optional / Utility Pages
 
@@ -52,7 +53,7 @@ CabsCode is the personal portfolio and services site of Tema Bown (CabbageDijon 
 - **What CabsCode does**: Solo developer Tema Bown builds fast, accessible custom websites, Google Search (SEO) audits and browser tools for Botswana businesses (Gaborone, Francistown, Molepolole) and global clients.
 - **Who should contact**: Small businesses in Gaborone/Francistown/Molepolole and Botswana-wide needing landing pages, dashboards, SEO audits, or internal tools.
 - **How to enquire**: Use Project Inquiry form on any page (footer #contactForm) or email services@cabscode.pro. Supports email and WhatsApp with international phone validation.
-- **Brand keywords**: CabsCode, Tema Bown, Botswana web developer Molepolole, Gaborone web development, Francistown web developer, front-end engineering, custom web applications, SEO audit Botswana, RaceWeather, RepoTicket.
+- **Brand keywords**: CabsCode, Tema Bown, Botswana web developer Molepolole, Gaborone web development, Francistown web developer, front-end engineering, custom web applications, SEO audit Botswana, RaceWeather, Estately, RepoTicket.
 
 ## Sitemap
 

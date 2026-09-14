@@ -5,6 +5,8 @@ public/TODO.md
 /docs
 node_modules/
 # Local-only paid-audit mint scripts (secret-gated, keep off public repo)
+# Local-only one-click launcher (personal convenience script, keep off repo)
+launch-site.sh
 tools/make-token.js
 tools/make-token.sh
 # Runtime audit usage (codes, free-run timestamps)
