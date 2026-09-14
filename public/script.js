@@ -2245,7 +2245,18 @@ function initQuoteMaker() {
   });
 }
 
-// --- Expandable Web Tools Logic ---
+// --- Expandable Web Tools Logic (single-open full-width) ---
+// Tool init functions live in public/webtools/*.js and register as
+// globals (initQRTool, initAprTool, ...). Dispatch is by card id so new
+// tools only need a card + a webtools file — no edits here.
+var STUDIO_TOOL_INITS = {
+  "qr-tool": "initQRTool",
+  "apr-tool": "initAprTool",
+  "regex-tool": "initRegexTool",
+  "lorem-tool": "initLoremTool",
+  "notes-tool": "initNotesTool",
+};
+
 var expandableCards = document.querySelectorAll(".expandable-card");
 
 expandableCards.forEach(function (card) {
@@ -2253,23 +2264,49 @@ expandableCards.forEach(function (card) {
   var closeBtn = card.querySelector(".close-btn");
 
   if (expandBtn && closeBtn) {
+    expandBtn.setAttribute("aria-expanded", "false");
     expandBtn.addEventListener("click", function (e) {
       e.preventDefault();
-      card.classList.add("is-expanded");
+      var alreadyOpen = card.classList.contains("is-expanded");
+      expandableCards.forEach(function (other) {
+        other.classList.remove("is-expanded");
+        var btn = other.querySelector(".expand-btn");
+        if (btn) btn.setAttribute("aria-expanded", "false");
+      });
+      if (!alreadyOpen) {
+        card.classList.add("is-expanded");
+        expandBtn.setAttribute("aria-expanded", "true");
 
-      // Init QR tool if not yet done
-      if (card.id === "qr-tool") {
-        initQRTool(card);
+        // Init the tool on first expand (lazy)
+        var initName = STUDIO_TOOL_INITS[card.id];
+        if (initName && typeof window[initName] === "function") {
+          window[initName](card);
+        }
+
+        requestAnimationFrame(function () {
+          setTimeout(function () {
+            card.scrollIntoView({ behavior: "smooth", block: "start" });
+          }, 60);
+        });
       }
-
-      setTimeout(function () {
-        card.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 50);
     });
 
     closeBtn.addEventListener("click", function (e) {
       e.preventDefault();
       card.classList.remove("is-expanded");
+      expandBtn.setAttribute("aria-expanded", "false");
+    });
+  }
+});
+
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape") {
+    expandableCards.forEach(function (other) {
+      if (other.classList.contains("is-expanded")) {
+        other.classList.remove("is-expanded");
+        var btn = other.querySelector(".expand-btn");
+        if (btn) btn.setAttribute("aria-expanded", "false");
+      }
     });
   }
 });
@@ -2597,61 +2634,3 @@ document.addEventListener("keydown", function (e) {
     closeDemoPreview();
   }
 });
-
-// --- QR Code Generator ---
-function initQRTool(card) {
-  if (card.qrInitialized) return;
-  card.qrInitialized = true;
-
-  var input = card.querySelector("#qr-input");
-  var sizeSelect = card.querySelector("#qr-size");
-  var downloadBtn = card.querySelector("#qr-download");
-  var container = card.querySelector("#qr-code");
-
-  var qr = null;
-
-  function generateQR() {
-    var text = input.value.trim() || "https://cabscode.pro";
-    var size = parseInt(sizeSelect.value, 10);
-    container.innerHTML = "";
-    qr = new QRCode(container, {
-      text: text,
-      width: size,
-      height: size,
-      colorDark: "#1a1a1a",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.H,
-    });
-  }
-
-  input.addEventListener("input", generateQR);
-  sizeSelect.addEventListener("change", generateQR);
-
-  document.addEventListener("themechange", generateQR);
-
-  function updateWarning() {
-    var isMobile = window.innerWidth <= 768;
-    var selectedSize = parseInt(sizeSelect.value, 10);
-    var warning = card.querySelector("#qr-warning");
-    if (isMobile && selectedSize >= 512) {
-      warning.classList.add("visible");
-    } else {
-      warning.classList.remove("visible");
-    }
-  }
-
-  downloadBtn.addEventListener("click", function () {
-    var canvas = container.querySelector("canvas");
-    if (canvas) {
-      var link = document.createElement("a");
-      link.download = "qrcode.png";
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-    }
-  });
-
-  generateQR();
-  updateWarning();
-  sizeSelect.addEventListener("change", updateWarning);
-  window.addEventListener("resize", updateWarning);
-}

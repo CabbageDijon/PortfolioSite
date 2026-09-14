@@ -1,0 +1,170 @@
+/* notes.css — dedicated /notes page shell.
+   Editor + preview + toolbar styles are shared from studio.css
+   (.nt-*, .md-preview, .tool-*, .qr-*). This file only lays out the page. */
+
+.notes-main {
+  max-width: 1280px;
+}
+
+.notes-hero {
+  text-align: left;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 32px;
+}
+
+.notes-hero a {
+  color: var(--color-link-active);
+}
+
+.np-app {
+  display: grid;
+  grid-template-columns: minmax(240px, 300px) 1fr;
+  gap: 24px;
+  align-items: start;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.np-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  position: sticky;
+  top: 90px;
+  max-height: calc(100vh - 120px);
+}
+
+.np-side-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+
+.np-side-head input {
+  width: 100%;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.88rem;
+  background: var(--color-bg-body);
+  color: var(--color-text-primary);
+}
+
+.np-side-head input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.np-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+  min-height: 200px;
+}
+
+.np-item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  text-align: left;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-body);
+  border-radius: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+  font: inherit;
+  color: var(--color-text-primary);
+}
+
+.np-item:hover {
+  border-color: var(--color-primary);
+}
+
+.np-item.is-active {
+  border-color: #077d4a;
+  box-shadow: inset 3px 0 0 #077d4a;
+}
+
+.np-item-title {
+  font-weight: 600;
+  font-size: 0.88rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.np-item-date {
+  font-size: 0.72rem;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.np-privacy {
+  border-top: 1px solid var(--color-border);
+  padding-top: 12px;
+}
+
+.np-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.np-title {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 1.15rem;
+  font-weight: 700;
+  background: var(--color-bg-body);
+  color: var(--color-text-primary);
+}
+
+.np-title:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.np-cols textarea {
+  min-height: 420px;
+}
+
+.np-cheatsheet {
+  margin-top: 4px;
+}
+
+[data-theme="dark"] .np-side-head input,
+[data-theme="dark"] .np-title {
+  background-color: #242424;
+  color: var(--color-text-primary);
+}
+
+@media (max-width: 860px) {
+  .np-app {
+    grid-template-columns: 1fr;
+  }
+
+  .np-sidebar {
+    position: static;
+    max-height: none;
+  }
+
+  .np-list {
+    max-height: 220px;
+  }
+
+  .nt-titlerow {
+    grid-template-columns: 1fr 1fr;
+  }
+}

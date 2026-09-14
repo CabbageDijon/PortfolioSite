@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="CabsCode Notes — a private markdown scratchpad with live preview. Notes stay in your browser, export as .md files."
+    />
+    <title>CabsCode | Notes</title>
+    <link rel="icon" href="images/favicon.png?v=20260909" />
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png?v=20260909" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css?v=2.17" />
+    <link rel="stylesheet" href="studio.css?v=2.20" />
+    <link rel="stylesheet" href="notes.css?v=1.0" />
+    <link rel="canonical" href="https://cabscode.pro/notes" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://cabscode.pro/notes" />
+    <meta property="og:title" content="CabsCode | Notes" />
+    <meta
+      property="og:description"
+      content="Private markdown notes with live preview — stored in your browser, exportable as .md."
+    />
+    <meta name="robots" content="index, follow" />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="icons/social.css?v=1.0" />
+    <script src="icons/cc-icons.js?v=1.0" defer></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "CabsCode Notes",
+        "description": "Private markdown scratchpad with live preview. Notes are stored in the browser (localStorage) and exportable as .md files.",
+        "url": "https://cabscode.pro/notes",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Web",
+        "author": { "@id": "https://cabscode.pro/#person" },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BWP" }
+      }
+    </script>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-left">
+        <a href="/" class="logo" aria-label="Home">
+          <div class="logo">
+            <img
+              src="/images/favicon.png?v=20260909"
+              alt="CabsCode"
+              width="48"
+              height="48"
+            /></div
+        ></a>
+      </div>
+
+      <button class="mobile-toggle" aria-label="Toggle navigation">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <div class="nav-right">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/services" class="nav-link">Services</a>
+        <a href="/studio" class="nav-link">Studio</a>
+        <a href="/journal" class="nav-link">Journal</a>
+        <button
+          class="dark-toggle"
+          id="darkToggle"
+          aria-label="Toggle dark mode"
+        ></button>
+        <a href="#contactForm" class="contact-btn">Contact</a>
+      </div>
+    </nav>
+
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <main class="notes-main">
+      <header class="hero notes-hero">
+        <h1>Notes</h1>
+        <p>
+          Private markdown scratchpad — everything stays in this browser.
+          Also embedded in the <a href="/studio#notes-tool">Studio</a>.
+        </p>
+      </header>
+
+      <div class="np-app nt-wrap" id="np-app" data-mode="split">
+        <aside class="np-sidebar" aria-label="Your notes">
+          <div class="np-side-head">
+            <input
+              type="text"
+              id="np-search"
+              placeholder="Search notes…"
+              autocomplete="off"
+              aria-label="Search notes"
+            />
+            <button type="button" class="solid-btn" id="np-new">+ New</button>
+          </div>
+          <div class="np-list" id="np-list" role="listbox" aria-label="Notes"></div>
+          <p class="tool-hint np-privacy">
+            Stored in this browser only (localStorage). Clearing site data
+            deletes them — export important notes as .md.
+          </p>
+        </aside>
+
+        <section class="np-editor" aria-label="Editor">
+          <div class="nt-toolbar" role="toolbar" aria-label="Formatting">
+            <button type="button" data-snip="h" title="Heading">H</button>
+            <button type="button" data-snip="bold" title="Bold"><strong>B</strong></button>
+            <button type="button" data-snip="italic" title="Italic"><em>I</em></button>
+            <button type="button" data-snip="code" title="Code"><code>&lt;&gt;</code></button>
+            <button type="button" data-snip="link" title="Link">Link</button>
+            <button type="button" data-snip="list" title="List">• List</button>
+            <button type="button" data-snip="task" title="Task">☐ Task</button>
+            <button type="button" data-snip="quote" title="Quote">❝</button>
+            <button type="button" data-snip="table" title="Table">Table</button>
+          </div>
+          <input
+            type="text"
+            id="np-title"
+            class="np-title"
+            placeholder="Note title"
+            autocomplete="off"
+          />
+          <div class="nt-cols np-cols">
+            <textarea
+              id="np-body"
+              rows="18"
+              placeholder="# Write markdown here…"
+              spellcheck="true"
+            ></textarea>
+            <div class="md-preview" id="np-preview" aria-live="polite"></div>
+          </div>
+          <div class="nt-footer">
+            <div class="qr-type-tabs" role="tablist" aria-label="View mode">
+              <button type="button" class="qr-tab" data-np-mode="edit" role="tab" aria-selected="false">Edit</button>
+              <button type="button" class="qr-tab is-active" data-np-mode="split" role="tab" aria-selected="true">Split</button>
+              <button type="button" class="qr-tab" data-np-mode="preview" role="tab" aria-selected="false">Preview</button>
+            </div>
+            <span class="tool-meta" id="np-save-state"></span>
+            <span class="tool-meta" id="np-count"></span>
+            <span class="nt-spacer"></span>
+            <button type="button" class="picker-cancel" id="np-export">Export .md</button>
+            <label class="picker-cancel nt-import-label" for="np-import">Import</label>
+            <input type="file" id="np-import" accept=".md,.markdown,.txt" hidden />
+            <button type="button" class="picker-cancel" id="np-delete">Delete</button>
+          </div>
+          <details class="qr-details np-cheatsheet">
+            <summary>Supported markdown</summary>
+            <div class="rx-cheat">
+              <p><code># ## ###</code> headings · <code>**bold** *italic* ~~strike~~ `code`</code></p>
+              <p><code>- item</code> lists · <code>- [ ]</code> tasks · <code>&gt; quote</code> · <code>---</code> rule</p>
+              <p><code>[text](https://…)</code> links · <code>![alt](img.png)</code> images · fenced <code>```</code> blocks · <code>| tables |</code></p>
+            </div>
+          </details>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <a
+            href="https://www.linkedin.com/in/tema-bown-2441b73a3/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn Profile"
+            >LinkedIn</a
+          >
+          <a href="https://github.com/CabbageDijon" target="_blank">GitHub</a>
+          <div id="emailListMount">
+            <a href="mailto:services@cabscode.pro">Email</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="/terms">Terms of Use</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/piracy">Piracy Notice</a>
+        </div>
+
+        <div class="footer-col footer-form">
+          <h4>Project Inquiry</h4>
+          <div id="contactFormMount"></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Tema Bown. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script src="phone-lengths.js?v=2.18"></script>
+    <script src="script.js?v=2.44"></script>
+    <script src="webtools/notes.js?v=1.0"></script>
+    <script>
+      lucide.createIcons();
+      if (window.CcIcons) CcIcons.createIcons();
+      document.addEventListener("DOMContentLoaded", function () {
+        if (typeof initNotesPage === "function") initNotesPage();
+      });
+    </script>
+  </body>
+</html>

@@ -17,7 +17,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css?v=2.17" />
-    <link rel="stylesheet" href="studio.css?v=2.18" />
+    <link rel="stylesheet" href="studio.css?v=2.20" />
     <link rel="canonical" href="https://cabscode.pro/studio" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://cabscode.pro/studio" />
@@ -39,7 +39,7 @@
     <meta name="twitter:description" content="A curated gallery of live web apps, developer tools, and client design concepts by Tema Bown." />
     <meta name="twitter:image" content="https://cabscode.pro/images/demos/webapps/raceweather.png" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://unpkg.com/qr-code-styling@1.9.2/lib/qr-code-styling.js"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <link rel="stylesheet" href="icons/social.css?v=1.0" />
     <script src="icons/cc-icons.js?v=1.0" defer></script>
@@ -77,9 +77,40 @@
             {
               "@type": "SoftwareApplication",
               "name": "QR Code Generator",
-              "description": "Browser-based QR code generator with adjustable size and PNG download",
+              "description": "Browser-based QR code generator — links, WiFi sign-in, contacts, messages and events with styled dots, rounded corners, logo overlay and PNG/SVG download",
               "applicationCategory": "WebApplication",
               "author": { "@id": "https://cabscode.pro/#person" }
+            },
+            {
+              "@type": "SoftwareApplication",
+              "name": "APR Calculator",
+              "description": "Loan calculator — monthly repayment, total interest and true APR including fees, with amortization schedule and CSV export",
+              "applicationCategory": "WebApplication",
+              "author": { "@id": "https://cabscode.pro/#person" }
+            },
+            {
+              "@type": "SoftwareApplication",
+              "name": "Regex Tester",
+              "description": "Test regular expressions with live match highlighting, capture-group tables and replace preview",
+              "applicationCategory": "WebApplication",
+              "author": { "@id": "https://cabscode.pro/#person" }
+            },
+            {
+              "@type": "SoftwareApplication",
+              "name": "Lorem Ipsum Generator",
+              "description": "Placeholder text generator by paragraphs, sentences or words — classic latin or plain-English, reproducible seeds",
+              "applicationCategory": "WebApplication",
+              "author": { "@id": "https://cabscode.pro/#person" }
+            },
+            {
+              "@type": "SoftwareApplication",
+              "name": "Markdown Notes",
+              "description": "Private markdown scratchpad with live preview — stored in the browser, exportable as .md, full page at /notes",
+              "url": "https://cabscode.pro/notes",
+              "applicationCategory": "WebApplication",
+              "operatingSystem": "Web",
+              "author": { "@id": "https://cabscode.pro/#person" },
+              "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BWP" }
             }
           ]
         }
@@ -102,7 +133,7 @@
         <a href="/" class="logo" aria-label="Home">
           <div class="logo">
             <img
-              src="images/favicon.png"
+              src="/images/favicon.png?v=20260909"
               alt="CabsCode"
               width="48"
               height="48"
@@ -300,8 +331,9 @@
                 </div>
                 <h3>QR Code Generator</h3>
                 <p>
-                  Generate custom QR codes from any URL or text. Adjust size and
-                  download as PNG.
+                  Generate styled QR codes — links, WiFi sign-in, contacts,
+                  messages, locations & events. Dots/rounded styles, logo
+                  overlay, PNG/SVG export.
                 </p>
                 <div class="card-actions">
                   <button class="solid-btn expand-btn">
@@ -314,88 +346,576 @@
 
             <div class="card-expanded-workspace">
               <div class="workspace-header">
-                <h3>QR Code Generator</h3>
+                <div>
+                  <h3>QR Code Generator</h3>
+                  <p class="workspace-sub" id="qr-mode-summary">Link / Text</p>
+                </div>
                 <button class="close-btn">
                   Close Tool
                   <i data-lucide="x" class="icon-inline"></i>
                 </button>
               </div>
-              <div class="workspace-content" style="padding: 32px">
-                <div class="qr-tool-layout">
-                  <div class="qr-tool-controls">
-                    <label
-                      for="qr-input"
-                      style="
-                        display: block;
-                        font-weight: 600;
-                        margin-bottom: 8px;
-                      "
-                      >URL or Text</label
-                    >
-                    <input
-                      type="text"
-                      id="qr-input"
-                      value="https://cabscode.pro"
-                      style="
-                        width: 100%;
-                        padding: 12px;
-                        border: 1px solid var(--color-border);
-                        border-radius: 8px;
-                        font-family: inherit;
-                        font-size: 1rem;
-                        margin-bottom: 16px;
-                      "
-                    />
-
-                    <label
-                      for="qr-size"
-                      style="
-                        display: block;
-                        font-weight: 600;
-                        margin-bottom: 8px;
-                      "
-                      >Size</label
-                    >
-                    <select
-                      id="qr-size"
-                      style="
-                        width: 100%;
-                        padding: 12px;
-                        border: 1px solid var(--color-border);
-                        border-radius: 8px;
-                        font-family: inherit;
-                        font-size: 1rem;
-                        margin-bottom: 24px;
-                      "
-                    >
-                      <option value="128">Small (128×128)</option>
-                      <option value="256" selected>Medium (256×256)</option>
-                      <option value="512">Large (512×512)</option>
-                      <option value="1024">X-Large (1024×1024)</option>
-                    </select>
-
-                    <button
-                      id="qr-download"
-                      class="solid-btn"
-                      style="width: 100%"
-                    >
-                      Download PNG
-                    </button>
-                  </div>
-                  <div
-                    class="qr-tool-preview"
-                    style="
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                      min-height: 280px;
-                    "
-                  >
-                    <div id="qr-warning" class="qr-warning">
-                      Selected size exceeds screen width — QR scaled down for
-                      preview. Download uses full resolution.
+              <div class="workspace-content qr-workspace">
+                <div class="qr-workspace-grid">
+                  <div class="qr-panel">
+                    <div class="qr-type-tabs" role="tablist" aria-label="QR content type">
+                      <button type="button" class="qr-tab is-active" data-qr-type="text" role="tab" aria-selected="true">Link</button>
+                      <button type="button" class="qr-tab" data-qr-type="wifi" role="tab" aria-selected="false">WiFi</button>
+                      <button type="button" class="qr-tab" data-qr-type="vcard" role="tab" aria-selected="false">Contact</button>
+                      <button type="button" class="qr-tab" data-qr-type="email" role="tab" aria-selected="false">Email</button>
+                      <button type="button" class="qr-tab" data-qr-type="sms" role="tab" aria-selected="false">SMS</button>
+                      <button type="button" class="qr-tab" data-qr-type="phone" role="tab" aria-selected="false">Phone</button>
+                      <button type="button" class="qr-tab" data-qr-type="whatsapp" role="tab" aria-selected="false">WhatsApp</button>
+                      <button type="button" class="qr-tab" data-qr-type="location" role="tab" aria-selected="false">Location</button>
+                      <button type="button" class="qr-tab" data-qr-type="event" role="tab" aria-selected="false">Event</button>
                     </div>
-                    <div id="qr-code"></div>
+
+                    <div class="qr-panes">
+                      <fieldset class="qr-pane is-active" data-pane="text">
+                        <label for="qr-input">URL or Text</label>
+                        <input type="text" id="qr-input" value="https://cabscode.pro" autocomplete="off" />
+                      </fieldset>
+
+                      <fieldset class="qr-pane" data-pane="wifi">
+                        <label for="qr-wifi-ssid">Network name (SSID) *</label>
+                        <input type="text" id="qr-wifi-ssid" placeholder="e.g. HomeNet_5G" autocomplete="off" />
+                        <div class="qr-row">
+                          <div>
+                            <label for="qr-wifi-auth">Security</label>
+                            <select id="qr-wifi-auth">
+                              <option value="WPA" selected>WPA / WPA2</option>
+                              <option value="WEP">WEP</option>
+                              <option value="nopass">Open (no password)</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label for="qr-wifi-pass">Password</label>
+                            <input type="text" id="qr-wifi-pass" placeholder="WiFi password" autocomplete="off" />
+                          </div>
+                        </div>
+                        <label class="qr-check"><input type="checkbox" id="qr-wifi-hidden" /> Hidden network</label>
+                      </fieldset>
+
+                      <fieldset class="qr-pane" data-pane="vcard">
+                        <div class="qr-row">
+                          <div><label for="qr-vc-first">First name</label><input type="text" id="qr-vc-first" autocomplete="off" /></div>
+                          <div><label for="qr-vc-last">Last name</label><input type="text" id="qr-vc-last" autocomplete="off" /></div>
+                        </div>
+                        <label for="qr-vc-phone">Phone</label>
+                        <input type="tel" id="qr-vc-phone" placeholder="+267 ..." autocomplete="off" />
+                        <label for="qr-vc-email">Email</label>
+                        <input type="email" id="qr-vc-email" placeholder="name@example.com" autocomplete="off" />
+                        <div class="qr-row">
+                          <div><label for="qr-vc-org">Organisation</label><input type="text" id="qr-vc-org" autocomplete="off" /></div>
+                          <div><label for="qr-vc-url">Website</label><input type="text" id="qr-vc-url" placeholder="https://…" autocomplete="off" /></div>
+                        </div>
+                      </fieldset>
+
+                      <fieldset class="qr-pane" data-pane="email">
+                        <label for="qr-em-to">To *</label>
+                        <input type="email" id="qr-em-to" placeholder="name@example.com" autocomplete="off" />
+                        <label for="qr-em-subject">Subject</label>
+                        <input type="text" id="qr-em-subject" placeholder="Hello" autocomplete="off" />
+                        <label for="qr-em-body">Message</label>
+                        <textarea id="qr-em-body" rows="3" placeholder="Pre-filled email body…"></textarea>
+                      </fieldset>
+
+                      <fieldset class="qr-pane" data-pane="sms">
+                        <label for="qr-sms-num">Phone number *</label>
+                        <input type="tel" id="qr-sms-num" placeholder="+267 7XX XXX XXX" autocomplete="off" />
+                        <label for="qr-sms-msg">Message</label>
+                        <textarea id="qr-sms-msg" rows="3" placeholder="Pre-filled SMS text…"></textarea>
+                      </fieldset>
+
+                      <fieldset class="qr-pane" data-pane="phone">
+                        <label for="qr-tel-num">Phone number *</label>
+                        <input type="tel" id="qr-tel-num" placeholder="+267 7XX XXX XXX" autocomplete="off" />
+                      </fieldset>
+
+                      <fieldset class="qr-pane" data-pane="whatsapp">
+                        <label for="qr-wa-num">WhatsApp number * (digits only, with country code)</label>
+                        <input type="tel" id="qr-wa-num" placeholder="2677XXXXXXX" autocomplete="off" />
+                        <label for="qr-wa-msg">Pre-filled message</label>
+                        <textarea id="qr-wa-msg" rows="3" placeholder="Hi! I found you via QR…"></textarea>
+                      </fieldset>
+
+                      <fieldset class="qr-pane" data-pane="location">
+                        <div class="qr-row">
+                          <div><label for="qr-geo-lat">Latitude *</label><input type="text" id="qr-geo-lat" placeholder="-24.6282" inputmode="decimal" autocomplete="off" /></div>
+                          <div><label for="qr-geo-lng">Longitude *</label><input type="text" id="qr-geo-lng" placeholder="25.9231" inputmode="decimal" autocomplete="off" /></div>
+                        </div>
+                        <label for="qr-geo-label">Label (optional)</label>
+                        <input type="text" id="qr-geo-label" placeholder="Gaborone HQ" autocomplete="off" />
+                      </fieldset>
+
+                      <fieldset class="qr-pane" data-pane="event">
+                        <label for="qr-ev-title">Event title *</label>
+                        <input type="text" id="qr-ev-title" placeholder="Product launch" autocomplete="off" />
+                        <div class="qr-row">
+                          <div><label for="qr-ev-start">Starts *</label><input type="datetime-local" id="qr-ev-start" /></div>
+                          <div><label for="qr-ev-end">Ends</label><input type="datetime-local" id="qr-ev-end" /></div>
+                        </div>
+                        <label for="qr-ev-loc">Venue</label>
+                        <input type="text" id="qr-ev-loc" placeholder="Gaborone" autocomplete="off" />
+                        <label for="qr-ev-desc">Details</label>
+                        <textarea id="qr-ev-desc" rows="2" placeholder="Anything guests should know…"></textarea>
+                      </fieldset>
+                    </div>
+
+                    <p class="qr-error" id="qr-error" role="alert" hidden></p>
+
+                    <details class="qr-details" open>
+                      <summary>Style — dots, corners & colours</summary>
+                      <div class="qr-row">
+                        <div>
+                          <label for="qr-dot-type">Dot style</label>
+                          <select id="qr-dot-type">
+                            <option value="square" selected>Square (classic)</option>
+                            <option value="rounded">Rounded</option>
+                            <option value="dots">Dots</option>
+                            <option value="extra-rounded">Extra rounded</option>
+                            <option value="classy">Classy</option>
+                            <option value="classy-rounded">Classy rounded</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label for="qr-corner-sq">Corner squares</label>
+                          <select id="qr-corner-sq">
+                            <option value="" selected>Match dots</option>
+                            <option value="square">Square</option>
+                            <option value="extra-rounded">Extra rounded</option>
+                            <option value="dot">Dot</option>
+                            <option value="classy">Classy</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="qr-row">
+                        <div>
+                          <label for="qr-corner-dot">Corner dots</label>
+                          <select id="qr-corner-dot">
+                            <option value="" selected>Match dots</option>
+                            <option value="square">Square</option>
+                            <option value="dot">Dot</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label for="qr-margin">Quiet-zone margin</label>
+                          <select id="qr-margin">
+                            <option value="0">None (tight)</option>
+                            <option value="8" selected>Standard</option>
+                            <option value="16">Wide</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="qr-row">
+                        <div><label for="qr-fg">Code colour</label><input type="color" id="qr-fg" value="#1a1a1a" /></div>
+                        <div><label for="qr-bg">Background</label><input type="color" id="qr-bg" value="#ffffff" /></div>
+                      </div>
+                    </details>
+
+                    <details class="qr-details">
+                      <summary>Logo in the middle (upload only)</summary>
+                      <label for="qr-logo">Image file (PNG/JPG/SVG, max 2MB)</label>
+                      <input type="file" id="qr-logo" accept="image/png,image/jpeg,image/svg+xml" />
+                      <div class="qr-row">
+                        <div>
+                          <label for="qr-logo-size">Logo size: <span id="qr-logo-size-val">20%</span></label>
+                          <input type="range" id="qr-logo-size" min="15" max="25" value="20" />
+                        </div>
+                        <div class="qr-logo-actions">
+                          <button type="button" class="picker-cancel" id="qr-logo-clear">Remove logo</button>
+                        </div>
+                      </div>
+                      <p class="qr-hint">High error-correction is applied automatically while a logo is set, so the code stays scannable.</p>
+                    </details>
+
+                    <div class="qr-export">
+                      <div>
+                        <label for="qr-size">Export size</label>
+                        <select id="qr-size">
+                          <option value="512">Medium (512×512)</option>
+                          <option value="1024" selected>Large (1024×1024)</option>
+                          <option value="2048">Print (2048×2048)</option>
+                        </select>
+                      </div>
+                      <div class="qr-export-btns">
+                        <button id="qr-download" class="solid-btn" type="button">PNG</button>
+                        <button id="qr-download-svg" class="solid-btn qr-ghost-btn" type="button">SVG</button>
+                        <button id="qr-copy" class="picker-cancel" type="button">Copy</button>
+                      </div>
+                    </div>
+                    <p class="qr-meta" id="qr-meta"></p>
+                    <p class="qr-encoded" id="qr-encoded"></p>
+                  </div>
+                  <div class="qr-stage">
+                    <div class="qr-tool-preview" id="qr-preview-box">
+                      <div id="qr-code" role="img" aria-label="Generated QR code preview"></div>
+                    </div>
+                    <div id="qr-warning" class="qr-warning visible">Preview is scaled down — downloads use full export resolution.</div>
+                    <div id="qr-lib-warning" class="qr-warning" hidden>Styling library failed to load (offline/CDN blocked) — showing basic QR instead.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="demo-card expandable-card" id="apr-tool">
+            <div class="card-default-view">
+              <div class="tool-icon">
+                <i data-lucide="calculator"></i>
+              </div>
+              <span class="card-badge badge-dev">New</span>
+              <div class="demo-content">
+                <div class="tech-tags">
+                  <span class="tech-tag js">JavaScript</span>
+                </div>
+                <h3>APR Calculator</h3>
+                <p>
+                  True cost of a loan — monthly repayment, total interest and
+                  effective APR including fees, with a full amortization table.
+                </p>
+                <div class="card-actions">
+                  <button class="solid-btn expand-btn">
+                    Run Tool Here
+                    <i data-lucide="chevron-down" class="icon-inline"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-expanded-workspace">
+              <div class="workspace-header">
+                <div>
+                  <h3>APR Calculator</h3>
+                  <p class="workspace-sub">Loan repayments + true APR + schedule</p>
+                </div>
+                <button class="close-btn">
+                  Close Tool
+                  <i data-lucide="x" class="icon-inline"></i>
+                </button>
+              </div>
+              <div class="workspace-content tool-workspace">
+                <div class="tool-grid">
+                  <div class="tool-panel">
+                    <div class="tool-field">
+                      <label for="apr-principal">Loan amount (P)</label>
+                      <input type="text" id="apr-principal" value="100000" inputmode="decimal" autocomplete="off" />
+                    </div>
+                    <div class="tool-cols">
+                      <div class="tool-field">
+                        <label for="apr-rate">Nominal rate (% p.a.)</label>
+                        <input type="text" id="apr-rate" value="12" inputmode="decimal" autocomplete="off" />
+                      </div>
+                      <div class="tool-field">
+                        <label for="apr-fees">Upfront fees (P)</label>
+                        <input type="text" id="apr-fees" value="0" inputmode="decimal" autocomplete="off" />
+                      </div>
+                    </div>
+                    <div class="tool-cols">
+                      <div class="tool-field">
+                        <label for="apr-term">Term</label>
+                        <input type="text" id="apr-term" value="24" inputmode="numeric" autocomplete="off" />
+                      </div>
+                      <div class="tool-field">
+                        <label for="apr-term-unit">Term unit</label>
+                        <select id="apr-term-unit">
+                          <option value="months" selected>Months</option>
+                          <option value="years">Years</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="tool-cols">
+                      <div class="tool-field">
+                        <label for="apr-compound">Compounding</label>
+                        <select id="apr-compound">
+                          <option value="monthly" selected>Monthly</option>
+                          <option value="quarterly">Quarterly</option>
+                          <option value="annually">Annually</option>
+                        </select>
+                      </div>
+                      <div class="tool-field">
+                        <label for="apr-start">First payment (optional)</label>
+                        <input type="date" id="apr-start" />
+                      </div>
+                    </div>
+                    <div class="tool-presets" aria-label="Example loans">
+                      <button type="button" data-apr-preset="50000|18|24">P50k · 18% · 24mo</button>
+                      <button type="button" data-apr-preset="100000|15|36">P100k · 15% · 36mo</button>
+                      <button type="button" data-apr-preset="20000|22|12">P20k · 22% · 12mo</button>
+                    </div>
+                    <p class="tool-error" id="apr-error" role="alert" hidden></p>
+                  </div>
+                  <div class="tool-output">
+                    <dl class="tool-figures">
+                      <div><dt>Monthly repayment</dt><dd id="apr-monthly">—</dd></div>
+                      <div><dt>True APR (incl. fees)</dt><dd id="apr-apr">—</dd></div>
+                      <div><dt>Total interest</dt><dd id="apr-interest">—</dd></div>
+                      <div><dt>Total payable</dt><dd id="apr-payable">—</dd></div>
+                    </dl>
+                    <p class="tool-meta" id="apr-meta"></p>
+                    <div class="tool-actions">
+                      <button type="button" class="solid-btn" id="apr-csv">Schedule CSV</button>
+                      <button type="button" class="picker-cancel" id="apr-copy">Copy summary</button>
+                    </div>
+                    <div class="tool-table-wrap">
+                      <table class="tool-table">
+                        <thead><tr><th>#</th><th>Payment</th><th>Interest</th><th>Capital</th><th>Balance</th></tr></thead>
+                        <tbody id="apr-schedule"></tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="demo-card expandable-card" id="regex-tool">
+            <div class="card-default-view">
+              <div class="tool-icon">
+                <i data-lucide="regex"></i>
+              </div>
+              <span class="card-badge badge-dev">New</span>
+              <div class="demo-content">
+                <div class="tech-tags">
+                  <span class="tech-tag js">JavaScript</span>
+                </div>
+                <h3>Regex Tester</h3>
+                <p>
+                  Test patterns with live match highlighting, capture-group
+                  tables and $1-style replace preview.
+                </p>
+                <div class="card-actions">
+                  <button class="solid-btn expand-btn">
+                    Run Tool Here
+                    <i data-lucide="chevron-down" class="icon-inline"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-expanded-workspace">
+              <div class="workspace-header">
+                <div>
+                  <h3>Regex Tester</h3>
+                  <p class="workspace-sub">Live matching · groups · replace</p>
+                </div>
+                <button class="close-btn">
+                  Close Tool
+                  <i data-lucide="x" class="icon-inline"></i>
+                </button>
+              </div>
+              <div class="workspace-content tool-workspace">
+                <div class="tool-grid">
+                  <div class="tool-panel">
+                    <div class="tool-field">
+                      <label for="rx-pattern">Pattern</label>
+                      <input type="text" id="rx-pattern" value="[\w.+-]+@[\w-]+\.[\w.]+" autocomplete="off" spellcheck="false" />
+                    </div>
+                    <fieldset class="rx-flags" aria-label="Regex flags">
+                      <label><input type="checkbox" data-rx-flag="g" checked /> g</label>
+                      <label><input type="checkbox" data-rx-flag="m" /> m</label>
+                      <label><input type="checkbox" data-rx-flag="i" checked /> i</label>
+                      <label><input type="checkbox" data-rx-flag="s" /> s</label>
+                      <label><input type="checkbox" data-rx-flag="u" /> u</label>
+                      <label><input type="checkbox" data-rx-flag="y" /> y</label>
+                    </fieldset>
+                    <div class="tool-field">
+                      <label for="rx-text">Test text</label>
+                      <textarea id="rx-text" rows="5">Contact us at services@cabscode.pro or tema.bown+work@example.co.bw for quotes.</textarea>
+                    </div>
+                    <div class="tool-field">
+                      <label for="rx-replace">Replacement (optional, $1 style)</label>
+                      <input type="text" id="rx-replace" placeholder="e.g. [$&]" autocomplete="off" spellcheck="false" />
+                    </div>
+                    <div class="tool-presets" aria-label="Sample patterns">
+                      <button type="button" data-rx-sample="email">Email</button>
+                      <button type="button" data-rx-sample="phone">BW phone</button>
+                      <button type="button" data-rx-sample="url">URL</button>
+                    </div>
+                    <details class="qr-details">
+                      <summary>Cheatsheet</summary>
+                      <div class="rx-cheat">
+                        <p><code>\d \w \s</code> digit · word · space &nbsp; <code>.</code> any &nbsp; <code>^ $</code> anchors</p>
+                        <p><code>* + ? {2,4}</code> repeat &nbsp; <code>(a|b)</code> either &nbsp; <code>(…)</code> group $1</p>
+                        <p><code>[abc] [^0-9]</code> sets &nbsp; <code>\b</code> boundary &nbsp; <code>(?=…)</code> lookahead</p>
+                      </div>
+                    </details>
+                    <p class="tool-error" id="rx-error" role="alert" hidden></p>
+                  </div>
+                  <div class="tool-output">
+                    <div class="rx-highlight" id="rx-output" aria-live="polite"></div>
+                    <p class="tool-meta" id="rx-meta"></p>
+                    <div class="tool-table-wrap">
+                      <table class="tool-table">
+                        <thead><tr><th>Match</th><th>Text</th><th>Groups</th></tr></thead>
+                        <tbody id="rx-groups"></tbody>
+                      </table>
+                    </div>
+                    <div class="tool-field">
+                      <label for="rx-replace-out">Replace result</label>
+                      <pre class="rx-replace-out" id="rx-replace-out"></pre>
+                    </div>
+                    <div class="tool-actions">
+                      <button type="button" class="picker-cancel" id="rx-copy">Copy result</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="demo-card expandable-card" id="lorem-tool">
+            <div class="card-default-view">
+              <div class="tool-icon">
+                <i data-lucide="text"></i>
+              </div>
+              <span class="card-badge badge-dev">New</span>
+              <div class="demo-content">
+                <div class="tech-tags">
+                  <span class="tech-tag js">JavaScript</span>
+                </div>
+                <h3>Lorem Ipsum</h3>
+                <p>
+                  Placeholder text by paragraphs, sentences or words — classic
+                  latin or plain-English filler, reproducible seeds.
+                </p>
+                <div class="card-actions">
+                  <button class="solid-btn expand-btn">
+                    Run Tool Here
+                    <i data-lucide="chevron-down" class="icon-inline"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-expanded-workspace">
+              <div class="workspace-header">
+                <div>
+                  <h3>Lorem Ipsum</h3>
+                  <p class="workspace-sub">Placeholder text on tap</p>
+                </div>
+                <button class="close-btn">
+                  Close Tool
+                  <i data-lucide="x" class="icon-inline"></i>
+                </button>
+              </div>
+              <div class="workspace-content tool-workspace">
+                <div class="tool-grid">
+                  <div class="tool-panel">
+                    <div class="tool-cols">
+                      <div class="tool-field">
+                        <label for="lorem-mode">Unit</label>
+                        <select id="lorem-mode">
+                          <option value="paragraphs" selected>Paragraphs</option>
+                          <option value="sentences">Sentences</option>
+                          <option value="words">Words</option>
+                        </select>
+                      </div>
+                      <div class="tool-field">
+                        <label for="lorem-count">Amount: <span id="lorem-count-num">3</span></label>
+                        <input type="range" id="lorem-count" min="1" max="50" value="3" />
+                      </div>
+                    </div>
+                    <div class="tool-cols">
+                      <div class="tool-field">
+                        <label for="lorem-dialect">Dialect</label>
+                        <select id="lorem-dialect">
+                          <option value="latin" selected>Classic latin</option>
+                          <option value="plain">Plain-English</option>
+                        </select>
+                      </div>
+                      <div class="tool-field">
+                        <label for="lorem-seed">Seed (blank = random)</label>
+                        <input type="text" id="lorem-seed" inputmode="numeric" autocomplete="off" />
+                      </div>
+                    </div>
+                    <label class="qr-check"><input type="checkbox" id="lorem-start" checked /> Start with “Lorem ipsum dolor sit amet…”</label>
+                    <div class="tool-actions">
+                      <button type="button" class="solid-btn" id="lorem-reroll">Re-roll</button>
+                      <button type="button" class="solid-btn qr-ghost-btn" id="lorem-copy">Copy</button>
+                      <button type="button" class="picker-cancel" id="lorem-download">.txt</button>
+                    </div>
+                    <p class="tool-meta" id="lorem-meta"></p>
+                  </div>
+                  <div class="tool-output">
+                    <div class="lorem-output" id="lorem-output" aria-live="polite"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="demo-card expandable-card" id="notes-tool">
+            <div class="card-default-view">
+              <div class="tool-icon">
+                <i data-lucide="notebook-pen"></i>
+              </div>
+              <span class="card-badge badge-dev">New</span>
+              <div class="demo-content">
+                <div class="tech-tags">
+                  <span class="tech-tag js">JavaScript</span>
+                </div>
+                <h3>Markdown Notes</h3>
+                <p>
+                  A private scratchpad with live preview — notes stay in your
+                  browser, export as .md, or open the full-page library.
+                </p>
+                <div class="card-actions">
+                  <button class="solid-btn expand-btn">
+                    Run Tool Here
+                    <i data-lucide="chevron-down" class="icon-inline"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-expanded-workspace">
+              <div class="workspace-header">
+                <div>
+                  <h3>Markdown Notes</h3>
+                  <p class="workspace-sub">Scratchpad · stored in this browser only</p>
+                </div>
+                <button class="close-btn">
+                  Close Tool
+                  <i data-lucide="x" class="icon-inline"></i>
+                </button>
+              </div>
+              <div class="workspace-content tool-workspace">
+                <div class="nt-wrap" data-mode="split">
+                  <div class="nt-toolbar" role="toolbar" aria-label="Formatting">
+                    <button type="button" data-snip="h" title="Heading">H</button>
+                    <button type="button" data-snip="bold" title="Bold"><strong>B</strong></button>
+                    <button type="button" data-snip="italic" title="Italic"><em>I</em></button>
+                    <button type="button" data-snip="code" title="Code"><code>&lt;&gt;</code></button>
+                    <button type="button" data-snip="link" title="Link">Link</button>
+                    <button type="button" data-snip="list" title="List">• List</button>
+                    <button type="button" data-snip="task" title="Task">☐ Task</button>
+                    <button type="button" data-snip="quote" title="Quote">❝</button>
+                    <button type="button" data-snip="table" title="Table">Table</button>
+                  </div>
+                  <div class="nt-titlerow">
+                    <select id="nt-note-select" aria-label="Choose note"></select>
+                    <input type="text" id="nt-title" placeholder="Note title" autocomplete="off" />
+                    <button type="button" class="picker-cancel" id="nt-new">New</button>
+                    <button type="button" class="picker-cancel" id="nt-delete">Delete</button>
+                  </div>
+                  <div class="nt-cols">
+                    <textarea id="nt-body" rows="12" placeholder="# Write markdown here…" spellcheck="true"></textarea>
+                    <div class="md-preview" id="nt-preview" aria-live="polite"></div>
+                  </div>
+                  <div class="nt-footer">
+                    <div class="qr-type-tabs" role="tablist" aria-label="View mode">
+                      <button type="button" class="qr-tab" data-nt-mode="edit" role="tab" aria-selected="false">Edit</button>
+                      <button type="button" class="qr-tab is-active" data-nt-mode="split" role="tab" aria-selected="true">Split</button>
+                      <button type="button" class="qr-tab" data-nt-mode="preview" role="tab" aria-selected="false">Preview</button>
+                    </div>
+                    <span class="tool-meta" id="nt-save-state"></span>
+                    <span class="tool-meta" id="nt-count"></span>
+                    <span class="nt-spacer"></span>
+                    <button type="button" class="picker-cancel" id="nt-export">Export .md</button>
+                    <label class="picker-cancel nt-import-label" for="nt-import">Import</label>
+                    <input type="file" id="nt-import" accept=".md,.markdown,.txt" hidden />
+                    <a class="solid-btn" href="/notes">Full page →</a>
                   </div>
                 </div>
               </div>
@@ -485,7 +1005,12 @@
     </footer>
 
     <script src="phone-lengths.js?v=2.18"></script>
-    <script src="script.js?v=2.42"></script>
+    <script src="script.js?v=2.44"></script>
+    <script src="webtools/qr.js?v=1.0"></script>
+    <script src="webtools/apr.js?v=1.0"></script>
+    <script src="webtools/regex.js?v=1.0"></script>
+    <script src="webtools/lorem.js?v=1.0"></script>
+    <script src="webtools/notes.js?v=1.0"></script>
     <script>
       lucide.createIcons();
       if (window.CcIcons) CcIcons.createIcons();
