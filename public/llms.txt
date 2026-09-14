@@ -21,7 +21,7 @@ CabsCode is the personal portfolio and services site of Tema Bown (CabbageDijon 
 
 - [RaceWeather](https://raceweather.cabscode.pro/): F1 weekend weather dashboard — real-time forecasts, track conditions, JavaScript + API integration. Live Beta.
 - [Estately Botswana](https://estately.cabscode.pro/): Real-estate platform for Botswana — filterable houses, apartments and commercial listings, property detail pages, agents, mortgage calculator and blog. Next.js, React, Tailwind. Live.
-- [RepoTicket](https://cabscode.pro/studio#web-apps): IT ticket report system — React, TypeScript, PocketBase. In Development.
+- [ReporTicket](https://cabscode.pro/studio#web-apps): IT ticket report system — React, TypeScript, PocketBase. In Development.
 - [PassPro](https://cabscode.pro/studio#web-apps): Digital ticketing and pass management for events/venues. Planned.
 - [QR Code Generator](https://cabscode.pro/studio#qr-tool): Browser-based QR codes — links, WiFi, contacts, messages, events; styled dots, logo overlay, PNG/SVG download. Live in Studio.
 - [APR Calculator](https://cabscode.pro/studio#apr-tool): Loan true-cost calculator — monthly repayment, total interest, effective APR incl. fees, amortization table with CSV export. Live in Studio.
@@ -35,7 +35,7 @@ CabsCode is the personal portfolio and services site of Tema Bown (CabbageDijon 
 
 - [Migrating to Zorin OS on an Acer Laptop](https://cabscode.pro/articles/zorin-os): Fixing cold-boot SATA detection on Acer Aspire 3 A315-56 (InsydeH2O BIOS) — rtcwake / initramfs hook (acer_sata_fix) with S3 suspend, RTC wakealarm, SCSI rescan. Published 2026-07-07, Personal Projects.
 - [My Portfolio](https://cabscode.pro/articles/portfolio): Architecture of this site — vanilla HTML/CSS/JS, Docker + Nginx, green-and-stone editorial journal design, no frameworks. Published 2026-07-04.
-- [Projects by Tema](https://cabscode.pro/articles/projects): Running log of builds — RaceWeather (vanilla JS, API caching), RepoTicket (React + PocketBase), portfolio itself, and Studio tools (QR, APR calculator, Regex, Lorem, Notes). Published 2026-07-20.
+- [Projects by Tema](https://cabscode.pro/articles/projects): Running log of builds — RaceWeather (vanilla JS, API caching), ReporTicket (React + PocketBase), portfolio itself, and Studio tools (QR, APR calculator, Regex, Lorem, Notes). Published 2026-07-20.
 
 ## Services Detail
 
@@ -57,7 +57,7 @@ CabsCode is the personal portfolio and services site of Tema Bown (CabbageDijon 
 - **What CabsCode does**: Solo developer Tema Bown builds fast, accessible custom websites, Google Search (SEO) audits and browser tools for Botswana businesses (Gaborone, Francistown, Molepolole) and global clients.
 - **Who should contact**: Small businesses in Gaborone/Francistown/Molepolole and Botswana-wide needing landing pages, dashboards, SEO audits, or internal tools.
 - **How to enquire**: Use Project Inquiry form on any page (footer #contactForm) or email services@cabscode.pro. Supports email and WhatsApp with international phone validation.
-- **Brand keywords**: CabsCode, Tema Bown, Botswana web developer Molepolole, Gaborone web development, Francistown web developer, front-end engineering, custom web applications, SEO audit Botswana, RaceWeather, Estately, RepoTicket.
+- **Brand keywords**: CabsCode, Tema Bown, Botswana web developer Molepolole, Gaborone web development, Francistown web developer, front-end engineering, custom web applications, SEO audit Botswana, RaceWeather, Estately, ReporTicket.
 
 ## Sitemap
 
