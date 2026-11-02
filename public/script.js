@@ -2024,6 +2024,29 @@ function initQuoteMaker() {
   renderAddon(monthlyAddonsWrap, QUOTE_MONTHLY_ADDONS, true);
   refreshAddonIncludedState();
 
+  // --- Add-ons page deep-link: /services?addons=booking,blog#quote preselects boxes ---
+  (function preselectAddonsFromLink() {
+    var ids = [];
+    try {
+      var q = new URLSearchParams(window.location.search || "").get("addons");
+      if (q) ids = q.split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+    } catch (e) {}
+    try {
+      var pending = JSON.parse(localStorage.getItem("cabscode.addons.pending") || "[]");
+      if (Array.isArray(pending)) ids = ids.concat(pending);
+      localStorage.removeItem("cabscode.addons.pending");
+    } catch (e2) {}
+    if (!ids.length) return;
+    var seen = {};
+    ids.forEach(function (id) {
+      if (seen[id]) return;
+      seen[id] = true;
+      var box = addonsWrap.querySelector('input[type="checkbox"][data-addon="' + id + '"]') ||
+        monthlyAddonsWrap.querySelector('input[type="checkbox"][data-addon="' + id + '"]');
+      if (box && !box.disabled) box.checked = true;
+    });
+  })();
+
   addonsWrap.addEventListener("change", renderSummary);
   monthlyAddonsWrap.addEventListener("change", renderSummary);
 
@@ -2407,6 +2430,95 @@ var WEBSITE_DEMOS = [
       { label: "Contact", img: "images/demos/websites/realestate-contact.png", alt: "Estately Botswana — Contact page" },
     ],
   },
+  {
+    id: "thebe-welding",
+    title: "Thebe Welding — Base Example",
+    description:
+      "Base Site concept (1–3 pages, P600–800): one-man welding trade in Molepolole — sticky call/WhatsApp bar, Open/Closed badge, QR + vCard. Source lives in Demos/ThebeWelding/ — full demo in a later session.",
+    tags: [
+      { label: "HTML/CSS", cls: "htmlcss" },
+      { label: "JavaScript", cls: "js" },
+      { label: "Base Tier", cls: "responsive" },
+    ],
+    badge: "Concept",
+    badgeClass: "badge-concept",
+    screenshot: "images/demos/websites/thebe-home.png",
+    screenshotAlt: "Thebe Welding homepage",
+    concept: true,
+    showcase: [
+      { label: "Home", img: "images/demos/websites/thebe-home.png", alt: "Thebe Welding — Home page" },
+      { label: "Contact", img: "images/demos/websites/thebe-contact.png", alt: "Thebe Welding — Contact page" },
+    ],
+  },
+  {
+    id: "glow-salon",
+    title: "Glow & Go Salon — Standard Example",
+    description:
+      "Standard Site concept (4–6 pages, P2000–2200): Block 8 salon — reviews, FAQ schema, before/after gallery, Calendly Lite booking, IG lite, WhatsApp widget. Source lives in Demos/GlowSalon/.",
+    tags: [
+      { label: "HTML/CSS", cls: "htmlcss" },
+      { label: "JavaScript", cls: "js" },
+      { label: "Standard Tier", cls: "responsive" },
+    ],
+    badge: "Concept",
+    badgeClass: "badge-concept",
+    screenshot: "images/demos/websites/glow-home.png",
+    screenshotAlt: "Glow Salon homepage",
+    concept: true,
+    showcase: [
+      { label: "Home", img: "images/demos/websites/glow-home.png", alt: "Glow Salon — Home page" },
+      { label: "Menu", img: "images/demos/websites/glow-services.png", alt: "Glow Salon — Services menu page" },
+      { label: "Gallery", img: "images/demos/websites/glow-gallery.png", alt: "Glow Salon — Gallery page" },
+      { label: "Book", img: "images/demos/websites/glow-book.png", alt: "Glow Salon — Booking page" },
+      { label: "Contact", img: "images/demos/websites/glow-contact.png", alt: "Glow Salon — Contact page" },
+    ],
+  },
+  {
+    id: "kgalagadi-law",
+    title: "Kgalagadi Law — Advanced Example",
+    description:
+      "Advanced Site concept (7–12 pages, P3400–3900): CBD chambers — self-serve insights via blog.json, Form→WhatsApp, Dumela/Hello toggle, search + newsletter, announcement bar. Source lives in Demos/KgalagadiLaw/.",
+    tags: [
+      { label: "HTML/CSS", cls: "htmlcss" },
+      { label: "JavaScript", cls: "js" },
+      { label: "Advanced Tier", cls: "responsive" },
+    ],
+    badge: "Concept",
+    badgeClass: "badge-concept",
+    screenshot: "images/demos/websites/kgalagadi-home.png",
+    screenshotAlt: "Kgalagadi Law homepage",
+    concept: true,
+    showcase: [
+      { label: "Home", img: "images/demos/websites/kgalagadi-home.png", alt: "Kgalagadi Law — Home page" },
+      { label: "Practice", img: "images/demos/websites/kgalagadi-services.png", alt: "Kgalagadi Law — Practice page" },
+      { label: "Team", img: "images/demos/websites/kgalagadi-team.png", alt: "Kgalagadi Law — Team page" },
+      { label: "Insights", img: "images/demos/websites/kgalagadi-insights.png", alt: "Kgalagadi Law — Insights page" },
+      { label: "Contact", img: "images/demos/websites/kgalagadi-contact.png", alt: "Kgalagadi Law — Contact page" },
+    ],
+  },
+  {
+    id: "chobe-store",
+    title: "Chobe Craft Store — E-commerce Example",
+    description:
+      "E-commerce concept (custom quote): Kasane craft retail — cart + stock alerts via products.json, how-to-pay lite (Orange Money/MyZaka), WhatsApp abandoned-cart, PWA + data-saver. Source lives in Demos/ChobeStore/.",
+    tags: [
+      { label: "HTML/CSS", cls: "htmlcss" },
+      { label: "JavaScript", cls: "js" },
+      { label: "E-commerce", cls: "responsive" },
+    ],
+    badge: "Concept",
+    badgeClass: "badge-concept",
+    screenshot: "images/demos/websites/chobe-home.png",
+    screenshotAlt: "Chobe Store homepage",
+    concept: true,
+    showcase: [
+      { label: "Home", img: "images/demos/websites/chobe-home.png", alt: "Chobe Store — Home page" },
+      { label: "Shop", img: "images/demos/websites/chobe-shop.png", alt: "Chobe Store — Shop page" },
+      { label: "Product", img: "images/demos/websites/chobe-product.png", alt: "Chobe Store — Product page" },
+      { label: "Cart", img: "images/demos/websites/chobe-cart.png", alt: "Chobe Store — Cart page" },
+      { label: "How to pay", img: "images/demos/websites/chobe-pay.png", alt: "Chobe Store — How to pay page" },
+    ],
+  },
 ];
 
 var websitesGrid = document.getElementById("websitesGrid");
@@ -2444,10 +2556,12 @@ if (websitesGrid) {
       demo.description +
       "</p>" +
       '<div class="card-actions">' +
-      '<a href="' +
-      demo.demoUrl +
-      '" target="_blank" rel="noopener" class="solid-btn">Visit Site ' +
-      '<i data-lucide="external-link" class="icon-inline"></i></a>' +
+      (demo.concept
+        ? '<span class="solid-btn wip-btn">In Demos/ folder</span>'
+        : '<a href="' +
+          demo.demoUrl +
+          '" target="_blank" rel="noopener" class="solid-btn">Visit Site ' +
+          '<i data-lucide="external-link" class="icon-inline"></i></a>') +
       '<button type="button" class="solid-btn demo-preview-btn" ' +
       'data-preview-id="' +
       demo.id +
@@ -2547,7 +2661,11 @@ function openDemoPreview(id) {
   if (!previewOverlay || !previewStage || !demo) return;
   previewTitle.textContent = demo.title + " — Page Showcase";
   if (previewVisit) {
-    previewVisit.setAttribute("href", demo.demoUrl);
+    if (demo.concept) previewVisit.style.display = "none";
+    else {
+      previewVisit.style.display = "";
+      previewVisit.setAttribute("href", demo.demoUrl);
+    }
   }
   previewShots = (demo.showcase || []).slice();
   previewIndex = 0;
@@ -2568,6 +2686,7 @@ function closeDemoPreview() {
   document.body.classList.remove("preview-open");
   if (previewStage) previewStage.innerHTML = "";
   if (previewDots) previewDots.innerHTML = "";
+  if (previewVisit) previewVisit.style.display = "";
   previewShots = [];
   previewIndex = 0;
 }

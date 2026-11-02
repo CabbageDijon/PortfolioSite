@@ -21,6 +21,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://cabscode.pro/addons</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://cabscode.pro/notes</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -47,6 +52,11 @@
   </url>
   <url>
     <loc>https://cabscode.pro/privacy</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://cabscode.pro/privacy_whatsApp</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

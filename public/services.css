@@ -1049,6 +1049,24 @@
   max-width: 560px;
 }
 
+/* Link below the quote-maker to the add-ons showcase */
+.quote-addon-showcase-link {
+  text-align: center;
+  margin: 6px 0 34px;
+  font-size: 0.95rem;
+}
+
+.quote-addon-showcase-link a {
+  color: var(--color-link-active);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.quote-addon-showcase-link a:hover {
+  color: var(--color-text-primary);
+}
+
 /* Add-on help tooltips */
 .quote-addon-tip {
   position: relative;

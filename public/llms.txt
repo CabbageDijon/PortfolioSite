@@ -47,6 +47,8 @@ CabsCode is the personal portfolio and services site of Tema Bown (CabbageDijon 
 
 **Pricing Model**: Base 600-800 (1-3 pages), Standard 2000-2200 (4-6 pages), Advanced 3400-3900 (7-12 pages), E-commerce custom quote. P100/page within range, P100/extra page beyond range, P200/page copywriting, one-time add-ons (WhatsApp + Basic SEO free in Standard+, Analytics + Blog free in Advanced+), monthly care 15% capped (Base P250, Standard P350, Advanced/E-commerce P400; includes 1 micro-revision).
 
+**Add-ons Showcase**: Every one-time and monthly add-on explained with Pula prices — see https://cabscode.pro/addons.
+
 ## Optional / Utility Pages
 
 - [Price Estimator Design Preview](https://cabscode.pro/design-showcase): Standalone price estimator demo (noindex).
