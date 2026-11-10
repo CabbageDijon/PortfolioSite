@@ -15,13 +15,9 @@ services:
       dockerfile: Dockerfile.api
     environment:
       - PORT=3000
-      - SMTP_HOST=${SMTP_HOST}
-      - SMTP_PORT=${SMTP_PORT}
-      - SMTP_SECURE=${SMTP_SECURE}
-      - SMTP_USER=${SMTP_USER}
-      - SMTP_PASS=${SMTP_PASS}
-      - MAIL_FROM=${MAIL_FROM}
-      - CONTACT_EMAIL=${CONTACT_EMAIL}
+      - GMAIL_USER=${GMAIL_USER}
+      - GMAIL_APP_PASSWORD=${GMAIL_APP_PASSWORD}
+      - NOTIFY_EMAIL=${NOTIFY_EMAIL:-cabscodepro@gmail.com}
       - SERPER_API_KEY=${SERPER_API_KEY}
       - GEMINI_API_KEY=${GEMINI_API_KEY}
       - GEMINI_MODEL=${GEMINI_MODEL}

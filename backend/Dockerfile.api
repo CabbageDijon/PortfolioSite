@@ -9,6 +9,10 @@ COPY server.js .
 COPY phone-rules.js .
 COPY quote-doc.js .
 COPY seo-audit.js .
+COPY mailer.js .
+COPY lib/ ./lib/
+COPY routes/ ./routes/
+COPY emails/*.js ./emails/
 
 EXPOSE 3000
 CMD ["node", "server.js"]

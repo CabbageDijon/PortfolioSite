@@ -690,8 +690,10 @@ function attachFormHandler() {
           status.textContent = "Sent — I'll get back to you on WhatsApp.";
           status.className = "form-status success";
         } else {
-          status.textContent = "";
-          status.className = "form-status";
+          status.textContent = data && data.confirmationSent
+            ? "Sent — a confirmation is on its way to your inbox."
+            : "Sent — I'll be in touch by email soon.";
+          status.className = "form-status success";
         }
         submitBtn.textContent = "Request Sent";
         submitBtn.classList.add("sent");
@@ -2211,7 +2213,12 @@ function initQuoteMaker() {
       });
       var data = await res.json();
       if (res.ok) {
-        setStatus("Request sent — I'll get back to you with a quote.", "success");
+        setStatus(
+          data && data.confirmationSent
+            ? "Request sent — a confirmation with your summary is on its way to your inbox."
+            : "Request sent — I'll get back to you with a quote.",
+          "success"
+        );
         submitBtn.textContent = "Request Sent";
         emailInput.value = "";
         phoneInput.value = "";

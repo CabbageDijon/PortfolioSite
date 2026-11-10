@@ -11,15 +11,6 @@ function fmt(n) {
   return String(Math.round(Number(n) || 0)).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function escapeHtml(text) {
-  return String(text == null ? "" : text)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
 function contactLine(contact) {
   if (contact && contact.email) return contact.email;
   if (contact && contact.phone) return (contact.countryCode || "") + " " + contact.phone;
@@ -115,84 +106,17 @@ function buildClientConfirmation(quote, contact) {
     L.push("Recurring: P" + fmt(quote.monthlyRecurring) + "/month");
   }
   L.push("");
-  L.push("I'll be in touch with the exact quote shortly.");
+  L.push("I'll be in touch with your exact quote within 1-2 business days.");
+  L.push("Questions in the meantime? Just reply to this email.");
   L.push("— CabsCode");
   return L.join("\n");
 }
 
-function buildClientConfirmationHtml(quote, contact) {
-  var rows = [];
-  rows.push("<p><strong>Site type:</strong> " + escapeHtml(quote.siteType) + "</p>");
-  if (!quote.quoteOnly) {
-    rows.push("<p><strong>Pages:</strong> " + escapeHtml(pageCountText(quote)) + "</p>");
-  }
-  var opts = (quote.addons || []).map(function (a) {
-    return "<li>" + escapeHtml(a.label) + "</li>";
-  });
-  var monthly = (quote.monthly || []).map(function (m) {
-    return "<li>" + escapeHtml(m.label) + " (monthly)</li>";
-  });
-  var all = opts.concat(monthly);
-  rows.push("<p><strong>Options:</strong></p><ul>" + (all.length ? all.join("") : "<li>None selected</li>") + "</ul>");
-  rows.push(
-    "<p><strong>One-time estimate:</strong> " +
-      (quote.quoteOnly ? "Custom quote" : "P" + fmt(quote.oneTimeTotal)) +
-      "</p>",
-  );
-  if (quote.monthlyRecurring > 0) {
-    rows.push("<p><strong>Recurring:</strong> P" + fmt(quote.monthlyRecurring) + "/month</p>");
-  }
-  return [
-    "<h2>Your Website Quote — CabsCode</h2>",
-    rows.join(""),
-    "<p>I'll be in touch with the exact quote shortly.</p>",
-  ].join("");
-}
-
-// Owner-facing HTML breakdown with full pricing.
-function buildOwnerHtml(quote, contact) {
-  var L = [];
-  L.push("<h2>New Website Quote Request</h2>");
-  L.push("<p><strong>Date:</strong> " + todayISO() + "</p>");
-  L.push("<p><strong>Contact:</strong> " + escapeHtml(contactLine(contact)) + "</p>");
-  L.push("<p><strong>Site type:</strong> " + escapeHtml(quote.siteType) + "</p>");
-  if (!quote.quoteOnly) {
-    L.push("<p><strong>Pages:</strong> " + escapeHtml(pageDescription(quote)) + "</p>");
-  }
-  if (quote.addons && quote.addons.length) {
-    L.push("<p><strong>One-time add-ons:</strong></p><ul>");
-    quote.addons.forEach(function (a) {
-      L.push("<li>" + escapeHtml(a.label) + " — P" + fmt(a.price) + "</li>");
-    });
-    L.push("</ul>");
-  }
-  if (quote.monthly && quote.monthly.length) {
-    L.push("<p><strong>Monthly &amp; care:</strong></p><ul>");
-    quote.monthly.forEach(function (m) {
-      L.push("<li>" + escapeHtml(m.label) + " — P" + fmt(m.price) + "/" + escapeHtml(m.per) + "</li>");
-    });
-    L.push("</ul>");
-  }
-  L.push(
-    "<p><strong>One-time estimate:</strong> " +
-      (quote.quoteOnly ? "Custom quote" : "P" + fmt(quote.oneTimeTotal)) +
-      "</p>",
-  );
-  if (quote.monthlyRecurring > 0) {
-    L.push("<p><strong>Recurring:</strong> P" + fmt(quote.monthlyRecurring) + "/month</p>");
-  }
-  if (quote.notes) {
-    L.push("<p><strong>Notes:</strong></p><p>" + escapeHtml(quote.notes).replace(/\n/g, "<br />") + "</p>");
-  }
-  L.push("<hr />");
-  L.push("<p><em>Client confirmation sent separately. A .md copy of this quote is attached.</em></p>");
-  return L.join("");
-}
-
 module.exports = {
+  fmt: fmt,
   todayISO: todayISO,
+  pageDescription: pageDescription,
+  pageCountText: pageCountText,
   buildQuoteMarkdown: buildQuoteMarkdown,
   buildClientConfirmation: buildClientConfirmation,
-  buildClientConfirmationHtml: buildClientConfirmationHtml,
-  buildOwnerHtml: buildOwnerHtml,
 };

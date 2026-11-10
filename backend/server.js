@@ -1,28 +1,9 @@
 require("dotenv").config();
 const express = require("express");
-const nodemailer = require("nodemailer");
 const rateLimit = require("express-rate-limit");
-const { PHONE_LENGTHS, DIAL_TO_CODE } = require("./phone-rules");
-const {
-  todayISO,
-  buildQuoteMarkdown,
-  buildClientConfirmation,
-  buildClientConfirmationHtml,
-  buildOwnerHtml,
-} = require("./quote-doc");
-
-function isValidPhone(phone, countryCode) {
-  const digits = String(phone || "").replace(/[\s\-\(\)\+]/g, "");
-  if (!/^\d+$/.test(digits)) return false;
-
-  const code = DIAL_TO_CODE[countryCode] || null;
-  const lengths = code ? PHONE_LENGTHS[code] : null;
-
-  if (lengths && lengths.length) {
-    return lengths.indexOf(digits.length) !== -1;
-  }
-  return /^\d{6,15}$/.test(digits);
-}
+const mailer = require("./mailer");
+const { escapeHtml, isValidEmail } = require("./lib/util");
+const contactRouter = require("./routes/contact");
 
 // Global error handlers — log crashes instead of silently dying
 process.on("uncaughtException", function (err) {
@@ -38,201 +19,11 @@ const PORT = process.env.PORT || 3000;
 // Trust Nginx reverse proxy headers for rate limiting
 app.set("trust proxy", 1);
 
-app.use(express.json());
+app.use(express.json({ limit: "100kb" }));
 
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 20,
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: { error: "Too many requests. Please try again later." },
-});
+mailer.verifyOnBoot();
 
-app.use("/api/contact", limiter);
-
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT || 465),
-  secure: process.env.SMTP_SECURE === "true",
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
-
-const smtpConfigured = !!(
-  process.env.SMTP_HOST &&
-  process.env.SMTP_USER &&
-  process.env.SMTP_PASS
-);
-
-if (!smtpConfigured) {
-  console.error(
-    "SMTP NOT CONFIGURED: set SMTP_HOST, SMTP_USER and SMTP_PASS in the environment " +
-      "(Dokploy -> Environment -> api). Contact form submissions will be rejected."
-  );
-}
-
-transporter.verify(function (err) {
-  if (err) {
-    console.error("SMTP connection check failed:", err);
-  } else {
-    console.log("SMTP connection verified (" + process.env.SMTP_HOST + ":" + process.env.SMTP_PORT + ")");
-  }
-});
-
-function isValidEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
-function escapeHtml(text) {
-  return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
-
-app.post("/api/contact", async (req, res) => {
-  const { email, phone, countryCode, message, _timestamp, service } = req.body;
-
-  // 1. Honeypot check — reject silently if filled (bot)
-  if (req.body.website) {
-    return res.json({ success: true, message: "Message sent successfully." });
-  }
-
-  // 2. Timestamp check
-  const now = Date.now();
-  if (_timestamp) {
-    const elapsed = now - parseInt(_timestamp, 10);
-    if (elapsed < 3000 || elapsed > 1800000) {
-      return res.status(400).json({ error: "Submission rejected. Please try again." });
-    }
-  }
-
-  // 3. Validate required fields
-  if (!email && !phone) {
-    return res.status(400).json({ error: "Email or phone number is required." });
-  }
-
-  if (email && !isValidEmail(email)) {
-    return res.status(400).json({ error: "Invalid email address." });
-  }
-
-  if (phone) {
-    if (!isValidPhone(phone, countryCode)) {
-      return res.status(400).json({ error: "Invalid phone number." });
-    }
-  }
-
-  if (!message || message.trim().length < 10) {
-    return res.status(400).json({ error: "Message must be at least 10 characters." });
-  }
-
-  // 4. Send email
-  const safeMessage = escapeHtml(message);
-  const isWhatsApp = !!phone;
-  const fromLabel = isWhatsApp
-    ? "WhatsApp (" + escapeHtml(countryCode || "") + " " + escapeHtml(phone) + ")"
-    : escapeHtml(email);
-  const rawService =
-    typeof service === "string" ? service.trim().slice(0, 60) : "";
-  const escService = rawService ? escapeHtml(rawService) : "";
-  const serviceTag = rawService ? "[" + rawService + "] " : "";
-  const waDigits = isWhatsApp ? String(phone).replace(/\D/g, "") : "";
-  const subject =
-    serviceTag +
-    (isWhatsApp
-      ? "New Project Inquiry via WhatsApp from " + (countryCode || "") + " " + phone
-      : "New Project Inquiry from " + email);
-  const replyTo = email || undefined;
-
-  const quote = req.body.quote;
-  const hasQuote =
-    !!quote &&
-    typeof quote === "object" &&
-    !Array.isArray(quote) &&
-    typeof quote.siteType === "string";
-  const contact = { email: email || "", phone: phone || "", countryCode: countryCode || "" };
-
-  if (!smtpConfigured) {
-    return res
-      .status(503)
-      .json({ error: "Contact form is not set up yet. Please email services@cabscode.pro directly." });
-  }
-
-  try {
-    const ownerMail = {
-      from: '"CabsCode Contact Form" <' + process.env.MAIL_FROM + ">",
-      to: process.env.CONTACT_EMAIL,
-      replyTo: replyTo,
-      subject: subject,
-      text:
-        "From: " +
-        fromLabel +
-        (rawService ? "\nService: " + rawService : "") +
-        (waDigits ? "\nReply on WhatsApp: https://wa.me/" + waDigits : "") +
-        "\n\n" +
-        message,
-      html: [
-        "<h2>New Project Inquiry</h2>",
-        "<p><strong>From:</strong> " + fromLabel + "</p>",
-        escService ? "<p><strong>Service:</strong> " + escService + "</p>" : "",
-        waDigits
-          ? '<p><strong>Reply:</strong> <a href="https://wa.me/' +
-            waDigits +
-            '">WhatsApp chat</a></p>'
-          : "",
-        "<hr />",
-        "<p>" + safeMessage.replace(/\n/g, "<br />") + "</p>",
-      ]
-        .filter(Boolean)
-        .join(""),
-    };
-
-    if (hasQuote) {
-      const markdown = buildQuoteMarkdown(quote, contact);
-      ownerMail.subject =
-        "New Website Quote Request — " +
-        quote.siteType +
-        (email ? " from " + email : "");
-      ownerMail.text =
-        "From: " +
-        fromLabel +
-        "\n\n===== Client confirmation (forwardable) =====\n\n" +
-        buildClientConfirmation(quote, contact) +
-        "\n\n===== Full quote (.md) =====\n\n" +
-        markdown;
-      ownerMail.html = buildOwnerHtml(quote, contact);
-      ownerMail.attachments = [
-        { filename: "quote-" + todayISO() + ".md", content: markdown },
-      ];
-    }
-
-    await transporter.sendMail(ownerMail);
-
-    // Client confirmation — basic list + final price only, no per-option prices.
-    if (hasQuote && email) {
-      try {
-        await transporter.sendMail({
-          from: '"CabsCode" <' + process.env.MAIL_FROM + ">",
-          to: email,
-          subject: "Your Website Quote — " + quote.siteType + " (CabsCode)",
-          text: buildClientConfirmation(quote, contact),
-          html: buildClientConfirmationHtml(quote, contact),
-        });
-      } catch (err) {
-        console.error("Client confirmation send error:", err);
-      }
-    }
-
-    res.json({ success: true, message: "Message sent successfully." });
-  } catch (err) {
-    console.error("Email send error:", err);
-    res.status(500).json({ error: "Failed to send message. Please try again later." });
-  }
-});
+app.use("/api/contact", contactRouter);
 
 const seoAudit = require("./seo-audit");
 
@@ -253,12 +44,12 @@ app.post("/api/seo-audit/request-code", async (req, res) => {
   }
   var email = String(req.body.email || "").trim();
   if (!email || !isValidEmail(email)) return res.status(400).json({ error: "Valid email required." });
-  if (!smtpConfigured) return res.status(503).json({ error: "Email not configured. Contact services@cabscode.pro." });
+  if (!mailer.isConfigured()) return res.status(503).json({ error: "Email not configured. Contact cabscodepro@gmail.com." });
   var code = String(Math.floor(100000 + Math.random() * 900000));
   seoAudit.storeCode(email, code);
   try {
-    await transporter.sendMail({
-      from: '"CabsCode SEO Audit" <' + process.env.MAIL_FROM + ">",
+    await mailer.sendMail({
+      fromName: "CabsCode SEO Audit",
       to: email,
       subject: "Your SEO Audit code — " + code,
       text: "Your CabsCode SEO Audit verification code is: " + code + "\n\nIt expires in 15 minutes. If you didn't request this, ignore this email.",
@@ -419,13 +210,13 @@ app.post("/api/seo-audit/run", async (req, res) => {
     seoAudit.clearCode(email);
   }
 
-  // Owner notification — fire-and-forget to cabscode@gmail.com (CONTACT_EMAIL)
-  if (smtpConfigured) {
+  // Owner notification — fire-and-forget to NOTIFY_EMAIL
+  if (mailer.isConfigured()) {
     var ownerSubject = "[SEO Audit " + tier.toUpperCase() + "] " + businessName + " (" + email + ") — " + payload.verdict;
     var ownerText = "New SEO Audit\n\nBusiness: " + businessName + "\nType: " + businessType + "\nLocation: " + location + "\nEmail: " + email + "\nTier: " + tier + "\nTarget: " + target + (url ? " (" + url + ")" : "") + "\nScore: " + payload.score + "/100 — " + payload.verdict + "\nPresence: " + (presence ? presence.label : "") + "\nPreset: " + (preset ? preset.title : "") + "\nTerms: " + terms.join(" | ") + "\n" + (payload.lowdown ? "\nLowdown: " + payload.lowdown : "") + (payload.recommendation ? "\nRecommendation: " + payload.recommendation.slice(0,800) : "") + "\n\nFull JSON:\n" + JSON.stringify(payload,null,2).slice(0,8000);
-    transporter.sendMail({
-      from: '"CabsCode SEO Audit" <' + process.env.MAIL_FROM + ">",
-      to: process.env.CONTACT_EMAIL,
+    mailer.sendMail({
+      fromName: "CabsCode SEO Audit",
+      to: mailer.NOTIFY_EMAIL,
       replyTo: email || undefined,
       subject: ownerSubject,
       text: ownerText,
@@ -450,10 +241,10 @@ app.post("/api/seo-audit/mint-token", async (req, res) => {
   const h = crypto.createHash("sha256").update(email.toLowerCase().trim()).digest("hex");
   const sig = crypto.createHmac("sha256", process.env.PAID_AUDIT_SECRET || adminToken).update(tier + ":" + h).digest("hex").slice(0,16);
   const token = `${tier}.${h}.${sig}`;
-  if (smtpConfigured) {
-    transporter.sendMail({
-      from: '"CabsCode SEO Audit" <' + process.env.MAIL_FROM + ">",
-      to: process.env.CONTACT_EMAIL,
+  if (mailer.isConfigured()) {
+    mailer.sendMail({
+      fromName: "CabsCode SEO Audit",
+      to: mailer.NOTIFY_EMAIL,
       subject: "[Token issued " + tier.toUpperCase() + "] " + email,
       text: "Token issued for " + email + " (" + tier + "):\n" + token + "\n\nSend this to customer via WhatsApp/email.",
       html: "<p>Token issued for <strong>" + escapeHtml(email) + "</strong> (" + escapeHtml(tier) + "):</p><p style='font-family:monospace;word-break:break-all;background:#f4f7f5;padding:10px;border-radius:6px'>" + escapeHtml(token) + "</p>"

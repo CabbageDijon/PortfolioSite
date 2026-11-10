@@ -12,3 +12,5 @@ tools/make-token.sh
 # Runtime audit usage (codes, free-run timestamps)
 backend/audit-usage.json
 audit-usage.json
+# Generated email previews (npm run preview:emails)
+backend/emails/preview/
