@@ -1,5 +1,5 @@
 /* ==========================================================================
-   home-v2 concept — all classes prefixed v2-, built on styles.css tokens
+   home page — all classes prefixed v2-, built on styles.css tokens
    ========================================================================== */
 
 .v2-page {
@@ -326,7 +326,7 @@
 /* ----- Work ----- */
 .v2-work {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
 }
 

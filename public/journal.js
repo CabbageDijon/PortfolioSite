@@ -1,11 +1,77 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Feed filter (index only)
-  var chips = document.querySelectorAll("[data-filter]");
-  var cards = document.querySelectorAll("[data-category]");
   var empty = document.getElementById("jpEmpty");
+  var activeCat = "all";
+
+  function getChips() { return document.querySelectorAll("[data-filter]"); }
+  function getCards() { return document.querySelectorAll("[data-category]"); }
+
+  // Posts published from /journal-admin (stored by the API)
+  function loadApiPosts() {
+    return fetch("/api/journal", { cache: "no-store" })
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (l) { return Array.isArray(l) ? l : []; })
+      .catch(function () { return []; });
+  }
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  var grid = document.querySelector(".jp-grid");
+  var filterBar = document.querySelector(".jp-filters");
+  if (grid && filterBar) {
+    loadApiPosts().then(function (posts) {
+      if (!posts.length) return;
+      posts.forEach(function (p) {
+        var art = el("article", "jp-post");
+        art.setAttribute("data-category", p.category);
+        art.appendChild(el("div", "jp-post-kicker", p.kicker + " \u2022 " + Math.max(1, Math.round((p.words || 200) / 220)) + " min \u2022 " + p.date));
+        var h = el("h3");
+        var a = el("a", null, p.title);
+        a.href = p.href;
+        h.appendChild(a);
+        art.appendChild(h);
+        art.appendChild(el("p", "jp-post-excerpt", p.excerpt || ""));
+        var foot = el("div", "jp-post-foot");
+        (p.tags || []).forEach(function (t) { foot.appendChild(el("span", "jp-tag", t)); });
+        var read = el("a", "jp-read", "Read \u2192");
+        read.href = p.href;
+        foot.appendChild(read);
+        art.appendChild(foot);
+        grid.insertBefore(art, grid.firstChild);
+
+        if (!filterBar.querySelector('[data-filter="' + p.category + '"]')) {
+          var chip = el("button", "jp-chip", p.kicker);
+          chip.type = "button";
+          chip.setAttribute("data-filter", p.category);
+          chip.setAttribute("role", "tab");
+          chip.setAttribute("aria-selected", "false");
+          filterBar.appendChild(chip);
+        }
+      });
+      // refresh counts
+      getChips().forEach(function (ch) {
+        var cat = ch.getAttribute("data-filter");
+        var n = cat === "all" ? getCards().length : document.querySelectorAll('[data-category="' + cat + '"]').length;
+        ch.textContent = ch.textContent.replace(/\s*\(\d+\)\s*$/, "") + " (" + n + ")";
+      });
+      applyFilter(activeCat);
+    });
+    filterBar.addEventListener("click", function (e) {
+      var ch = e.target.closest("[data-filter]");
+      if (ch) applyFilter(ch.getAttribute("data-filter"));
+    });
+  }
 
   function applyFilter(cat) {
+    activeCat = cat;
     var shown = 0;
+    var cards = getCards();
+    var chips = getChips();
     cards.forEach(function (c) {
       var ok = cat === "all" || c.getAttribute("data-category") === cat;
       c.hidden = !ok;
@@ -18,12 +84,6 @@ document.addEventListener("DOMContentLoaded", function () {
       ch.setAttribute("aria-selected", on ? "true" : "false");
     });
   }
-
-  chips.forEach(function (ch) {
-    ch.addEventListener("click", function () {
-      applyFilter(ch.getAttribute("data-filter"));
-    });
-  });
 
   // Redesigned manual accordion (index rail)
   document.querySelectorAll(".jp-accordion-toggle").forEach(function (btn) {
@@ -61,9 +121,12 @@ document.addEventListener("DOMContentLoaded", function () {
     if (path && jsonUrl.charAt(0) !== "/" && jsonUrl.indexOf("../") === 0) {
       // keep relative as-is
     }
-    fetch(jsonUrl)
-      .then(function (r) { return r.json(); })
-      .then(function (items) {
+    Promise.all([
+      fetch(jsonUrl).then(function (r) { return r.json(); }),
+      loadApiPosts(),
+    ])
+      .then(function (res) {
+        var items = res[0].concat(res[1]);
         // Group by kicker in fixed order: Personal Projects, Web Development
         var order = ["Personal Projects", "Web Development"];
         var groups = {};
@@ -158,6 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ToC spy (article pages — looks for [data-toc])
+  function buildToc() {
   var toc = document.querySelector("[data-toc]");
   var prose = document.querySelector(".jp-prose, .journal-body");
   if (toc && prose) {
@@ -185,4 +249,6 @@ document.addEventListener("DOMContentLoaded", function () {
       links.forEach(function (L) { io.observe(L.h); });
     }
   }
+  }
+  if (window.__postReady) window.__postReady.then(buildToc); else buildToc();
 });

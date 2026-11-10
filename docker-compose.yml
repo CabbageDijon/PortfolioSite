@@ -24,6 +24,10 @@ services:
       - PAID_AUDIT_SECRET=${PAID_AUDIT_SECRET}
       - ADMIN_TOKEN=${ADMIN_TOKEN}
       - AUDIT_USAGE_PATH=${AUDIT_USAGE_PATH}
+      - JOURNAL_PUBLISH_PASSWORD=${JOURNAL_PUBLISH_PASSWORD}
+      - JOURNAL_DATA_DIR=/app/data
+    volumes:
+      - journal-data:/app/data
 
     expose:
       - "3000"
@@ -34,3 +38,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
+
+volumes:
+  journal-data:

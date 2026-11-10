@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CabsCode | Journal Publisher</title>
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <link rel="icon" href="/images/favicon.png?v=20260909" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css?v=2.17" />
+    <link rel="stylesheet" href="/journal.css?v=2.21" />
+    <style>
+      .ja { max-width: 1100px; margin: 0 auto; padding: 32px 20px 64px; }
+      .ja h1 { margin: 0 0 6px; }
+      .ja-sub { color: var(--color-text-secondary); margin: 0 0 24px; }
+      .ja-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+      .ja label { display: block; font-weight: 600; font-size: 0.85rem; margin: 14px 0 6px; }
+      .ja input, .ja select, .ja textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--color-border, #c9d2c9); border-radius: 8px; background: var(--color-surface, transparent); color: inherit; font: inherit; box-sizing: border-box; }
+      .ja textarea { min-height: 320px; font-family: ui-monospace, Menlo, monospace; font-size: 0.9rem; resize: vertical; }
+      .ja-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      .ja-publish { display: flex; gap: 12px; align-items: flex-end; margin-top: 20px; flex-wrap: wrap; }
+      .ja-publish > div { flex: 1 1 200px; }
+      .ja-publish label { margin-top: 0; }
+      .ja-btn { padding: 11px 22px; border: 0; border-radius: 8px; background: var(--color-primary, #2f6b4f); color: #fff; font-weight: 600; cursor: pointer; }
+      .ja-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+      .ja-status { margin-top: 14px; font-size: 0.92rem; min-height: 1.4em; }
+      .ja-status.ok { color: #1f7a4a; }
+      .ja-status.err { color: #b3261e; }
+      .ja-preview { border: 1px solid var(--color-border, #c9d2c9); border-radius: 10px; padding: 18px; min-height: 200px; }
+      .ja-preview h2:first-child { margin-top: 0; }
+      @media (max-width: 800px) { .ja-grid { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+  <body>
+    <main class="ja">
+      <h1>Journal publisher</h1>
+      <p class="ja-sub">Private page. Posts go live on <a href="/journal">/journal</a> as soon as you publish.</p>
+      <div class="ja-grid">
+        <form id="jaForm" autocomplete="off">
+          <label for="jaTitle">Title</label>
+          <input id="jaTitle" maxlength="140" required />
+          <div class="ja-row">
+            <div>
+              <label for="jaCategory">Category</label>
+              <select id="jaCategory">
+                <option>Personal Projects</option>
+                <option>Web Development</option>
+                <option value="__new">New category…</option>
+              </select>
+            </div>
+            <div>
+              <label for="jaTags">Tags (comma separated)</label>
+              <input id="jaTags" placeholder="Linux, Docker" />
+            </div>
+          </div>
+          <input id="jaNewCat" maxlength="40" placeholder="New category name" hidden style="margin-top:8px" />
+          <label for="jaSlug">URL slug (optional)</label>
+          <input id="jaSlug" maxlength="60" placeholder="auto-from-title" />
+          <label for="jaExcerpt">Excerpt (optional)</label>
+          <input id="jaExcerpt" maxlength="300" />
+          <label for="jaContent">Content (Markdown)</label>
+          <textarea id="jaContent" required placeholder="## Heading&#10;&#10;Write your post…"></textarea>
+
+          <div class="ja-publish">
+            <div>
+              <label for="jaPassword">Publish password</label>
+              <input id="jaPassword" type="password" autocomplete="new-password" />
+            </div>
+            <button type="submit" class="ja-btn" id="jaPublish" disabled>Publish</button>
+          </div>
+          <p class="ja-status" id="jaStatus" role="status"></p>
+        </form>
+        <section>
+          <label style="margin-top:0">Preview</label>
+          <div class="ja-preview journal-body jp-prose" id="jaPreview"></div>
+        </section>
+      </div>
+    </main>
+    <script src="/md.js?v=1.0"></script>
+    <script>
+      (function () {
+        var $ = function (id) { return document.getElementById(id); };
+        var pw = $("jaPassword"), btn = $("jaPublish"), status = $("jaStatus");
+        var cat = $("jaCategory"), newCat = $("jaNewCat");
+
+        function sync() { btn.disabled = !pw.value.trim(); }
+        pw.addEventListener("input", sync);
+        cat.addEventListener("change", function () { newCat.hidden = cat.value !== "__new"; });
+        $("jaContent").addEventListener("input", function () {
+          $("jaPreview").innerHTML = CcMarkdown.render($("jaContent").value);
+        });
+
+        $("jaForm").addEventListener("submit", async function (e) {
+          e.preventDefault();
+          if (!pw.value.trim()) return;
+          var category = cat.value === "__new" ? newCat.value.trim() : cat.value;
+          btn.disabled = true;
+          status.className = "ja-status";
+          status.textContent = "Publishing…";
+          try {
+            var res = await fetch("/api/journal/publish", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                title: $("jaTitle").value,
+                category: category,
+                tags: $("jaTags").value,
+                slug: $("jaSlug").value,
+                excerpt: $("jaExcerpt").value,
+                content: $("jaContent").value,
+                password: pw.value
+              })
+            });
+            var data = await res.json().catch(function () { return {}; });
+            if (res.ok) {
+              status.className = "ja-status ok";
+              status.innerHTML = 'Published. <a href="' + CcMarkdown.escape(data.href) + '">Open the post →</a>';
+              ["jaTitle", "jaTags", "jaSlug", "jaExcerpt", "jaContent"].forEach(function (id) { $(id).value = ""; });
+              $("jaPreview").innerHTML = "";
+              pw.value = "";
+            } else {
+              status.className = "ja-status err";
+              status.textContent = data.error || "Publish failed (" + res.status + ").";
+            }
+          } catch (_) {
+            status.className = "ja-status err";
+            status.textContent = "Could not reach the server.";
+          }
+          sync();
+        });
+      })();
+    </script>
+  </body>
+</html>

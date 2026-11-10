@@ -4,6 +4,7 @@ const rateLimit = require("express-rate-limit");
 const mailer = require("./mailer");
 const { escapeHtml, isValidEmail } = require("./lib/util");
 const contactRouter = require("./routes/contact");
+const journalRouter = require("./routes/journal");
 
 // Global error handlers — log crashes instead of silently dying
 process.on("uncaughtException", function (err) {
@@ -24,6 +25,7 @@ app.use(express.json({ limit: "100kb" }));
 mailer.verifyOnBoot();
 
 app.use("/api/contact", contactRouter);
+app.use("/api/journal", journalRouter);
 
 const seoAudit = require("./seo-audit");
 
