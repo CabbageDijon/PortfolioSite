@@ -57,7 +57,6 @@
 .ja-editor { min-height: 340px; border-radius: 0 0 8px 8px; resize: vertical; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.9rem; line-height: 1.6; }
 .ja-preview { border: 1px solid var(--color-border); border-radius: 0 0 8px 8px; padding: 18px; min-height: 340px; background: var(--color-bg); }
 .ja-preview[hidden] { display: none; }
-.ja-preview pre { overflow-x: auto; padding: 14px; border-radius: 8px; background: #1e1f22; color: #e8e8e8; }
 
 .ja-publish { display: flex; gap: 14px; align-items: flex-end; flex-wrap: wrap; }
 .ja-publish .ja-field { flex: 1 1 220px; margin-bottom: 0; }

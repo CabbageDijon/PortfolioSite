@@ -655,3 +655,21 @@ pre .copy-btn.copied {
 .jp-nextprev a span { display: block; font-size: 0.72rem; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.06em; }
 .jp-nextprev a:hover { border-color: var(--color-primary); }
 
+
+/* Code blocks from the publisher: black box with language label + copy button */
+pre[data-lang] { padding-top: 34px; }
+pre[data-lang]::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  padding: 6px 44px 6px 16px;
+  font: 600 0.7rem/1.4 var(--font-body, system-ui, sans-serif);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 8px 8px 0 0;
+}
+pre[data-lang=""]::before { content: "code"; }
+pre[data-lang] .copy-btn { top: 3px; right: 6px; }
+pre[data-lang] code { font-family: inherit; color: inherit; background: none; padding: 0; white-space: pre; }

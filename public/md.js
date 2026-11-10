@@ -5,6 +5,22 @@
     return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   }
 
+  var COPY_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><path d="M9 12h6"></path><path d="M9 16h4"></path></svg>';
+  var CHECK_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+
+  // One delegated handler covers every rendered code block (posts are injected after page load).
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest && e.target.closest("pre[data-lang] .copy-btn");
+    if (!btn) return;
+    var code = btn.parentElement.querySelector("code");
+    if (!code || !navigator.clipboard) return;
+    navigator.clipboard.writeText(code.textContent).then(function () {
+      btn.innerHTML = CHECK_ICON;
+      btn.classList.add("copied");
+      setTimeout(function () { btn.innerHTML = COPY_ICON; btn.classList.remove("copied"); }, 2000);
+    });
+  });
+
   function inline(s) {
     s = esc(s);
     var codes = [];
@@ -32,7 +48,7 @@
         i++;
         while (i < lines.length && !/^```/.test(lines[i])) buf.push(lines[i++]);
         i++;
-        out.push('<pre><code class="language-' + (lang || "none") + '">' + esc(buf.join("\n")) + "</code></pre>");
+        out.push('<pre data-lang="' + (lang || "") + '"><button type="button" class="copy-btn" aria-label="Copy code" title="Copy code">' + COPY_ICON + '</button><code class="language-' + (lang || "none") + '">' + esc(buf.join("\n")) + "</code></pre>");
       } else if ((m = /^(#{1,3})\s+(.*)$/.exec(line))) {
         var lvl = m[1].length + 1; // # -> h2 (the page title is the h1)
         out.push("<h" + lvl + ">" + inline(m[2]) + "</h" + lvl + ">");
