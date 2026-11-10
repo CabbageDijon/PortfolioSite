@@ -1,0 +1,82 @@
+/* Journal publisher — built on the site's design tokens (styles.css) */
+.ja { max-width: 860px; margin: 0 auto; padding: 40px 20px 72px; }
+.ja-head h1 { margin: 0 0 6px; }
+.ja-head p { margin: 0 0 24px; color: var(--color-text-secondary); }
+.ja-card { background: var(--color-bg); border: 1px solid var(--color-border); border-radius: 14px; padding: 24px; box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05); }
+.ja-field { margin-bottom: 16px; min-width: 0; }
+.ja-field > label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 6px; color: var(--color-text-primary); }
+.ja-hint { font-weight: 400; color: var(--color-text-secondary); font-size: 0.78rem; margin-left: 4px; }
+.ja-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+.ja-input {
+  width: 100%; box-sizing: border-box; padding: 11px 12px;
+  border: 1px solid var(--color-border); border-radius: 8px;
+  font-family: inherit; font-size: 0.92rem; line-height: 1.4;
+  background-color: var(--color-bg); color: var(--color-text-primary);
+}
+.ja-input::placeholder { color: var(--color-placeholder-text); }
+.ja-input:focus, .ja-dd-btn:focus-visible { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(169, 187, 162, 0.35); }
+#jaNewCat { margin: -4px 0 16px; }
+
+/* Dropdowns (replace native <select>) */
+.ja-dd { position: relative; }
+.ja-dd-btn {
+  width: 100%; text-align: left; cursor: pointer; padding: 11px 34px 11px 12px;
+  border: 1px solid var(--color-border); border-radius: 8px;
+  font: inherit; font-size: 0.92rem; background-color: var(--color-bg); color: var(--color-text-primary);
+  background-image: linear-gradient(45deg, transparent 50%, var(--color-text-secondary) 50%), linear-gradient(135deg, var(--color-text-secondary) 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(50% - 2px), calc(100% - 13px) calc(50% - 2px);
+  background-size: 5px 5px, 5px 5px; background-repeat: no-repeat;
+}
+.ja-dd-menu {
+  position: absolute; z-index: 30; top: calc(100% + 6px); left: 0; min-width: 100%;
+  margin: 0; padding: 6px; list-style: none;
+  background: var(--color-bg); border: 1px solid var(--color-border); border-radius: 10px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.16);
+}
+.ja-dd-menu[hidden] { display: none; }
+.ja-dd-menu li { padding: 9px 12px; border-radius: 7px; cursor: pointer; font-size: 0.9rem; white-space: nowrap; color: var(--color-text-primary); }
+.ja-dd-menu li:hover, .ja-dd-menu li.is-active { background: rgba(169, 187, 162, 0.28); }
+.ja-dd-menu li[aria-selected="true"] { font-weight: 600; }
+
+/* Editor toolbar */
+.ja-toolbar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 8px;
+  border: 1px solid var(--color-border); border-bottom: 0; border-radius: 8px 8px 0 0;
+  background: var(--color-bg-placeholder);
+}
+.ja-tool {
+  padding: 7px 12px; border: 1px solid var(--color-border); border-radius: 7px; cursor: pointer;
+  background: var(--color-bg); color: var(--color-text-primary); font: inherit; font-size: 0.85rem;
+}
+.ja-tool:hover { border-color: var(--color-primary); }
+.ja-tool-accent { background: var(--color-primary); border-color: var(--color-primary); color: #1a1a1a; font-weight: 600; }
+.ja-tool[aria-pressed="true"] { background: var(--color-primary); color: #1a1a1a; }
+.ja-tool-right { margin-left: auto; }
+.ja-sep { width: 1px; align-self: stretch; background: var(--color-border); margin: 2px 2px; }
+.ja-editor { min-height: 340px; border-radius: 0 0 8px 8px; resize: vertical; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.9rem; line-height: 1.6; }
+.ja-preview { border: 1px solid var(--color-border); border-radius: 0 0 8px 8px; padding: 18px; min-height: 340px; background: var(--color-bg); }
+.ja-preview[hidden] { display: none; }
+.ja-preview pre { overflow-x: auto; padding: 14px; border-radius: 8px; background: #1e1f22; color: #e8e8e8; }
+
+.ja-publish { display: flex; gap: 14px; align-items: flex-end; flex-wrap: wrap; }
+.ja-publish .ja-field { flex: 1 1 220px; margin-bottom: 0; }
+.ja-submit:disabled { opacity: 0.45; cursor: not-allowed; }
+.ja-status { margin: 14px 0 0; font-size: 0.92rem; min-height: 1.4em; }
+.ja-status.ok { color: #4a7c59; }
+.ja-status.err { color: #c0392b; }
+.ja-status a { color: inherit; font-weight: 600; text-decoration: underline; }
+
+/* Insert dialog */
+.ja-modal { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(0, 0, 0, 0.5); }
+.ja-modal[hidden] { display: none; }
+.ja-modal-box { width: min(560px, 100%); max-height: 90vh; overflow: auto; background: var(--color-bg); border: 1px solid var(--color-border); border-radius: 14px; padding: 22px; }
+.ja-modal-box h3 { margin: 0 0 14px; }
+.ja-modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 8px; }
+.ja-modal textarea.ja-input { min-height: 200px; font-family: ui-monospace, Menlo, Consolas, monospace; }
+
+@media (max-width: 640px) {
+  .ja-row { grid-template-columns: 1fr; gap: 0; }
+  .ja-card { padding: 18px; }
+  .ja-tool-right { margin-left: 0; }
+}

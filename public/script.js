@@ -634,6 +634,11 @@ function attachFormHandler() {
       status.className = "form-status error";
       return;
     }
+    if (message.length < 10) {
+      status.textContent = "Please write at least 10 characters so I know what you need.";
+      status.className = "form-status error";
+      return;
+    }
 
     var service = form.service.value;
     if (!service) {
@@ -690,10 +695,14 @@ function attachFormHandler() {
           status.textContent = "Sent — I'll get back to you on WhatsApp.";
           status.className = "form-status success";
         } else {
-          status.textContent = data && data.confirmationSent
-            ? "Sent — a confirmation is on its way to your inbox."
-            : "Sent — I'll be in touch by email soon.";
-          status.className = "form-status success";
+          if (data && data.confirmationSent) {
+            status.textContent = "Sent — a confirmation is on its way to your inbox.";
+            status.className = "form-status success";
+          } else {
+            status.textContent =
+              "Request received — I couldn't send you a confirmation copy, so please double-check your email address. I'll still reply.";
+            status.className = "form-status warning";
+          }
         }
         submitBtn.textContent = "Request Sent";
         submitBtn.classList.add("sent");
@@ -708,6 +717,12 @@ function attachFormHandler() {
           submitBtn.classList.remove("sent");
           submitBtn.disabled = false;
         }, 4000);
+      } else if (res.status >= 400 && res.status < 500) {
+        // Validation / rate-limit problem: tell the visitor, don't open the mail app
+        status.textContent = (data && data.error) || "Please check your details and try again.";
+        status.className = "form-status error";
+        submitBtn.textContent = "Send Request";
+        submitBtn.disabled = false;
       } else {
         clientSendFallback(mode, email, phone, countryCode, message, data && data.error);
       }
@@ -715,6 +730,25 @@ function attachFormHandler() {
       clientSendFallback(mode, email, phone, countryCode, message);
     }
   });
+}
+
+// Soft failure: the message did not go through the server, but nothing is lost.
+// Show a calm warning with a one-click mailto link instead of popping the mail app.
+function showSoftFailure(statusEl, mailtoHref, reason) {
+  if (!statusEl) return;
+  statusEl.className = "form-status warning";
+  statusEl.textContent = "";
+  statusEl.appendChild(
+    document.createTextNode(
+      (reason ? reason + " " : "We couldn't send that just now. ") +
+        "Your message is still in the box \u2014 "
+    )
+  );
+  var a = document.createElement("a");
+  a.href = mailtoHref;
+  a.textContent = "send it by email instead";
+  statusEl.appendChild(a);
+  statusEl.appendChild(document.createTextNode("."));
 }
 
 function clientSendFallback(mode, email, phone, countryCode, message, reason) {
@@ -735,12 +769,7 @@ function clientSendFallback(mode, email, phone, countryCode, message, reason) {
     "&body=" +
     encodeURIComponent(body);
 
-  window.location.href = href;
-
-  status.textContent = reason
-    ? "Server couldn't send it (" + reason + ") — your email app opened instead."
-    : "Could not reach the server — your email app opened instead.";
-  status.className = "form-status error";
+  showSoftFailure(status, href, reason);
 
   submitBtn.textContent = "Send Request";
   submitBtn.disabled = false;
@@ -1867,12 +1896,15 @@ function initQuoteMaker() {
         : "Email: " + (email || "No email") + "\n\n" + message;
     var subject = "E-commerce Quote Request";
     if (mode === "whatsapp") subject += " via WhatsApp";
-    window.location.href =
+    var qHref =
       "mailto:services@cabscode.pro?subject=" +
       encodeURIComponent(subject) +
       "&body=" +
       encodeURIComponent(body);
-    setStatus("Could not reach the server — your email app opened instead.", "error");
+    showSoftFailure(statusEl, qHref);
+    statusEl.className = "quote-request-status warning";
+    submitBtn.textContent = "Send Quote Request";
+    submitBtn.disabled = false;
   }
 
   // --- Render tiers ---
@@ -2226,6 +2258,10 @@ function initQuoteMaker() {
           submitBtn.textContent = "Send Quote Request";
           submitBtn.disabled = false;
         }, 4000);
+      } else if (res.status >= 400 && res.status < 500) {
+        setStatus((data && data.error) || "Please check your details and try again.", "error");
+        submitBtn.textContent = "Send Quote Request";
+        submitBtn.disabled = false;
       } else {
         fallback(mode, email, phone, countryCode, body.message);
       }
@@ -2405,6 +2441,7 @@ var WEBSITE_DEMOS = [
     badgeClass: "badge-live",
     screenshot: "images/demos/websites/kwena-home.png",
     screenshotAlt: "Kwena Water Works homepage",
+    mobileScreenshot: "images/demos/websites/kwena-mobile.png?v=1",
     demoUrl: "/demos/kwena/",
     sourceUrl: "https://github.com/CabbageDijon/KwenaWaterWorks",
     showcase: [
@@ -2428,6 +2465,7 @@ var WEBSITE_DEMOS = [
     badgeClass: "badge-live",
     screenshot: "images/demos/websites/realestate-home.png?v=2",
     screenshotAlt: "Estately Botswana homepage",
+    mobileScreenshot: "images/demos/websites/realestate-mobile.png?v=1",
     demoUrl: "https://estately.cabscode.pro/",
     sourceUrl: "https://github.com/CabbageDijon/RealEstAte",
     showcase: [
@@ -2453,11 +2491,16 @@ if (websitesGrid) {
       .join("");
 
     card.innerHTML =
+      "<picture>" +
+      (demo.mobileScreenshot
+        ? '<source media="(max-width: 768px)" srcset="' + demo.mobileScreenshot + '" />'
+        : "") +
       '<img src="' +
       demo.screenshot +
       '" alt="' +
       demo.screenshotAlt +
       '" class="demo-image" loading="lazy" />' +
+      "</picture>" +
       '<span class="card-badge ' +
       demo.badgeClass +
       '">' +

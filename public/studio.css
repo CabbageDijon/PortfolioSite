@@ -29,121 +29,6 @@
   color: var(--color-text-secondary);
 }
 
-/* --- Card Enhancements (Tech Stack Pills) --- */
-.tech-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.tech-tag {
-  background-color: #e3e8e1;
-  color: var(--color-text-primary);
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.tech-tag.js {
-  background: #f7df1e;
-  color: #1a1a1a;
-}
-
-.tech-tag.api {
-  background: #7c5cbf;
-  color: #ffffff;
-}
-
-.tech-tag.react {
-  background: #61dbfb;
-  color: #1a1a1a;
-}
-
-.tech-tag.pocketbase {
-  background: #d8d5cf;
-  color: #1a1a1a;
-}
-
-.tech-tag.htmlcss {
-  background: #c24e2e;
-  color: #ffffff;
-}
-
-.tech-tag.next {
-  background: #2b2b2b;
-  color: #ffffff;
-}
-
-.tech-tag.tailwind {
-  background: #0e7490;
-  color: #ffffff;
-}
-
-.tech-tag.responsive {
-  background: #c9d6c5;
-  color: #1a1a1a;
-}
-
-.tech-tag.canvas {
-  background: #54768f;
-  color: #ffffff;
-}
-
-[data-theme="dark"] .tech-tag {
-  background-color: #2a2a2a;
-  color: var(--color-text-secondary);
-}
-
-[data-theme="dark"] .tech-tag.js {
-  background: rgba(247, 223, 30, 0.14);
-  color: #f7df1e;
-}
-
-[data-theme="dark"] .tech-tag.api {
-  background: rgba(124, 92, 191, 0.22);
-  color: #b39ddb;
-}
-
-[data-theme="dark"] .tech-tag.react {
-  background: rgba(97, 219, 251, 0.14);
-  color: #61dbfb;
-}
-
-[data-theme="dark"] .tech-tag.pocketbase {
-  background: #3a3a3a;
-  color: #e4e4e4;
-}
-
-[data-theme="dark"] .tech-tag.htmlcss {
-  background: rgba(217, 93, 57, 0.22);
-  color: #ff8a5b;
-}
-
-[data-theme="dark"] .tech-tag.next {
-  background: rgba(255, 255, 255, 0.12);
-  color: #ededed;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-}
-
-[data-theme="dark"] .tech-tag.tailwind {
-  background: rgba(6, 182, 212, 0.18);
-  color: #22d3ee;
-}
-
-[data-theme="dark"] .tech-tag.responsive {
-  background: rgba(169, 187, 162, 0.2);
-  color: #a9bba2;
-}
-
-[data-theme="dark"] .tech-tag.canvas {
-  background: rgba(106, 142, 168, 0.22);
-  color: #9ac1d6;
-}
-
 /* --- Card Action Links --- */
 .card-actions {
   display: flex;
@@ -776,7 +661,7 @@
   }
 
   .demo-image {
-    aspect-ratio: 9 / 16;
+    aspect-ratio: 16 / 9;
   }
 
   .qr-tool-layout {

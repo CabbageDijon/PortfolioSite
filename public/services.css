@@ -935,6 +935,17 @@
   color: #4a7c59;
 }
 
+.quote-request-status.warning {
+  color: #b86a14;
+}
+
+.quote-request-status a,
+.form-status.warning a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
 /* Mobile */
 @media (max-width: 900px) {
   .quote-layout {

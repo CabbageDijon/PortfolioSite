@@ -6,129 +6,154 @@
     <title>CabsCode | Journal Publisher</title>
     <meta name="robots" content="noindex, nofollow, noarchive" />
     <link rel="icon" href="/images/favicon.png?v=20260909" />
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png?v=20260909" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/styles.css?v=2.17" />
     <link rel="stylesheet" href="/journal.css?v=2.21" />
-    <style>
-      .ja { max-width: 1100px; margin: 0 auto; padding: 32px 20px 64px; }
-      .ja h1 { margin: 0 0 6px; }
-      .ja-sub { color: var(--color-text-secondary); margin: 0 0 24px; }
-      .ja-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
-      .ja label { display: block; font-weight: 600; font-size: 0.85rem; margin: 14px 0 6px; }
-      .ja input, .ja select, .ja textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--color-border, #c9d2c9); border-radius: 8px; background: var(--color-surface, transparent); color: inherit; font: inherit; box-sizing: border-box; }
-      .ja textarea { min-height: 320px; font-family: ui-monospace, Menlo, monospace; font-size: 0.9rem; resize: vertical; }
-      .ja-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-      .ja-publish { display: flex; gap: 12px; align-items: flex-end; margin-top: 20px; flex-wrap: wrap; }
-      .ja-publish > div { flex: 1 1 200px; }
-      .ja-publish label { margin-top: 0; }
-      .ja-btn { padding: 11px 22px; border: 0; border-radius: 8px; background: var(--color-primary, #2f6b4f); color: #fff; font-weight: 600; cursor: pointer; }
-      .ja-btn:disabled { opacity: 0.45; cursor: not-allowed; }
-      .ja-status { margin-top: 14px; font-size: 0.92rem; min-height: 1.4em; }
-      .ja-status.ok { color: #1f7a4a; }
-      .ja-status.err { color: #b3261e; }
-      .ja-preview { border: 1px solid var(--color-border, #c9d2c9); border-radius: 10px; padding: 18px; min-height: 200px; }
-      .ja-preview h2:first-child { margin-top: 0; }
-      @media (max-width: 800px) { .ja-grid { grid-template-columns: 1fr; } }
-    </style>
+    <link rel="stylesheet" href="/journal-admin.css?v=1.0" />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="/icons/social.css?v=1.0" />
+    <script src="/icons/cc-icons.js?v=1.0" defer></script>
   </head>
   <body>
+    <nav>
+      <div class="nav-left"><a href="/" class="logo" aria-label="Home"><div class="logo"><img src="/images/favicon.png?v=20260909" alt="CabsCode" width="48" height="48" /></div></a></div>
+      <button class="mobile-toggle" aria-label="Toggle navigation"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
+      <div class="nav-right">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/services" class="nav-link">Services</a>
+        <a href="/studio" class="nav-link">Studio</a>
+        <a href="/journal" class="nav-link active">Journal</a>
+        <button class="dark-toggle" id="darkToggle" aria-label="Toggle dark mode"></button>
+        <a href="#contactForm" class="contact-btn">Contact</a>
+      </div>
+    </nav>
+    <div class="nav-overlay" id="navOverlay"></div>
+
     <main class="ja">
-      <h1>Journal publisher</h1>
-      <p class="ja-sub">Private page. Posts go live on <a href="/journal">/journal</a> as soon as you publish.</p>
+      <header class="ja-head">
+        <h1>Journal publisher</h1>
+        <p>Write a post and publish it to <a href="/journal">/journal</a>. Publishing needs the publish password.</p>
+      </header>
+
       <div class="ja-grid">
-        <form id="jaForm" autocomplete="off">
-          <label for="jaTitle">Title</label>
-          <input id="jaTitle" maxlength="140" required />
+        <form class="ja-card" id="jaForm" autocomplete="off">
+          <div class="ja-field">
+            <label for="jaTitle">Title</label>
+            <input id="jaTitle" class="ja-input" maxlength="140" required />
+          </div>
+
           <div class="ja-row">
-            <div>
-              <label for="jaCategory">Category</label>
-              <select id="jaCategory">
-                <option>Personal Projects</option>
-                <option>Web Development</option>
-                <option value="__new">New category…</option>
-              </select>
+            <div class="ja-field">
+              <label>Category</label>
+              <div class="ja-dd" id="jaCat" data-value="Personal Projects">
+                <button type="button" class="ja-dd-btn" aria-haspopup="listbox" aria-expanded="false"><span class="ja-dd-label">Personal Projects</span></button>
+                <ul class="ja-dd-menu" role="listbox" hidden>
+                  <li role="option" data-value="Personal Projects">Personal Projects</li>
+                  <li role="option" data-value="Web Development">Web Development</li>
+                  <li role="option" data-value="__new">New category…</li>
+                </ul>
+              </div>
             </div>
-            <div>
-              <label for="jaTags">Tags (comma separated)</label>
-              <input id="jaTags" placeholder="Linux, Docker" />
+            <div class="ja-field">
+              <label for="jaTags">Tags <span class="ja-hint">comma separated</span></label>
+              <input id="jaTags" class="ja-input" placeholder="Linux, Docker" />
             </div>
           </div>
-          <input id="jaNewCat" maxlength="40" placeholder="New category name" hidden style="margin-top:8px" />
-          <label for="jaSlug">URL slug (optional)</label>
-          <input id="jaSlug" maxlength="60" placeholder="auto-from-title" />
-          <label for="jaExcerpt">Excerpt (optional)</label>
-          <input id="jaExcerpt" maxlength="300" />
-          <label for="jaContent">Content (Markdown)</label>
-          <textarea id="jaContent" required placeholder="## Heading&#10;&#10;Write your post…"></textarea>
+          <input id="jaNewCat" class="ja-input" maxlength="40" placeholder="New category name" hidden />
+
+          <div class="ja-row">
+            <div class="ja-field">
+              <label for="jaSlug">URL slug <span class="ja-hint">optional</span></label>
+              <input id="jaSlug" class="ja-input" maxlength="60" placeholder="auto-from-title" />
+            </div>
+            <div class="ja-field">
+              <label for="jaExcerpt">Excerpt <span class="ja-hint">optional</span></label>
+              <input id="jaExcerpt" class="ja-input" maxlength="300" />
+            </div>
+          </div>
+
+          <div class="ja-field">
+            <label for="jaContent">Content</label>
+            <div class="ja-toolbar" id="jaToolbar" role="toolbar" aria-label="Formatting">
+              <div class="ja-dd ja-dd-tool" data-menu="heading">
+                <button type="button" class="ja-tool" aria-haspopup="menu" aria-expanded="false">Heading</button>
+                <ul class="ja-dd-menu" role="menu" hidden>
+                  <li role="menuitem" data-act="h1">Section heading</li>
+                  <li role="menuitem" data-act="h2">Sub-heading</li>
+                  <li role="menuitem" data-act="h3">Small heading</li>
+                </ul>
+              </div>
+              <button type="button" class="ja-tool" data-act="bold" title="Bold"><b>B</b></button>
+              <button type="button" class="ja-tool" data-act="italic" title="Italic"><i>I</i></button>
+              <span class="ja-sep"></span>
+              <div class="ja-dd ja-dd-tool" data-menu="list">
+                <button type="button" class="ja-tool" aria-haspopup="menu" aria-expanded="false">List</button>
+                <ul class="ja-dd-menu" role="menu" hidden>
+                  <li role="menuitem" data-act="ul">Bulleted list</li>
+                  <li role="menuitem" data-act="ol">Numbered list</li>
+                  <li role="menuitem" data-act="quote">Quote</li>
+                </ul>
+              </div>
+              <span class="ja-sep"></span>
+              <div class="ja-dd ja-dd-tool" data-menu="insert">
+                <button type="button" class="ja-tool ja-tool-accent" aria-haspopup="menu" aria-expanded="false">Insert</button>
+                <ul class="ja-dd-menu" role="menu" hidden>
+                  <li role="menuitem" data-act="code">Code block…</li>
+                  <li role="menuitem" data-act="inline">Inline code</li>
+                  <li role="menuitem" data-act="link">Link…</li>
+                  <li role="menuitem" data-act="image">Image…</li>
+                  <li role="menuitem" data-act="divider">Divider line</li>
+                </ul>
+              </div>
+              <button type="button" class="ja-tool ja-tool-right" id="jaPreviewToggle" aria-pressed="false">Preview</button>
+            </div>
+            <textarea id="jaContent" class="ja-input ja-editor" required placeholder="Start writing…"></textarea>
+            <div class="ja-preview journal-body jp-prose" id="jaPreview" hidden></div>
+          </div>
 
           <div class="ja-publish">
-            <div>
+            <div class="ja-field">
               <label for="jaPassword">Publish password</label>
-              <input id="jaPassword" type="password" autocomplete="new-password" />
+              <input id="jaPassword" class="ja-input" type="password" autocomplete="new-password" />
             </div>
-            <button type="submit" class="ja-btn" id="jaPublish" disabled>Publish</button>
+            <button type="submit" class="solid-btn ja-submit" id="jaPublish" disabled>Publish</button>
           </div>
           <p class="ja-status" id="jaStatus" role="status"></p>
         </form>
-        <section>
-          <label style="margin-top:0">Preview</label>
-          <div class="ja-preview journal-body jp-prose" id="jaPreview"></div>
-        </section>
       </div>
     </main>
+
+    <!-- Insert dialog (code / link / image) -->
+    <div class="ja-modal" id="jaModal" hidden>
+      <div class="ja-modal-box" role="dialog" aria-modal="true" aria-labelledby="jaModalTitle">
+        <h3 id="jaModalTitle"></h3>
+        <div id="jaModalFields"></div>
+        <div class="ja-modal-actions">
+          <button type="button" class="ja-tool" id="jaModalCancel">Cancel</button>
+          <button type="button" class="solid-btn" id="jaModalOk">Insert</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-container">
+        <div class="footer-col"><h4>Connect</h4><a href="https://www.linkedin.com/in/tema-bown-2441b73a3/" target="_blank" rel="noopener">LinkedIn</a><a href="https://github.com/CabbageDijon" target="_blank">GitHub</a><div id="emailListMount"><a href="mailto:services@cabscode.pro">Email</a></div></div>
+        <div class="footer-col"><h4>Legal</h4><a href="/terms">Terms of Use</a><a href="/privacy">Privacy Policy</a><a href="/piracy">Piracy Notice</a></div>
+        <div class="footer-col footer-form"><h4>Project Inquiry</h4><div id="contactFormMount"></div></div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2026 Tema Bown. All rights reserved.</p></div>
+    </footer>
+
+    <script src="/phone-lengths.js?v=2.18"></script>
+    <script src="/script.js?v=2.46"></script>
     <script src="/md.js?v=1.0"></script>
+    <script src="/journal-admin.js?v=1.0"></script>
     <script>
-      (function () {
-        var $ = function (id) { return document.getElementById(id); };
-        var pw = $("jaPassword"), btn = $("jaPublish"), status = $("jaStatus");
-        var cat = $("jaCategory"), newCat = $("jaNewCat");
-
-        function sync() { btn.disabled = !pw.value.trim(); }
-        pw.addEventListener("input", sync);
-        cat.addEventListener("change", function () { newCat.hidden = cat.value !== "__new"; });
-        $("jaContent").addEventListener("input", function () {
-          $("jaPreview").innerHTML = CcMarkdown.render($("jaContent").value);
-        });
-
-        $("jaForm").addEventListener("submit", async function (e) {
-          e.preventDefault();
-          if (!pw.value.trim()) return;
-          var category = cat.value === "__new" ? newCat.value.trim() : cat.value;
-          btn.disabled = true;
-          status.className = "ja-status";
-          status.textContent = "Publishing…";
-          try {
-            var res = await fetch("/api/journal/publish", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                title: $("jaTitle").value,
-                category: category,
-                tags: $("jaTags").value,
-                slug: $("jaSlug").value,
-                excerpt: $("jaExcerpt").value,
-                content: $("jaContent").value,
-                password: pw.value
-              })
-            });
-            var data = await res.json().catch(function () { return {}; });
-            if (res.ok) {
-              status.className = "ja-status ok";
-              status.innerHTML = 'Published. <a href="' + CcMarkdown.escape(data.href) + '">Open the post →</a>';
-              ["jaTitle", "jaTags", "jaSlug", "jaExcerpt", "jaContent"].forEach(function (id) { $(id).value = ""; });
-              $("jaPreview").innerHTML = "";
-              pw.value = "";
-            } else {
-              status.className = "ja-status err";
-              status.textContent = data.error || "Publish failed (" + res.status + ").";
-            }
-          } catch (_) {
-            status.className = "ja-status err";
-            status.textContent = "Could not reach the server.";
-          }
-          sync();
-        });
-      })();
+      lucide.createIcons();
+      if (window.CcIcons) CcIcons.createIcons();
     </script>
   </body>
 </html>
